@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.jactr.io.astparticipants">
+      <astparticipant
+            class="org.jactr.examples.tracker.io.TrackerModuleParticipant"
+            content="org/jactr/examples/tracker/io/tracker.jactr"
+            contributingClass="org.jactr.examples.tracker.TrackerModule">
+      </astparticipant>
+   </extension>
+   <extension
+         point="org.jactr.modules">
+      <module
+            class="org.jactr.examples.tracker.TrackerModule"
+            defaultEnabled="false"
+            name="Tracker Module"
+            requiresCommonReality="false"
+            weight="10">
+         <description>
+            Dumb module that just contributes the tracker buffer and track-data chunktype
+         </description>
+      </module>
+   </extension>
+   <extension
+         point="org.jactr.extensions">
+      <model-extension
+            class="org.jactr.examples.tracker.TrackerExtension"
+            name="Tracker Extension">
+         <description>
+            Tracker extension that interfaces to the mock network
+         </description>
+      </model-extension>
+   </extension>
+</plugin>

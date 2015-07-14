@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actr>
+  <model name="tracker" version="6" >
+    <declarative-memory>
+  
+      <chunk-type name="track-data">
+        <slot name="time" equals="0"/>
+        <slot name="changed" equals="true"/>
+        <slot name="requested-at" equals="0"/>
+      </chunk-type>
+  
+    </declarative-memory>
+    <procedural-memory>
+  
+  
+    </procedural-memory>
+  
+    <buffer name="tracker">
+      <parameters>
+        <parameter name="StrictHarvestingEnabled" value="false" />
+      </parameters>
+    </buffer>
+  </model>
+  </actr>

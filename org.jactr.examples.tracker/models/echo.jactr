@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actr>
+  <model name="echo" version="6" >
+    <modules>
+      <module class="org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" import="true">
+        <parameters>
+          <parameter name="ActivationNoise" value="0"/>
+          <parameter name="BaseLevelConstant" value="0"/>
+          <parameter name="EnablePartialMatching" value="false"/>
+          <parameter name="MaximumDifference" value="-1"/>
+          <parameter name="MaximumSimilarity" value="0"/>
+          <parameter name="MismatchPenalty" value="1"/>
+          <parameter name="PermanentActivationNoise" value="0"/>
+        </parameters>
+      </module>
+      <module class="org.jactr.core.module.procedural.six.DefaultProceduralModule6" import="true">
+        <parameters>
+          <parameter name="DefaultProductionFiringTime" value="0.05"/>
+          <parameter name="ExpectedUtilityNoise" value="0"/>
+          <parameter name="NumberOfProductionsFired" value="0"/>
+        </parameters>
+      </module>
+      <module class="org.jactr.examples.tracker.TrackerModule" import="true"/>
+    </modules>
+    
+    <extensions>
+      <extension class="org.jactr.examples.tracker.TrackerExtension" />
+    </extensions>
+    
+    <declarative-memory>
+  
+ 
+    
+    </declarative-memory>
+    <procedural-memory>
+  
+      <!--
+ production echo
+ @previous 
+ @next  
+-->
+      <production name="echo-old">
+        <conditions>
+          <match buffer="tracker" type="track-data">
+            <slot name="time" equals="=time"/>	
+            <slot name="changed" equals="false" />
+          </match>
+        </conditions>
+        <actions>
+          <output>"time =time"</output>
+        </actions>
+      </production>
+      
+      <production name="echo-new">
+        <conditions>
+          <match buffer="tracker" type="track-data">
+            <slot name="time" equals="=time"/>
+            <slot name="changed" equals="true" />
+            <slot name="requested-at" equals="=req"/>
+          </match>
+        </conditions>
+        <actions>
+          <modify buffer="tracker">
+            <slot name="changed" equals="false"/>
+          </modify>
+          <output>"NEW DATA response from =req"</output>
+        </actions>
+      </production>
+  
+  
+    </procedural-memory>
+  
+  
+  
+   <!-- <parameters>
+     <parameter name="EnablePersistentExecution" value="true" />
+   </parameters>-->
+  </model>
+  </actr>
