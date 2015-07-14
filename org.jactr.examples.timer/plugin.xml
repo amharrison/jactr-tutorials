@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.jactr.instruments">
+      <instrument
+            class="org.jactr.examples.timer.ProductionIntervalTimer"
+            hidden="false"
+            name="Production Interval Timer">
+         <parameter
+               name="StartProductionPattern"
+               value="initial-retrieve">
+         </parameter>
+         <parameter
+               name="StopProductionPattern"
+               value="direct-verify">
+         </parameter>
+         <description>
+            Records the average simulated time between the production with the name that matches the regex StartProductionPattern and the production with the name that matches the regex StopProductionPattern.
+         </description>
+      </instrument>
+   </extension>
+</plugin>

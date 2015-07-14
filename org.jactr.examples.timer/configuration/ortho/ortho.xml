@@ -1,0 +1,77 @@
+<root name="timer.example.ortho">
+<!-- can provide multiple slice analyzers -->
+	<analyzer class="org.jactr.examples.timer.Analyzer">
+		<!--
+		if the analyzer extends IParameterized, you can pass
+		the parameters with this elements
+		
+		<parameter name="DeleteData" value="false" />
+		<parameter name="SaveAnalyses" value="true" />
+		<parameter name="UseTrainingData" value="false" />
+	-->
+	</analyzer>
+	
+	<!-- and also slice integrators that perform aggregate analyses of the results
+	of the individual slice analyses.
+	
+	<integrator class="">
+	</integrator>
+	 -->
+	
+	<population>
+
+		
+		<modifier class="org.jactr.tools.itr.ModuleParameterModifier">
+			<parameter name="ModuleClass"
+				value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
+			<parameter name="ParameterName" value="LatencyFactor" />
+			<parameter name="ParameterValues" value="0.05, 0.5, 1" />
+		</modifier>
+	
+	 <!--
+	 change spreading activation of the goal buffer
+	 <modifier class="org.jactr.tools.itr.BufferParameterModifier">
+      <parameter name="BufferName"
+        value="goal" />
+      <parameter name="ParameterName" value="Activation" />
+      <parameter name="ParameterValues" value="0,1" />
+    </modifier>
+    -->
+    
+    <!-- 
+    change base level activation of all p* chunks
+    
+    <modifier class="org.jactr.tools.itr.ChunkParameterModifier">
+      <parameter name="ChunkPattern"
+        value="p.*" />
+      <parameter name="ParameterName" value="Activation" />
+      <parameter name="ParameterValues" value="0,1" />
+    </modifier>
+  -->
+  <!-- 
+    change age of the model
+    
+    <modifier class="org.jactr.tools.itr.ModelParameterModifier">
+      <parameter name="ParameterName" value="Age" />
+      <parameter name="ParameterValues" value="0,10" />
+    </modifier>
+  -->
+
+<!-- 
+   change some system property
+    <modifier class="org.jactr.tools.itr.SystemPropertyModifier">
+      <parameter name="SystemProperty" value="propertyName" />
+      <parameter name="PropertyValues" value="values" />
+    </modifier>
+    -->
+    
+		<!--
+		change utility of chain-category
+			<modifier class="org.jactr.tools.itr.ProductionParameterModifier">
+			<parameter name="ProductionPattern"
+			value="chain-category" /> <parameter
+			name="ParameterName" value="Utility" /> <parameter
+			name="ParameterValues" value="0.05,0.25,0.5" /> </modifier>
+		-->
+	</population>
+</root>
