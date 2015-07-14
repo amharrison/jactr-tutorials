@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actr>
+ <model name="visual" version="6" >
+  <modules>
+   <module class="org.jactr.core.module.declarative.six.DefaultDeclarativeModule6"/>
+   <module class="org.jactr.core.module.procedural.six.DefaultProceduralModule6" />
+   <module class="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
+   <module class="org.jactr.modules.pm.visual.six.DefaultVisualModule6" >
+    <parameters>
+    <!-- here we install the encoder and feature map -->
+     <parameter name="org.jactr.examples.visual.encoder.FooVisualEncoder" value="TRUE"/>
+     <parameter name="org.jactr.examples.visual.map.BarFeatureMap" value="TRUE"/>
+    </parameters>
+   </module>
+   
+   <module class="org.jactr.modules.pm.motor.six.DefaultMotorModule6" import="true"/>
+  </modules>
+  <declarative-memory>
+    
+  
+  <!-- custom percept for a foo. There is a matching FooVisualEncoder that handles this -->  
+   <chunk-type name="foo" parent="visual-object">
+    <slot name="bar" equals="null" />
+   </chunk-type>
+  
+  <!-- here we've overridden the default visual-location to include a feature bar.
+  
+  -->
+   <chunk-type name="visual-location" >
+    <slot name="screen-x" equals="null"/>
+    <slot name="screen-y" equals="null"/>
+    <slot name="distance" equals="null"/>
+    <slot name="color" equals="null"/>
+    <slot name="size" equals="null"/>
+    <slot name="kind" equals="null"/>
+    <slot name="nearest" equals="null"/>
+    <slot name="value" equals="null"/>
+    <slot name="bar" equals="null" />
+   </chunk-type>
+ 
+
+  </declarative-memory>
+  
+  
+  <procedural-memory>
+    
+      <!--
+ production 1.visual-search
+ basic automatic visual search that looks for the nearest unattended
+ object if the visual buffer is empty and free
+ @previous 
+ @next  
+-->
+   <production name="visual-search.1">
+    <conditions>
+     <query buffer="visual-location">
+      <slot name="state" equals="free"/>
+      <slot name="buffer" equals="empty"/>
+     </query>
+     <query buffer="visual">
+      <slot name="state" equals="free"/>
+      <slot name="buffer" equals="empty"/>
+     </query>
+    </conditions>
+    <actions>
+     <add buffer="visual-location" type="visual-location">
+      <slot name="nearest" equals="current"/>
+      <slot name="bar" greater-than="lowest" />
+      <slot name=":attended" not="true"/>
+     </add>
+    </actions>
+    <parameters>
+     <parameter name="Utility" value="-5"/>
+    </parameters>
+   </production>
+      
+      
+   <production name="visual-attend.2a">
+    <conditions>
+     <match buffer="visual-location" type="visual-location"/>
+     <query buffer="visual">
+      <slot name="state" equals="free"/>
+      <slot name="buffer" not="full"/>
+     </query>
+    </conditions>
+    <actions>
+     <add buffer="visual" type="attend-to">
+      <slot name="where" equals="=visual-location"/>
+     </add>
+    </actions>
+    <parameters>
+     <parameter name="Utility" value="-5"/>
+    </parameters>
+   </production> 
+      
+
+      <!--
+ production visual-search-failed
+ @previous 
+ @next  
+-->
+   <production name="visual-search-failed.2b">
+    <conditions>
+     <query buffer="visual-location">
+      <slot name="state" equals="error"/>
+     </query>
+     <query buffer="visual">
+      <slot name="buffer" equals="empty"/>
+     </query>
+    </conditions>
+    <actions>
+     <add buffer="visual" type="clear"/>
+    </actions>
+    <parameters>
+     <parameter name="Utility" value="-5"/>
+    </parameters>
+   </production>
+      
+      <!--
+ production visual-attend-failed
+ @previous 
+ @next  
+-->
+   <production name="visual-attend-failed.3">
+    <conditions>
+     <query buffer="visual">
+      <slot name="state" equals="error"/>
+     </query>
+    </conditions>
+    <actions>
+     <add buffer="visual" type="clear"/>
+    </actions>
+    <parameters>
+     <parameter name="Utility" value="-10"/>
+    </parameters>
+   </production>
+  
+
+  </procedural-memory>
+  
+  
+  
+ 
+  <buffer name="visual-location" >
+   <parameters>
+    <parameter name="Activation" value="0"/>
+    <parameter name="G" value="0"/>
+    <parameter name="StrictHarvestingEnabled" value="true"/>
+   </parameters>
+  </buffer>
+  <buffer name="visual" >
+   <parameters>
+    <parameter name="Activation" value="0"/>
+    <parameter name="G" value="0"/>
+    <parameter name="StrictHarvestingEnabled" value="true"/>
+   </parameters>
+  </buffer>
+ </model>
+ </actr>

@@ -1,0 +1,37 @@
+<sensor name="test">
+ <time relative="0.001"> <!-- at this time, do this -->
+    <add alias="alpha" type="AFFERENT">
+        <!-- must have for visual info -->
+        <boolean name="visual.isVisual" value="true"/>
+        <!-- lower left, 0,0 is center of gaze -->
+        <doubles name="visual.retinal.location" value="-15,-15"/>
+        <double name="visual.retinal.distance" value="1"/>
+        <doubles name="visual.retinal.size" value="10,10"/> <!-- 5 deg radius -->
+        <boolean name="visual.visible" value="true"/>
+        <strings name="visual.type" value="foo"/>
+        <string name="visual.token" value="alpha"/>
+        <!-- must be multiples of 4: RGBA -->
+        <doubles name="visual.color" value="1,0,0,1"/>
+        <double name="bar.feature" value="12" />
+    </add>
+    <add alias="beta" type="AFFERENT">
+        <!-- must have for visual info -->
+        <boolean name="visual.isVisual" value="true"/>
+        <doubles name="visual.retinal.location" value="0,0"/>
+        <double name="visual.retinal.distance" value="1"/>
+        <doubles name="visual.retinal.size" value="10,10"/> <!-- 5 deg radius -->
+        <boolean name="visual.visible" value="true"/>
+        <strings name="visual.type" value="foo"/>
+        <string name="visual.token" value="beta"/>
+        <!-- must be multiples of 4: RGBA -->
+        <doubles name="visual.color" value="1,0,0,1"/>
+        <double name="bar.feature" value="1" />
+    </add>
+ </time>
+ 
+ <!-- 20s later, remove everyone -->
+ <time relative="20">
+  <remove pattern=".*" type="AFFERENT" />
+ </time>
+ 
+</sensor>
