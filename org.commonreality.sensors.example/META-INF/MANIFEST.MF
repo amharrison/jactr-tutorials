@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Example
+Bundle-SymbolicName: org.commonreality.sensors.example;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: jactr.org
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.commonreality.sensors.base;bundle-version="1.0.0",
+ org.jactr.support;bundle-version="1.2.2",
+ org.commonreality.api;bundle-version="1.0.0",
+ org.commonreality.core;bundle-version="1.2.8",
+ org.commonreality.sensors;bundle-version="1.0.0",
+ org.commonreality.support;bundle-version="1.0.0",
+ org.commonreality.time;bundle-version="1.0.0",
+ org.commonreality.modalities;bundle-version="1.0.0"
+Export-Package: org.commonreality.sensors.example

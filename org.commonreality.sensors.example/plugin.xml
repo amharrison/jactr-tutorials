@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.commonreality.sensors">
+      <sensor
+            class="org.commonreality.sensors.example.StringSensor"
+            clock-owner="false"
+            name="Example String Sensor">
+         <description>
+            Example sensor that just spits back strings from a configuration
+         </description>
+         <property
+               name="TextSource"
+               value="hello this is a simple string">
+            <description>
+               description body text
+            </description>
+         </property>
+      </sensor>
+   </extension>
+
+</plugin>
