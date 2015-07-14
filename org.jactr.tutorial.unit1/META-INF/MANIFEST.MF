@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.jactr.tutorial.unit1
+Bundle-SymbolicName: org.jactr.tutorial.unit1;singleton:=true
+Bundle-Version: 1.0.2.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: org.jactr
+Require-Bundle: org.jactr,
+ org.jactr.io,
+ org.jactr.tools,
+ org.apache.log4j
+Eclipse-BuddyPolicy: registered
+Eclipse-RegisterBuddy: org.commonreality,
+ org.jactr,
+ org.jactr.io,
+ org.jactr.tools,
+ org.jactr.launching, org.apache.log4j

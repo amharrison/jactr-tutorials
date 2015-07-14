@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actr>
+  <model name="tutor-model" version="6" >
+    <modules>
+      <module class="org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" import="true">
+        <parameters>
+          <parameter name="ActivationNoise" value="0"/>
+          <parameter name="BaseLevelConstant" value="0"/>
+          <parameter name="EnablePartialMatching" value="false"/>
+          <parameter name="MaximumDifference" value="-10"/>
+          <parameter name="MaximumSimilarity" value="10"/>
+          <parameter name="MismatchPenalty" value="0"/>
+          <parameter name="PermanentActivatioNoise" value="0"/>
+        </parameters>
+      </module>
+      <module class="org.jactr.core.module.goal.six.DefaultGoalModule6" import="true"/>
+      <module class="org.jactr.core.module.procedural.six.DefaultProceduralModule6" import="true">
+        <parameters>
+          <parameter name="DefaultProductionFiringTime" value="0.05"/>
+          <parameter name="ExpectedUtilityNoise" value="0"/>
+          <parameter name="NumberOfProductionsFired" value="0"/>
+        </parameters>
+      </module>
+      <module class="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" import="true">
+        <parameters>
+          <parameter name="EnableIndexedRetrievals" value="false"/>
+          <parameter name="LatencyExponent" value="1"/>
+          <parameter name="LatencyFactor" value="0.05"/>
+          <parameter name="RetrievalThreshold" value="-Infinity"/>
+        </parameters>
+      </module>
+    </modules>
+    <declarative-memory>
+ 
+  <!-- **************************************************
+       * declarative memory container for chunks and chunk-types
+       ************************************************** -->
+ <!--
+ (chunk-type addition-fact addend1 addend2 sum)
+      -->
+      <chunk-type name="addition-fact">
+        <slot name="addend1" equals="null"/>
+        <slot name="addend2" equals="null"/>
+        <slot name="sum" equals="null"/>
+      </chunk-type>
+ 
+ <!-- (chunk-type add-pair one1 ten1 one2 ten2 ten-ans one-ans carry)
+      -->
+      <chunk-type name="add-pair">
+        <slot name="one1" equals="null"/>
+        <slot name="ten1" equals="null"/>
+        <slot name="one2" equals="null"/>
+        <slot name="ten2" equals="null"/>
+        <slot name="ten-ans" equals="null"/>
+        <slot name="one-ans" equals="null"/>
+        <slot name="carry" equals="null"/>
+      </chunk-type>
+ 
+ 
+      <chunk name="fact17" type="addition-fact">
+        <slot name="addend1" equals="1"/>
+        <slot name="addend2" equals="7"/>
+        <slot name="sum" equals="8"/>
+      </chunk>
+ 
+      <chunk name="fact34" type="addition-fact">
+        <slot name="addend1" equals="3"/>
+        <slot name="addend2" equals="4"/>
+        <slot name="sum" equals="7"/>
+      </chunk>
+ 
+      <chunk name="fact67" type="addition-fact">
+        <slot name="addend1" equals="6"/>
+        <slot name="addend2" equals="7"/>
+        <slot name="sum" equals="13"/>
+      </chunk>
+ 
+      <chunk name="fact103" type="addition-fact">
+        <slot name="addend1" equals="10"/>
+        <slot name="addend2" equals="3"/>
+        <slot name="sum" equals="13"/>
+      </chunk>
+ 
+      <chunk name="goal" type="add-pair">
+        <slot name="ten1" equals="3"/>
+        <slot name="one1" equals="6"/>
+        <slot name="ten2" equals="4"/>
+        <slot name="one2" equals="7"/>
+      </chunk>
+ 
+    </declarative-memory>
+    <procedural-memory>
+
+ 
+<!--
+ production start-pair
+     -->
+     <production name="start-pair">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="one1" equals="=num1"/>
+           <slot name="one2" equals="=num2"/>
+           <slot name="one-ans" equals="null"/>
+         </match>
+         <query buffer="retrieval">
+           <slot name="state" equals="free"/>
+         </query>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="one-ans" equals="busy"/>
+         </modify>
+         <add buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="=num1"/>
+           <slot name="addend2" equals="=num2"/>
+         </add>
+       </actions>
+     </production>
+
+
+<!--
+ production add-ones
+     -->
+     <production name="add-ones">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="one-ans" equals="busy"/>
+           <slot name="one1" equals="=num1"/>
+           <slot name="one2" equals="=num2"/>
+         </match>
+         <match buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="=num1"/>
+           <slot name="addend2" equals="=num2"/>
+           <slot name="sum" equals="=sum"/>
+         </match>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="one-ans" equals="=sum"/>
+           <slot name="carry" equals="busy"/>
+         </modify>
+         <add buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="10"/>
+           <slot name="sum" equals="=sum"/>
+         </add>
+       </actions>
+     </production>
+
+
+<!--
+ production process-carry
+     -->
+     <production name="process-carry">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="carry" equals="busy"/>
+           <slot name="ten1" equals="=num1"/>
+           <slot name="ten2" equals="=num2"/>
+           <slot name="one-ans" equals="=ones"/>
+         </match>
+         <match buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="10"/>
+           <slot name="sum" equals="=ones"/>
+           <slot name="addend2" equals="=remainder"/>
+         </match>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="carry" equals="1"/>
+           <slot name="ten-ans" equals="busy"/>
+           <slot name="one-ans" equals="=remainder"/>
+         </modify>
+         <add buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="=num1"/>
+           <slot name="addend2" equals="=num2"/>
+         </add>
+       </actions>
+     </production>
+
+
+<!--
+ production no-carry
+     -->
+     <production name="no-carry">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="carry" equals="busy"/>
+           <slot name="ten1" equals="=num1"/>
+           <slot name="ten2" equals="=num2"/>
+           <slot name="one-ans" equals="=ones"/>
+         </match>
+         <query buffer="retrieval">
+           <slot name="state" equals="error"/>
+         </query>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="carry" equals="null"/>
+           <slot name="ten-ans" equals="busy"/>
+         </modify>
+         <add buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="=num1"/>
+           <slot name="addend2" equals="=num2"/>
+         </add>
+       </actions>
+     </production>
+
+
+<!--
+ production add-tens-done
+     -->
+     <production name="add-tens-done">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="ten-ans" equals="busy"/>
+           <slot name="carry" equals="null"/>
+         </match>
+         <match buffer="retrieval" type="addition-fact">
+           <slot name="sum" equals="=sum"/>
+         </match>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="ten-ans" equals="=sum"/>
+         </modify>
+       </actions>
+     </production>
+
+
+<!--
+ production add-tens-carry
+     -->
+     <production name="add-tens-carry">
+       <conditions>
+         <match buffer="goal" type="add-pair">
+           <slot name="carry" equals="1"/>
+           <slot name="ten1" equals="=num1"/>
+           <slot name="ten2" equals="=num2"/>
+           <slot name="ten-ans" equals="busy"/>
+         </match>
+         <match buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="=num1"/>
+           <slot name="addend2" equals="=num2"/>
+           <slot name="sum" equals="=sum"/>
+         </match>
+       </conditions>
+       <actions>
+         <modify buffer="goal">
+           <slot name="carry" equals="null"/>
+         </modify>
+         <add buffer="retrieval" type="addition-fact">
+           <slot name="addend1" equals="1"/>
+           <slot name="addend2" equals="=sum"/>
+         </add>
+       </actions>
+     </production>
+ 
+   </procedural-memory>
+ 
+ 
+ 
+  <!-- **************************************************
+       * Buffer definitions
+       ************************************************** -->
+ 
+       <buffer name="goal" chunk="goal">
+         <parameters>
+           <parameter name="Activation" value="1"/>
+           <parameter name="G" value="20"/>
+           <parameter name="StrictHarvestingEnabled" value="false"/>
+         </parameters>
+       </buffer>
+       <buffer name="retrieval" >
+         <parameters>
+           <parameter name="Activation" value="0"/>
+           <parameter name="G" value="0"/>
+           <parameter name="StrictHarvestingEnabled" value="true"/>
+         </parameters>
+       </buffer>
+     </model>
+   </actr>
