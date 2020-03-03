@@ -1,0 +1,113 @@
+namespace org.jactr.tutorial.unit1.count {
+
+import jactr.declarative.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+	"ActivationNoise"                  : "0"
+	"BaseLevelConstant"                : "0"
+	"EnablePartialMatching"            : "false"
+	"MaximumDifference"                : "-1"
+	"MaximumSimilarity"                : "0"
+	"MismatchPenalty"                  : "1"
+	"PermanentActivationNoise"         : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+	"DefaultProductionFiringTime" : "0.05"
+	"ExpectedUtilityNoise"        : "0"
+	"NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+	"EnableIndexedRetrievals" : "false"
+	"FINSTDurationTime"       : "3.0"
+	"LatencyFactor"           : "0.05"
+	"NumberOfFINSTs"          : "4"
+	"RetrievalThreshold"      : "0" ]
+
+buffers {
+	goal {first-goal} [
+		"Activation"              : "1"
+		"StrictHarvestingEnabled" : "false" ]
+	retrieval {} [
+		"Activation"              : "0"
+		"StrictHarvestingEnabled" : "true" ]
+}
+
+chunktype count-order {
+	first  = null
+	second = null
+}
+
+chunktype count-from {
+	start = null
+	end   = null
+	count = null
+}
+
+count-order bb (first=1.0, second=2.0), cc (first=2.0, second=3.0), dd (first=3.0, second=4.0), ee (first=4.0, second=5.0),
+	ff (first=5.0, second=6.0)
+
+count-from first-goal (start=2.0, end=4.0)
+
+production start {
+	goal {
+		isa count-from
+		start =  =num1
+		count =  null
+	}
+	?retrieval {
+		state =  free
+	}
+}{
+	goal {
+		count = =num1
+	}
+	+retrieval {
+		isa count-order
+		first =  =num1
+	} 
+}
+
+production failed {
+	goal {
+		isa count-from
+		start =  =num
+		count =  =num
+	}
+	?retrieval {
+		state =  error
+	}
+}{
+	-goal {}
+	output ( "I can\'t retrieve anything starting with =num " ) }
+
+production increment {
+	goal {
+		isa count-from
+		count =  =num1
+		end   != =num1
+	}
+	retrieval {
+		isa count-order
+		first  =  =num1
+		second =  =num2
+	}
+}{
+	goal {
+		count = =num2
+	}
+	+retrieval {
+		isa count-order
+		first =  =num2
+	}
+}
+
+production stop {
+	goal {
+		isa count-from
+		end   =  =num
+		count =  =num
+	}
+}{
+	-goal {}
+	output ( "Answer =num" ) 
+	} 
+}

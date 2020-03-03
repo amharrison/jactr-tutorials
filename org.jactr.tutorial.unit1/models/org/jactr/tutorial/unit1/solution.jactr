@@ -1,0 +1,217 @@
+namespace org.jactr.tutorial.unit1.solution {
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+	"ActivationNoise"                  : "0"
+	"BaseLevelConstant"                : "0"
+	"ChunkConfiguratorClass"           : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkConfigurator"
+	"ChunkFactoryClass"                : "org.jactr.core.module.declarative.basic.chunk.DefaultChunkFactory"
+	"ChunkNamerClass"                  : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkNamer"
+	"ChunkTypeConfiguratorClass"       : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeConfigurator"
+	"ChunkTypeFactoryClass"            : "org.jactr.core.module.declarative.basic.type.DefaultChunkTypeFactory"
+	"ChunkTypeNamerClass"              : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeNamer"
+	"EnablePartialMatching"            : "false"
+	"MaximumDifference"                : "-10"
+	"MaximumSimilarity"                : "10"
+	"MismatchPenalty"                  : "0"
+	"PermanentActivationNoise"         : "0"
+	"SubsymbolicChunkFactoryClass"     : "org.jactr.core.module.declarative.basic.chunk.DefaultSubsymbolicChunkFactory5"
+	"SubsymbolicChunkTypeFactoryClass" : "org.jactr.core.module.declarative.basic.type.DefaultSubsymbolicChunkTypeFactory"
+	"SymbolicChunkFactoryClass"        : "org.jactr.core.module.declarative.basic.chunk.DefaultSymbolicChunkFactory"
+	"SymbolicChunkTypeFactoryClass"    : "org.jactr.core.module.declarative.basic.type.DefaultSymbolicChunkTypeFactory"
+	"PermanentActivatioNoise"          : "0" ]
+
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+	"DefaultProductionFiringTime" : "0.05"
+	"ExpectedUtilityNoise"        : "0"
+	"NumberOfProductionsFired"    : "0" ]
+
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+	"EnableIndexedRetrievals" : "false"
+	"FINSTDurationTime"       : "3.0"
+	"LatencyFactor"           : "0.05"
+	"NumberOfFINSTs"          : "4"
+	"RetrievalThreshold"      : "-Infinity"
+	"LatencyExponent"         : "1" ]
+
+buffers {
+	goal {} [
+		"Activation"              : "1"
+		"G"                       : "20"
+		"StrictHarvestingEnabled" : "false" ]
+	retrieval {} [
+		"Activation"              : "0"
+		"G"                       : "0"
+		"StrictHarvestingEnabled" : "true" ]
+}
+
+chunktype chunk {}
+
+chunk new, free, busy, error, full, empty, requested, unrequested, lowest, highest, reset, error-nothing-available,
+	error-nothing-matches, error-no-longer-available, error-changed-too-much, error-invalid-index, error-chunk-deleted,
+error-unknown
+
+chunktype command {}
+
+chunktype clear extends command {all = false}
+
+chunktype attend-to extends command {where = null}
+
+chunktype addition-fact {
+	addend1 = null
+	addend2 = null
+	sum     = null
+}
+
+addition-fact fact17 (addend1=1.0, addend2=7.0, sum=8.0), fact34 (addend1=3.0, addend2=4.0, sum=7.0),
+	fact67 (addend1=6.0, addend2=7.0, sum=13.0), fact103 (addend1=10.0, addend2=3.0, sum=13.0)
+
+chunktype add-pair {
+	one1    = null
+	ten1    = null
+	one2    = null
+	ten2    = null
+	ten-ans = null
+	one-ans = null
+	carry   = null
+}
+
+add-pair goal (ten1=3.0, one1=6.0, ten2=4.0, one2=7.0)
+
+production start-pair {
+	goal {
+		isa add-pair
+		one1    =  =num1
+		one2    =  =num2
+		one-ans =  null
+	}
+	?retrieval {
+		state =  free
+	}
+}{
+	goal {
+		one-ans = busy
+	}
+	+retrieval {
+		isa addition-fact
+		addend1 =  =num1
+		addend2 =  =num2
+	}
+}
+
+production add-ones {
+	goal {
+		isa add-pair
+		one-ans =  busy
+		one1    =  =num1
+		one2    =  =num2
+	}
+	retrieval {
+		isa addition-fact
+		addend1 =  =num1
+		addend2 =  =num2
+		sum     =  =sum
+	}
+}{
+	goal {
+		one-ans = =sum
+		carry   = busy
+	}
+	+retrieval {
+		isa addition-fact
+		addend1 =  10.0
+		sum     =  =sum
+	}
+}
+
+production process-carry {
+	goal {
+		isa add-pair
+		carry   =  busy
+		ten1    =  =num1
+		ten2    =  =num2
+		one-ans =  =ones
+	}
+	retrieval {
+		isa addition-fact
+		addend1 =  10.0
+		sum     =  =ones
+		addend2 =  =remainder
+	}
+}{
+	goal {
+		carry   = 1.0
+		ten-ans = busy
+		one-ans = =remainder
+	}
+	+retrieval {
+		isa addition-fact
+		addend1 =  =num1
+		addend2 =  =num2
+	}
+}
+
+production no-carry {
+	goal {
+		isa add-pair
+		carry   =  busy
+		ten1    =  =num1
+		ten2    =  =num2
+		one-ans =  =ones
+	}
+	?retrieval {
+		state =  error
+	}
+}{
+	goal {
+		carry   = null
+		ten-ans = busy
+	}
+	+retrieval {
+		isa addition-fact
+		addend1 =  =num1
+		addend2 =  =num2
+	}
+}
+
+production add-tens-done {
+	goal {
+		isa add-pair
+		ten-ans =  busy
+		carry   =  null
+	}
+	retrieval {
+		isa addition-fact
+		sum =  =sum
+	}
+}{
+	goal {
+		ten-ans = =sum
+	}
+}
+
+production add-tens-carry {
+	goal {
+		isa add-pair
+		carry   =  1.0
+		ten1    =  =num1
+		ten2    =  =num2
+		ten-ans =  busy
+	}
+	retrieval {
+		isa addition-fact
+		addend1 =  =num1
+		addend2 =  =num2
+		sum     =  =sum
+	}
+}{
+	goal {
+		carry = null
+	}
+	+retrieval {
+		isa addition-fact
+		addend1 =  1.0
+		addend2 =  =sum
+	}
+} }
