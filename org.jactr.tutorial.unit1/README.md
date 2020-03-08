@@ -9,6 +9,7 @@ The function of Unit 1 is to present the formal notation for specifying chunks a
 - [Count](#count-model)
 - [Addition](#addition-model)
 - [Semantic](#semantic-model)
+- [Tutor](#tutor-model)
 
 ### Chunks in ACT-R 
 
@@ -441,17 +442,23 @@ As before, we will be using a run configuration to run the addition model. Howev
 
 ![](images/perspective.png)
 
-In the *addition.jactr* file, caret to the *increment-count* production and press Ctrl-B (Command-B for Mac users). This will create a production breakpoint (denoted by the circle in the left-hand margin). When running in debug mode, the model will suspend when it reaches this point. It won't resume until you tell it to.
-
-![](images/breakpoint.png)
-
 Let's dive in. Menu -> **Run** -> **Debug Configurations...**. Select *addition* under **jACT-R Run** and hit **Debug**. After a second, the **Debug** view (on the left hand side of the screen) should look like this:
 
 ![](images/debug.png)
 
 What you are seeing is two debug targets, one for the jACTR runtime, the other for the underlying Java code. It is possible to debug both at the same time from the same interface, but for now select the runtime target (**Debug ACTRRuntime**). It is currently in a paused state. Whenever you start a model in debug mode it will always start in a paused state. It is up to you to resume it.
 
-Click the play button or hit F8 to resume. The model will now run until it can fire breakpoint production.
+Click the step over (F6) and the model will run for one cycle. You should now see the first production that was fired at time 0.
+
+![](images/stepover.png)
+ 
+
+If you open **Menu** -> **Window** -> **Show View** -> **Other...**, you can select the jACT-R views to add to debug view. Select the **jACT-R Log** view from under the **jACT-R Modeling** group. Now you can see the log file advance as you step through the model. If you also add the **Buffer** and **Conflict Resolution** views, you can see all the information necessary to debug the model.
+
+Back in the debug view, you can select any production to jump to it in the editor. If you select the latest production (bottom), you can also see the current instantiation in the **Variables** view on the right.
+
+Keep stepping through the model until the end.
+
 
 
 # Semantic Model
@@ -477,7 +484,324 @@ Queries about category membership are encoded by goals of the is-member type.  T
 is-member g1 (object=canary, category=bird)
 ```
 
-which represents the query to decide if a canary is a bird.  The judgment slot is nil reflecting the fact that the decision has yet to be made about whether it is true.  If you run the model with g1 in the goal buffer you will see the following trace:
+which represents the query to decide if a canary is a bird.  The judgment slot is null reflecting the fact that the decision has yet to be made about whether it is true.  If you run the **semantic** run configuration, you should see the result.
+
+
+This is among the simplest cases possible and involves only the retrieval of this property
+
+```
+property p14(object=canary, attribute=category, value=bird)
+```
+
+for verification of the query. There are two productions involved.  The first, Initial-Retrieve, requests the retrieval of categorical information and the second, Direct-Verify, harvests that information and sets the judgment slot to yes:
+
+```
+production initial-retrieve {
+  goal {
+    isa is-member
+    object    =  =obj
+    category  =  =cat
+    judgement =  null
+  }
+  ?retrieval {
+    state =  free
+  }
+}{
+  goal {
+    judgement = pending
+  }
+  +retrieval {
+    isa property
+    object    =  =obj
+    attribute =  category
+  }
+  output ( "trying to remember something about =obj " ) 
+ }
+ 
+production direct-verify {
+  goal {
+    isa is-member
+    object    =  =obj
+    category  =  =cat
+    judgement =  pending
+  }
+  retrieval {
+    isa property
+    object    =  =obj
+    attribute =  category
+    value     =  =cat
+  }
+}{
+  goal {
+    judgement = yes
+  }
+  output ( "Yes, a =obj is a =cat" )
+  -retrieval {} 
+}
+```
+
+### Chaining Through Category Links
+
+A slightly more complex case occurs when the category is not an immediate super ordinate of the queried object and it is necessary to chain through an intermediate category.  An example where this is necessary is in the verification of whether a canary is an animal and such a query is defined in chunk g2:
+
+```
+g2 (object=canary, category=animal)
+```
+
+Change the goal of the **goal** buffer in the **buffers** section near the top of the model to *g2*. And then rerun the model. This involves an extra production, Chain-Category, which retrieves the category in the case that an attribute has been retrieved which does not allow a decision to be made.  Here is that production:
+
+```
+production chain-category {
+  goal {
+    isa is-member
+    object    =  =obj
+    category  =  =cat
+    judgement =  pending
+  }
+  retrieval {
+    isa property
+    object    =  =obj
+    attribute =  category
+    value     =  =val
+    value     != =cat
+  }
+  ?retrieval {
+    state =  free
+  }
+}{
+  goal {
+    object = =val
+  }
+  +retrieval {
+    isa property
+    object    =  =val
+    attribute =  category
+  }
+  output ( "=obj is a =val I wonder if =val is a =cat" )
+  output ( "Im trying to remember something about =val" ) 
+ }
+```
+
+To see this execute, caret to the *chain-category* production and hit Ctrl-B (Command-B). This will set a breakpoint on the production (assuming we are still in **Debug** perspective). If you *debug* the model, after you resume (F8) the first time, the model will run until *chain-category* then suspend. You should play around with breakpoint productions at your leisure.
+
+###  The Failure Case
+
+No change the goal to *g3*:
+
+```
+g3 (object=canary, category=fish)
+```
+
+If you *run* the model, you will see what happens when the it reaches a deadend.
+
+The production Fail applies and fires when a retrieval attempt fails.  This production uses a condition on the LHS that we have not yet seen.
+
+### Query Conditions
+In addition to testing the chunks in the buffers as has been done in all the productions to this point, it is also possible to query the state of the buffer or the module which controls it.  This is done using the “?” operator before the name of the buffer.  A module may have a number of different queries to which it will respond, but there are some to which all buffers and modules will always respond.  The queries that are always valid are whether there is a chunk in the buffer or not, whether or not that chunk was requested by the procedural module, and for one of three possible states of the module: free, busy, or error.  The queries are either true or false.  If any query is false, then the production does not match.  Here are examples of the possible queries with respect to the retrieval buffer. 
+
+This query will be true if there is any chunk in the retrieval buffer:
+
+``` 
+  ?retrieval{
+      buffer = full
+      }
+```
+This query will be true if there is not a chunk in the retrieval buffer:
+
+```
+   ?retrieval{
+       buffer = empty
+       }
+```
+
+
+This query will be true if the retrieval buffer’s module (the declarative memory module) is not currently working to retrieve a chunk:
+
+
+```
+   ?retrieval{
+      state   = free
+      }
+```
+
+This query will be true if the declarative memory module is working on retrieving a chunk:
+
+```
+   ?retrieval{
+      state    =  busy
+      }
+```
+
+This query will be true if there was an error in the last request made to the retrieval buffer:
+
+```
+   ?retrieval{
+      state   =   error
+      }
+```
+
+For retrieval requests, that means that no chunk could be found that matched the request.
+
+It is also possible to make multiple queries at the same time.  For instance this query would check if the module was not currently handling a request and that there was currently a chunk in the buffer:
+
+```
+   ?retrieval{
+      state   =   free
+      buffer  =   full
+      }
+```
+
+One can also use the optional negation modifier “-” before a query to test that such a condition is not true.  Thus, either of these tests would be true if the declarative module was not currently retrieving a chunk:
+
+```
+   ?retrieval{
+      state   =    free
+      }
+or
+   ?retrieval{
+     state  !=   busy
+     }
+```
+
+
+### The Fail production 
+Now, here is the production that fires in response to a category request not being found
+
+```
+production fail {
+  goal {
+    isa is-member
+    object    =  =obj
+    category  =  =cat
+    judgement =  pending
+  }
+  ?retrieval {
+    state =  error
+  }
+}{
+  goal {
+    judgement = no
+  }
+  output ( "No, a =obj is not a =cat" )
+}
+```
+
+Note the testing for a retrieval failure in the condition of this production.  When a retrieval request does not succeed, in this case because there is no chunk in declarative memory that matches the specification requested, the buffer’s state indicates an error. In this model, this will happen when one gets to the top of a category hierarchy and there are no super ordinate categories.
+
+
+# Tutor Model
+
+We would like you to now construct the pieces of an jACT-R model on your own. The *tutorModel* file included with the tutorial models contains the basic code necessary for a model, but does not have any of the declarative or procedural elements defined. The instructions that follow will guide you through the creation of those components.  You will be constructing a model that can perform addition of two two-digit numbers.  Once all of the pieces have been added as described, you should be able to load and run the model.
+
+You should now open the *tutorModel* file in a text editor if you have not already.  The following sections will describe the components that you should add to the file in the places indicated by comments in the model.
+
+
+## Chunktypes
+
+The first thing we need to do is define the chunk types that will be used by the model.  There are two chunk-types which we will define for doing this task.  One to represent addition facts and one to represent the goal chunk which holds the components of the task for the model.  These chunk types will be created with the chunktype command as described in earlier.
+
+### Addition Facts
+
+The first chunk type you will need is one to represent the addition facts.  It should be named addition-fact and have slots named addend1, addend2, and sum.
+
+### The Goal Chunk Type
+
+The other chunk type you will need is one to represent the goal of adding two two-digit numbers.  It should be named add-pair. It must have slots to encode all of the necessary components of the task.  It should have two slots to represent the ones digit and the tens digit of the first number called one1 and ten1 respectively.  It will have two more slots to hold the ones digit and the tens digit of the second number called one2 and ten2, and two slots to hold the answer, called one-ans and ten-ans. It will also need a slot to hold any information necessary to process a carry from the addition in the ones column to the tens column which should be called carry.
+
+After you have created those three chunk-types you have completed the chunk type portion of this model. Now it is time to create the chunks that allow the model to perform addition along with an initial goal to do such an addition.
+
+## Chunks
+We are now going to define the chunks that will allow the model to solve the problem 36 + 47.
+
+### The Addition Facts
+
+You need to add the addition facts to encode the following math facts:
+
+3+4=7
+6+7=13
+10+3=13
+1+7=8
+
+They will be of type addition-fact and should be named based on their addends.  For example, the fact that 3+4=7 should be named fact34.  The addends and sums for these facts will be the appropriate numbers
+
+### The Initial Goal
+
+You should now create a chunk called goal which encodes that the goal to add 36+47.  This should be done by specifying the values for the ones and tens digits of the two numbers and leaving all of the other slots empty.
+ 
+ 
+## Productions
+ 
+So far, we have been looking mainly at the individual production rules in the models.  However, production systems get their power through the interaction of the production rules.  Essentially, one production will set the condition for another production rule to fire, and it is the sequence of productions firing that lead to performing the task.
+
+Your task is to write the ACT-R equivalents of the production rules described below in English, which can perform multi-column addition.
+
+Here are the English descriptions of the six productions needed for this task.
+
+```
+START-PAIR
+IF the goal is to add a pair of numbers 
+   and the ones digits of the pair are available
+   but the ones digit of the answer is nil
+THEN note in the one-ans slot that you are busy computing 
+      the answer for the ones digit
+   and request a retrieval of the sum of the ones digits. 
+
+ADD-ONES
+IF the goal is to add a pair of numbers 
+   and you are busy waiting for the answer for the ones digit
+   and the sum of the ones digits has been retrieved
+THEN store the sum as the ones answer
+   and note that you are busy checking the answer for the carry
+   and request a retrieval to determine if the sum equals 10
+     plus a remainder.
+
+PROCESS-CARRY
+IF the goal is to add a pair of numbers
+   and the tens digits are available
+   and you are busy working on the carry
+   and the one-ans equals a value which a retrieval
+    finds is the sum of 10 plus a remainder
+THEN make the ones answer the remainder 
+   and note that the carry is 1
+   and note you are busy computing the sum of the tens digits
+   and request a retrieval of the sum of the tens digits.
+
+
+NO-CARRY
+IF the goal is to add a pair of numbers
+   and the tens digits are available
+   and you are busy working on the carry
+   and the one-ans equals a sum
+   and there has been a retrieval failure
+THEN note that the carry is nil
+   and note you are busy computing the sum of the tens digits
+   and request a retrieval of the sum of the tens digits.
+
+ADD-TENS-DONE
+IF the goal is to add a pair of numbers
+   and you are busy computing the sum of the tens digits
+   and the carry is nil
+   and the sum of the tens digits has been retrieved
+THEN note the sum of the tens digits.
+
+
+ADD-TENS-CARRY
+IF the goal is to add a pair of numbers
+   and the tens digits are available
+   and you are busy computing the sum of the tens digits
+   and the carry is 1
+   and the sum of the tens digits has been retrieved
+THEN set the carry to nil
+   and request a retrieval of one plus that sum.
+
+```
+
+When you are finished entering the productions, save your model and we can create a run configuration for it.
+
+Open **Menu** -> **Run** --> **Run Configurations...** and select any of the prior run configurations. Press the **Duplicate** button (to the left of the red-X delete button). Change the name of the configuration to "TwoColumnAddition", then unselect the existing model and select *tutorialModel* instead. **Apply** and **Run** to see how you did.
+
+Now it's time to put the skills you've learned into practice. Use the **Debug** view in conjunction with the **Log**, **Buffer**, and **Conflict Resolution** views to figure out why your model didn't quite work.  If you find yourself stumped, the model *solution.jactr* contains a fully functioning solution.
+
 
 
 

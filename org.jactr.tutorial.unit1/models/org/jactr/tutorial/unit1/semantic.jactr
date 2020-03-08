@@ -35,7 +35,7 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "RetrievalThreshold"      : "0" ]
 
 buffers {
-  goal {g1} [
+  goal {g2} [
     "Activation"              : "1"
     "G"                       : "20"
     "StrictHarvestingEnabled" : "false" ]
@@ -99,7 +99,8 @@ production initial-retrieve {
     object    =  =obj
     attribute =  category
   }
-  output ( "trying to remember something about =obj " ) }
+  output ( "trying to remember something about =obj " ) 
+ }
 
 production direct-verify {
   goal {
@@ -119,7 +120,8 @@ production direct-verify {
     judgement = yes
   }
   output ( "Yes, a =obj is a =cat" )
-  -retrieval {} }
+  -retrieval {} 
+}
 
 production chain-category {
   goal {
@@ -148,7 +150,8 @@ production chain-category {
     attribute =  category
   }
   output ( "=obj is a =val I wonder if =val is a =cat" )
-  output ( "Im trying to remember something about =val" ) }
+  output ( "Im trying to remember something about =val" ) 
+ }
 
 production fail {
   goal {

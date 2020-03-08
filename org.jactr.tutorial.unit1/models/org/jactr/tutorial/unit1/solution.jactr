@@ -1,5 +1,7 @@
 namespace org.jactr.tutorial.unit1.solution {
 
+import jactr.declarative.*
+
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 	"ActivationNoise"                  : "0"
 	"BaseLevelConstant"                : "0"
@@ -36,27 +38,15 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
 	"LatencyExponent"         : "1" ]
 
 buffers {
-	goal {} [
+	goal {goal} [
 		"Activation"              : "1"
-		"G"                       : "20"
 		"StrictHarvestingEnabled" : "false" ]
 	retrieval {} [
 		"Activation"              : "0"
-		"G"                       : "0"
 		"StrictHarvestingEnabled" : "true" ]
 }
 
-chunktype chunk {}
 
-chunk new, free, busy, error, full, empty, requested, unrequested, lowest, highest, reset, error-nothing-available,
-	error-nothing-matches, error-no-longer-available, error-changed-too-much, error-invalid-index, error-chunk-deleted,
-error-unknown
-
-chunktype command {}
-
-chunktype clear extends command {all = false}
-
-chunktype attend-to extends command {where = null}
 
 chunktype addition-fact {
 	addend1 = null

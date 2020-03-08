@@ -1,0 +1,61 @@
+namespace org.jactr.tutorial.unit1.tutorialModel {
+
+import jactr.declarative.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+	"ActivationNoise"                  : "0"
+	"BaseLevelConstant"                : "0"
+	"EnablePartialMatching"            : "false"
+	"MaximumDifference"                : "-10"
+	"MaximumSimilarity"                : "10"
+	"MismatchPenalty"                  : "0"
+	"PermanentActivationNoise"         : "0"
+	"PermanentActivatioNoise"          : "0" ]
+
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+	"DefaultProductionFiringTime" : "0.05"
+	"ExpectedUtilityNoise"        : "0"
+	"NumberOfProductionsFired"    : "0" ]
+
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+	"EnableIndexedRetrievals" : "false"
+	"FINSTDurationTime"       : "3.0"
+	"LatencyFactor"           : "0.05"
+	"NumberOfFINSTs"          : "4"
+	"RetrievalThreshold"      : "-Infinity"
+	"LatencyExponent"         : "1" ]
+
+buffers {
+  /*
+   * the goal should go inside the {} of goal
+   */
+	goal {} [
+		"Activation"              : "1"
+		"StrictHarvestingEnabled" : "false" ]
+	retrieval {} [
+		"Activation"              : "0"
+		"StrictHarvestingEnabled" : "true" ]
+}
+
+/*
+ * chunk-types are defined with the chunktype command 
+ */
+
+
+
+/*
+ * addition facts are created with the name of the chunktype first.
+ * 
+ */
+// addition-fact fact17...
+ 
+//add-pair goal...
+
+
+/**
+ * finally we define the productions
+ */
+ 
+}
