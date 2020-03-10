@@ -1,0 +1,46 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+	
+	<trial-handler
+		class="org.jactr.tutorial.unit2.experiment.handler.DisplayHandler" />
+
+  <group id="" shuffle="true" choose="5">
+    <display letter="a"/>
+    <display letter="b"/>
+    <display letter="c"/>
+    <display letter="d"/>
+    <display letter="e"/>
+  </group>
+	
+
+	<start>
+		<!-- block until actr is ready to run -->
+		<!-- <wait-for-actr /> -->
+
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+		<log message="starting experiment" />
+	</start>
+
+	<end>
+
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+
+		<!-- release the model to allow the runtime to (hopefully) exit -->
+		<unlock name="participant" />
+
+		<log message="terminating experiment" />
+		<!-- record end of experiment for the subject -->
+
+		<terminate />
+	</end>
+
+</experiment>  
