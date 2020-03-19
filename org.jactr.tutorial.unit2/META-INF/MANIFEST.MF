@@ -13,11 +13,21 @@ Require-Bundle: org.jactr.core,
  org.jactr.io2.jactr,
  org.commonreality.api;bundle-version="1.5.1",
  org.commonreality.time;bundle-version="1.5.1",
- org.slf4j.api;bundle-version="1.7.10"
+ org.slf4j.api;bundle-version="1.7.10",
+ org.commonreality.osgi;bundle-version="1.5.1",
+ org.commonreality.sensors.xml;bundle-version="1.5.1",
+ org.commonreality.modalities;bundle-version="1.5.1",
+ org.commonreality.sensors;bundle-version="1.5.1",
+ org.commonreality.core;bundle-version="1.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,
  org.jactr.tools.experiment,
- org.jactr.io2.jactr
+ org.jactr.io2.jactr,
+ org.commonreality.sensors
+Export-Package: org.jactr.tutorial.unit2.experiment,
+ org.jactr.tutorial.unit2.experiment.handler,
+ org.jactr.tutorial.unit2.experiment.sim,
+ org.jactr.tutorial.unit2.experiment.ui

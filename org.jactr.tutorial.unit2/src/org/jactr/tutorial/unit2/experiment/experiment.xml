@@ -9,38 +9,31 @@
 	
 	<trial-handler
 		class="org.jactr.tutorial.unit2.experiment.handler.DisplayHandler" />
+  <action-handler class="org.jactr.tutorial.unit2.experiment.handler.CleanupHandler"/>		
 
-  <group id="" shuffle="true" choose="5">
+  <group id="group" shuffle="true">
     <display letter="a"/>
-    <display letter="b"/>
-    <display letter="c"/>
-    <display letter="d"/>
-    <display letter="e"/>
+    <!-- <display letters="a, b"/> -->
   </group>
 	
 
 	<start>
+		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
-		<!-- <wait-for-actr /> -->
-
+		<wait-for-actr />
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
-		<log message="starting experiment" />
 	</start>
 
 	<end>
 
+		<log message="terminating experiment" />
 		<record simple="duration" time="${delta}" />
 		<!-- close the data tag in the log file -->
 		<record close="data" />
 
-		<!-- release the model to allow the runtime to (hopefully) exit -->
-		<unlock name="participant" />
-
-		<log message="terminating experiment" />
-		<!-- record end of experiment for the subject -->
-
 		<terminate />
+		<cleanup />
 	</end>
 
 </experiment>  

@@ -27,9 +27,9 @@ public class GUIExperimentInterface implements IExperimentInterface {
 
 	public GUIExperimentInterface(int numberOfLabels) {
 		_window = new JFrame();
-		
+
 		_keyListener = new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				_window.removeKeyListener(_keyListener);
 				_keyConsumer.accept(e.getKeyChar());
 			}
@@ -38,25 +38,28 @@ public class GUIExperimentInterface implements IExperimentInterface {
 		_labels = new JLabel[numberOfLabels];
 		IntStream.range(0, numberOfLabels).forEach((i) -> {
 			JLabel label = new JLabel("");
-			label.setHorizontalAlignment(SwingConstants.CENTER);
 			Font font = label.getFont();
 			font = font.deriveFont(font.getSize2D() * 5f);
 			label.setFont(font);
 			_labels[i] = label;
 		});
-		
+
 		Container container = _window.getContentPane();
-	    container.setLayout(new BorderLayout());
+		container.setLayout(new BorderLayout());
 
-	    String[] hints = new String[]{"Center","East","West"};
-	    for(int i=0;i<_labels.length;i++)
-	      container.add(_labels[i],hints[i]);
+		String[] hints = new String[] { "Center", "East", "West" };
+		int[] alignment = new int[] {SwingConstants.CENTER, SwingConstants.LEFT, SwingConstants.RIGHT};
+		for (int i = 0; i < _labels.length; i++) {
+			container.add(_labels[i], hints[i]);
+			_labels[i].setHorizontalAlignment(alignment[i]);
+			_labels[i].setHorizontalTextPosition(alignment[i]);
+		}
 
-	    /*
-	     * and set the size of the window
-	     */
-	    Toolkit tk = Toolkit.getDefaultToolkit();
-	    _window.setSize(tk.getScreenSize());
+		/*
+		 * and set the size of the window
+		 */
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		_window.setSize(tk.getScreenSize());
 	}
 
 	@Override
@@ -64,7 +67,7 @@ public class GUIExperimentInterface implements IExperimentInterface {
 		SwingUtilities.invokeLater(() -> {
 			_keyConsumer = keyConsumer;
 			_window.addKeyListener(_keyListener);
-			for(int i=0;i<labels.length;i++)
+			for (int i = 0; i < labels.length; i++)
 				_labels[i].setText(labels[i]);
 		});
 	}
@@ -93,6 +96,15 @@ public class GUIExperimentInterface implements IExperimentInterface {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void dispose() {
+		SwingUtilities.invokeLater(()->{
+			_window.setVisible(false);
+			_window.dispose();
+		});
+		
 	}
 
 }

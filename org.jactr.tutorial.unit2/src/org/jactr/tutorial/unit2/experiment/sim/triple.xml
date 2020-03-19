@@ -1,0 +1,40 @@
+
+<sensor name="test">
+	<time relative="0">
+		<add alias="${target}" type="AFFERENT">
+			<boolean name="visual.isVisual" value="true" />
+			<doubles name="visual.retinal.location" value="0,0" />
+			<double name="visual.retinal.distance" value="1" />
+			<doubles name="visual.retinal.size" value="5,5" />
+			<boolean name="visual.visible" value="true" />
+			<strings name="visual.type" value="text" />
+			<string name="visual.token" value="${target}" />
+			<string name="visual.text" value="${target}" />
+			<doubles name="visual.color" value="1,0,0,1" />
+		</add>
+		<add alias="${foil}" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="-5,0" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="5,5" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="text" />
+      <string name="visual.token" value="${foil}" />
+      <string name="visual.text" value="${foil}" />
+      <doubles name="visual.color" value="1,0,0,1" />
+    </add>
+    <add alias="${foil}_2" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="5,0" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="5,5" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="text" />
+      <string name="visual.token" value="${foil}" />
+      <string name="visual.text" value="${foil}" />
+      <doubles name="visual.color" value="1,0,0,1" />
+    </add>
+
+	</time>
+
+</sensor>

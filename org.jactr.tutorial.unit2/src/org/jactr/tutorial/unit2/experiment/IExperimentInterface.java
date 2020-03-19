@@ -10,4 +10,6 @@ public interface IExperimentInterface {
 	
 	public void hide();
 	
+	public void dispose();
+	
 }
