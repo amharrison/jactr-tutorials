@@ -65,7 +65,7 @@
     <logger name="org.jactr.eclipse.grapher.core"><level value="debug"/></logger>
 -->
 
-  <logger name="org.commonreality.sensors.keyboard"><level value="debug"/></logger>
+  <logger name="org.commonreality.sensors.base.BaseSensor"><level value="debug"/></logger>
   
 	<root>
 	   <level value="error"/>

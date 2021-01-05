@@ -21,8 +21,8 @@
 	<start>
 		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
-		<wait-for-actr />
 		<lock name="demo"/>
+		<wait-for-actr />
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
 	</start>
