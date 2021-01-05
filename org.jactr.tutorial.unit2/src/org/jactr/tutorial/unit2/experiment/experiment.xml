@@ -13,6 +13,7 @@
 
   <group id="group" shuffle="true">
     <display letter="a"/>
+   <!--  <display letter="s"/> -->
     <!-- <display letters="a, b"/> -->
   </group>
 	
@@ -21,6 +22,7 @@
 		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
 		<wait-for-actr />
+		<lock name="demo"/>
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
 	</start>
@@ -32,7 +34,8 @@
 		<!-- close the data tag in the log file -->
 		<record close="data" />
 
-		<terminate />
+		<!-- <terminate /> -->
+		<wait-for-actr start="false"/>
 		<cleanup />
 	</end>
 

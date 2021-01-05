@@ -4,20 +4,17 @@ package org.jactr.tutorial.unit2.experiment.handler;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.jactr.core.runtime.ACTRRuntime;
 import org.jactr.tools.experiment.IDataLogger;
 import org.jactr.tools.experiment.IExperiment;
 import org.jactr.tools.experiment.actions.IAction;
 import org.jactr.tools.experiment.actions.common.LockAction;
 import org.jactr.tools.experiment.actions.common.LogAction;
 import org.jactr.tools.experiment.actions.common.UnlockAction;
-import org.jactr.tools.experiment.actions.sensor.XMLSensorAction;
 import org.jactr.tools.experiment.impl.IVariableContext;
 import org.jactr.tools.experiment.trial.impl.Trial;
 import org.jactr.tools.experiment.triggers.ITrigger;
 import org.jactr.tools.experiment.triggers.ImmediateTrigger;
 import org.jactr.tutorial.unit2.experiment.IExperimentInterface;
-import org.jactr.tutorial.unit2.experiment.sim.SimulatedExperimentInterface;
 import org.jactr.tutorial.unit2.experiment.ui.GUIExperimentInterface;
 
 public class DisplayTrial extends Trial {
@@ -51,12 +48,9 @@ public class DisplayTrial extends Trial {
 	}
 
 	protected void configure(IExperiment experiment) {
-		final boolean isModelRunning = ACTRRuntime.getRuntime().getModels().size() != 0;
+		
 		if (_interface == null) {
-			if (isModelRunning)
-				_interface = new SimulatedExperimentInterface(getExperiment());
-			else
-				_interface = new GUIExperimentInterface(_foil == null ? 1 : 3);
+			_interface = new GUIExperimentInterface(_foil == null ? 1 : 3);
 		}
 
 		ITrigger trigger = new ImmediateTrigger(experiment);
@@ -78,8 +72,14 @@ public class DisplayTrial extends Trial {
 				_interface.show();
 			}
 		});
+		trigger.add(new UnlockAction("demo", experiment));
 
 		setStartTrigger(trigger);
+		
+		
+		
+		trigger = new ImmediateTrigger(experiment);
+		trigger.add(new LockAction("demo", experiment));
 		trigger.add(new LogAction("Stopping " + getId(), experiment));
 
 		/*

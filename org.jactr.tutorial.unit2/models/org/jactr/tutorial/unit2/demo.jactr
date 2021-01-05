@@ -36,7 +36,6 @@ module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"["EnableVisualBufferStuff":"false"]
 module "org.jactr.core.module.random.six.DefaultRandomModule" ["RandomSeed" : "123"]
 module "org.jactr.modules.pm.motor.six.DefaultMotorModule6" [
-  "org.jactr.modules.pm.motor.command.translators.PressKeyTranslator" : "true"
 ]
    
   
@@ -61,6 +60,9 @@ buffers {
      isa read-letters
      state = start
    }
+   ?visual{
+     state = free
+   }
    proxy("org.jactr.tools.experiment.production.IsUnlockedCondition"){
      lock = "demo"
    }
@@ -69,15 +71,12 @@ buffers {
      isa visual-location
      :attended = null
    }
-   goal{
-     state = find-location
-   }
  }
  
  production attend-letter{
    goal{
      isa read-letters
-     state = find-location
+     state = start
    }
    visual-location{
      isa visual-location
@@ -101,7 +100,7 @@ buffers {
      state = attend
    }
    visual{
-     isa text
+     isa visual-object
      value = =letter
    }
  }{
@@ -136,5 +135,19 @@ buffers {
    }
  }
  
- 
+ production reset{
+   goal{
+     isa read-letters
+     state = done
+   }
+   ?motor{
+     state = free
+   }
+ }{
+   goal{
+     state = start
+   }
  }
+ 
+ 
+ }["EnableUnusedCycleSkipping" :"false"]

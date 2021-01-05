@@ -64,38 +64,38 @@ public class GUIExperimentInterface implements IExperimentInterface {
 
 	@Override
 	public void configure(Consumer<Character> keyConsumer, String... labels) {
-		SwingUtilities.invokeLater(() -> {
-			_keyConsumer = keyConsumer;
-			_window.addKeyListener(_keyListener);
-			for (int i = 0; i < labels.length; i++)
-				_labels[i].setText(labels[i]);
-		});
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				_keyConsumer = keyConsumer;
+				_window.addKeyListener(_keyListener);
+				for (int i = 0; i < labels.length; i++)
+					_labels[i].setText(labels[i]);
+			});
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void show() {
-		try {
-			SwingUtilities.invokeAndWait(() -> {
+		
+			SwingUtilities.invokeLater(() -> {
 				_window.setVisible(true);
+				_window.requestFocus();
 			});
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
 	public void hide() {
-		try {
-			SwingUtilities.invokeAndWait(() -> {
+		
+			SwingUtilities.invokeLater(() -> {
 				_window.setVisible(false);
 			});
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	@Override
