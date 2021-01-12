@@ -1,6 +1,9 @@
 
 package org.jactr.tutorial.unit2.experiment.handler;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -66,8 +69,9 @@ public class DisplayTrial extends Trial {
 				if (_foil == null)
 					_interface.configure(DisplayTrial.this::consumeKey, "" + _target);
 				else {
-					// ideally we'd shuffle the positions of target and foil
-					_interface.configure(DisplayTrial.this::consumeKey, "" + _foil, "" + _target, "" + _foil);
+					List<String> list = Arrays.asList("" + _foil, "" + _target, "" + _foil);
+					Collections.shuffle(list);
+					_interface.configure(DisplayTrial.this::consumeKey, list.toArray(new String[3]));
 				}
 				_interface.show();
 			}
@@ -98,6 +102,8 @@ public class DisplayTrial extends Trial {
 	}
 
 	protected void consumeKey(Character keyPressed) {
+		System.out.println("Pressed "+keyPressed);
+		
 		stop(); // stop the trial after which we can get the responseTime
 
 		IDataLogger collector = getExperiment().getDataCollector();

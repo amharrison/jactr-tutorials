@@ -1,41 +1,61 @@
+<!-- experiment framework is a skeletal framework for running experiments 
+	and cognitive models. It can handle most experiment related things, except 
+	condition assignment and actual stimuli presentation. -->
 <experiment
 	class="org.jactr.tools.experiment.impl.BasicExperiment"
 	name="experiment1" shuffle="false" iterations="1">
 
-	<!-- dump to data/subjectID/output.xml -->
+	<!-- dump to data/subjectID/output.xml via record tag -->
 	<data-logger
 		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
 		file="output.xml" />
-	
+
+	<!-- tells the parser about the display tag, our custom handler for this 
+		experiment's stimuli -->
 	<trial-handler
 		class="org.jactr.tutorial.unit2.experiment.handler.DisplayHandler" />
-  <action-handler class="org.jactr.tutorial.unit2.experiment.handler.CleanupHandler"/>		
 
-  <group id="group" shuffle="true">
-    <display letter="a"/>
-   <!--  <display letter="s"/> -->
-    <!-- <display letters="a, b"/> -->
-  </group>
-	
+	<!-- tells the parser about the cleanup tag, which handles our experimental 
+		cleanup -->
+	<action-handler
+		class="org.jactr.tutorial.unit2.experiment.handler.CleanupHandler" />
 
+	<!-- this defines a group of experimental trials that are shuffled -->
+	<group id="group" shuffle="true">
+
+		<!-- only one trial for now, display letter 'a' and record the response -->
+		<display letter="a" />
+		<display letter="s" />
+		<display letter="j" />
+		<display letter="k" />
+		
+		<!-- uncoment below to enable second experiment -->
+		<!-- <display letters="a, s"/> --> 
+	</group>
+
+	<!-- this block is run at the start of the experiment -->
 	<start>
+		<!-- log to stdout -->
 		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
-		<lock name="demo"/>
+		<lock name="demo" />
 		<wait-for-actr />
+
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
 	</start>
 
+	<!-- this block is run at the end of the experiment -->
 	<end>
-
 		<log message="terminating experiment" />
+		<!-- record duration to data file -->
 		<record simple="duration" time="${delta}" />
 		<!-- close the data tag in the log file -->
 		<record close="data" />
 
-		<!-- <terminate /> -->
-		<wait-for-actr start="false"/>
+		<terminate />
+		<wait-for-actr start="false" />
+		<!-- do our cleanup -->
 		<cleanup />
 	</end>
 

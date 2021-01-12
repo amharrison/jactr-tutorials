@@ -109,7 +109,6 @@ chunktype visual-location {
   color    = null
   size     = null
   kind     = null
-  nearest  = null
   value    = null
 }
 ```

@@ -61,11 +61,10 @@
 	<logger name="org.jactr.tools.async.shadow"><level value="debug"/></logger>
 
 	<logger name="org.jactr.io.antlr3.builder"><level value="debug"/></logger>
-    <logger name="org.jactr.tools.shell"><level value="debug"/></logger>
     <logger name="org.jactr.eclipse.grapher.core"><level value="debug"/></logger>
--->
-
   <logger name="org.commonreality.sensors.base.BaseSensor"><level value="debug"/></logger>
+    <logger name="org.commonreality.sensors.keyboard.DefaultActuator"><level value="debug"/></logger>
+-->
   
 	<root>
 	   <level value="error"/>

@@ -1,153 +1,160 @@
 /*
  * 
  */
- namespace org.jactr.tutorial.unit2.demo{
- 
- import jactr.declarative.*
- import jactr.procedural.*
- import jactr.retrieval.*
- import jactr.imaginal.*
- import jactr.visual.*
- import jactr.motor.*
- import jactr.aural.*
- import jactr.vocal.*
- import jactr.goal.*
-    
- module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
-   "ActivationNoise"          : "0"
-   "BaseLevelConstant"        : "0"
-   "EnablePartialMatching"    : "false"
-   "MaximumDifference"        : "-1"
-   "MaximumSimilarity"        : "0"
-   "MismatchPenalty"          : "1"
-   "PermanentActivationNoise" : "0"]
- module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
-   "DefaultProductionFiringTime" : "0.05"
-   "ExpectedUtilityNoise"        : "0"
-   "NumberOfProductionsFired"    : "0" ]
- module "org.jactr.core.module.goal.six.DefaultGoalModule6" [ ]
- module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
-   "EnableIndexedRetrievals" : "false"
-   "FINSTDurationTime"       : "3.0"
-   "LatencyFactor"           : "1"
-   "NumberOfFINSTs"          : "4"
-   "RetrievalThreshold"      : "0" ]
-module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]   
-module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"["EnableVisualBufferStuff":"false"]
-module "org.jactr.core.module.random.six.DefaultRandomModule" ["RandomSeed" : "123"]
-module "org.jactr.modules.pm.motor.six.DefaultMotorModule6" [
+namespace org.jactr.tutorial.unit2.demo{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.aural.*
+import jactr.vocal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "EnableIndexedRetrievals" : "false"
+  "FINSTDurationTime"       : "3.0"
+  "LatencyFactor"           : "1"
+  "NumberOfFINSTs"          : "4"
+  "RetrievalThreshold"      : "0" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableVisualBufferStuff"     : "false"
 ]
-   
-  
+module "org.jactr.core.module.random.six.DefaultRandomModule" ["RandomSeed" : "123"]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6" []
+
+
 buffers {
-   @Override
+  @Override
    goal {goal1} [
-     "Activation"              : "1"
-     "StrictHarvestingEnabled" : "false" ]
- }
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+
+chunktype read-letters {state = null}
+chunktype array {letter = null}
+
+chunk start, done, respond, attend, find-location
+
+read-letters goal1 (state=start)
+
+
+production find-unattended-letter {
+  goal{
+    isa read-letters
+    state =  start
+  }
+  ?visual{
+    state =  free
+  }
+  proxy("org.jactr.tools.experiment.production.IsUnlockedCondition"){
+    lock = "demo"
+  }
+}{
+  +visual-location{
+    isa visual-location
+    :attended =  null
+    kind      =  label-object
+  }
+}
+
+production attend-letter{
+  goal{
+    isa read-letters
+    state =  start
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state = attend
+  }
+}
+
+production encode-letter{
+  goal{
+    isa read-letters
+    state =  attend
+  }
+  visual{
+    isa visual-object
+    value =  =letter
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  goal{
+    state = respond
+  }
+  +imaginal{
+    isa array
+    letter =  =letter
+  }
+}
+
+production respond{
+  goal{
+    isa read-letters
+    state =  respond
+  }
+  imaginal{
+    isa array
+    letter =  =letter
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  goal{
+    state = done
+  }
+  +motor{
+    isa press-key
+    key =  =letter
+  }
+}
+
+production reset{
+  goal{
+    isa read-letters
+    state =  done
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  goal{
+    state = start
+  }
+}
  
  
- chunktype read-letters {state = null}
- chunktype array {letter = null}
- 
- chunk start, done, respond, attend, find-location
- 
- read-letters goal1 (state = start)
- 
- 
- production find-unattended-letter {
-   goal{
-     isa read-letters
-     state = start
-   }
-   ?visual{
-     state = free
-   }
-   proxy("org.jactr.tools.experiment.production.IsUnlockedCondition"){
-     lock = "demo"
-   }
- }{
-   +visual-location{
-     isa visual-location
-     :attended = null
-   }
- }
- 
- production attend-letter{
-   goal{
-     isa read-letters
-     state = start
-   }
-   visual-location{
-     isa visual-location
-   }
-   ?visual{
-     state = free
-   }
- }{
-   +visual{
-     isa attend-to
-     where = =visual-location
-   }
-   goal{
-     state = attend
-   }
- }
- 
- production encode-letter{
-   goal{
-     isa read-letters
-     state = attend
-   }
-   visual{
-     isa visual-object
-     value = =letter
-   }
- }{
-   goal{
-     state = respond
-   }
-   +imaginal{
-     isa array
-     letter = =letter
-   }
- }
- 
- production respond{
-   goal{
-     isa read-letters
-     state = respond
-   }
-   imaginal{
-     isa array
-     letter = =letter
-   }
-   ?motor{
-     state = free
-   }
- }{
-   goal{
-     state = done
-   }
-   +motor{
-     isa press-key
-     key = =letter
-   }
- }
- 
- production reset{
-   goal{
-     isa read-letters
-     state = done
-   }
-   ?motor{
-     state = free
-   }
- }{
-   goal{
-     state = start
-   }
- }
- 
- 
- }["EnableUnusedCycleSkipping" :"false"]
+ }[
+  "EnableUnusedCycleSkipping" : "false"
+  "EnablePersistentExecution" : "true"
+ ]

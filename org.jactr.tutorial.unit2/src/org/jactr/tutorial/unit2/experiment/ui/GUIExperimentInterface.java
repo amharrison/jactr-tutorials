@@ -30,8 +30,15 @@ public class GUIExperimentInterface implements IExperimentInterface {
 
 		_keyListener = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
+				try
+				{
 				_window.removeKeyListener(_keyListener);
 				_keyConsumer.accept(e.getKeyChar());
+				}
+				catch(Exception e1)
+				{
+					e1.printStackTrace(System.err);
+				}
 			}
 		};
 
@@ -83,18 +90,34 @@ public class GUIExperimentInterface implements IExperimentInterface {
 	@Override
 	public void show() {
 		
-			SwingUtilities.invokeLater(() -> {
-				_window.setVisible(true);
-				_window.requestFocus();
-			});
+			try {
+				SwingUtilities.invokeAndWait(() -> {
+					_window.setVisible(true);
+					_window.requestFocusInWindow();
+				});
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	@Override
 	public void hide() {
 		
-			SwingUtilities.invokeLater(() -> {
-				_window.setVisible(false);
-			});
+			try {
+				SwingUtilities.invokeAndWait(() -> {
+					_window.setVisible(false);
+				});
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 	}
 
