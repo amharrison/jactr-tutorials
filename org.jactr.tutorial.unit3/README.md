@@ -54,11 +54,11 @@ The kind and value slots provide a general description of the item, but typicall
 
 It is possible for one to specify abstract devices for a model to interact with instead of a simple computer screen.  When doing so, one may create additional chunk-types to represent the visual-location information which may have additional slots that hold other information.  Those additional slots can be tested in the same ways as any of the default slots can.  Creating new devices however is beyond the scope of the tutorial. 
 
-###Visual-location request specification
+### Visual-location request specification
 
 One can specify constraints for a visual-location request based on the values of the slots in the visual-location chunk-type.  Any of the slots may be specified using any of the modifiers (-, <, >, <=, or >=) in much the same way one specifies a retrieval request.  Each of the slots may be specified any number of times. In addition, there are some special tests which one can use that will be described below.  All of the constraints specified will be used to find a visual-location in the visicon to be placed into the visual-location buffer.  If there is no visual-location in the visicon which satisfies all of the constraints then the visual-location buffer will indicate an error state.
 
-####Exact values
+#### Exact values
 
 If you know the exact values for the slots you are interested in then you can specify those values directly:
 
@@ -81,7 +81,7 @@ You can also use the negation test, -, with the values to indicate that you want
 
 Often however, one does not know the specific information about the location in the model and needs to specify things more generally.
 
-####General values
+#### General values
 
 When the slot being tested holds a number it is also possible to use the slot modifiers <, <=, >, and >= along with specifying the value.  Thus to request a location that is to the right of screen-x 50 and at or above screen-y 124 one could use the request:
 
@@ -104,7 +104,7 @@ In fact, one could use two modifiers for each of the slots to restrict a request
 
 ```
 
-####Production variables 
+#### Production variables 
 
 It is also possible to use variables from the production in the requests instead of specific values. Consider this production which uses a value from a slot in the goal to test the color:
 
@@ -132,7 +132,7 @@ Variables from the production can be used just like specific values including wi
 
 ```
 
-####Relative values
+#### Relative values
 
 If you are not concerned with any specific values, but care more about relative settings then there are also ways to specify that. 
 
@@ -174,7 +174,7 @@ First, all of the non-relative values are used to determine the set of items to 
 ```
 This request will again start with all red items.  Then it will find those with the lowest x coordinate and among those will choose the widest.
 
-####The current value
+#### The current value
 
 It is also possible to use the special value current in a request.  That means the value of the slot must be the same as the value for the location of the currently attended object (the one attention was last shifted to with a move-attention request).  This request would find a location which had the same screen-x value as the current one:
 
@@ -195,7 +195,7 @@ You can also use the value current with the modifiers. The following test will f
 ```
 If the model does not have a currently attended object (it has not yet attended to anything) then the tests for current are ignored.
 
-###The :nearest request parameter
+### The :nearest request parameter
 
 Like :attended, there is another request parameter available in visual-location requests.  The :nearest request parameter can be used to find the items closest to the currently attended location, or some other location.  To find the location of the object nearest to the currently attended location we can again use the value current:
 ```
@@ -214,7 +214,7 @@ If there are constraints other than nearest specified then they are all tested f
 Specifically, the nearest is determined by the straight line distance using only the screen-x and screen-y coordinates.
 
 
-###Ordered Search
+### Ordered Search
 
 Above it was noted that a production using this visual-location request (in conjunction with appropriate attention shifts) could be used to read words on the screen from left to right:
 
@@ -252,7 +252,7 @@ By using the special tests for current and lowest one could have the model perfo
 ```
 That will always be able to find the next word to the right of the currently attended one.  Similarly, one could add tests for the screen-y coordinate to produce a top-to-bottom and left-to-right search pattern or combine that with the :nearest request parameter to perform other ordered search strategies.  
 
-##The Sperling Task
+## The Sperling Task
 
 If you open the sperling model, you will see an example of the effects of visual attention. This model contains functions for administering the Sperling experiment where subjects are briefly presented with a set of letters and must try to report them. Subjects see displays of 12 letters such as: 
 
