@@ -1,0 +1,56 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+	
+	<trial-handler
+		class="org.jactr.tutorial.unit3.experiment.handler.DisplayHandler" />
+  <action-handler class="org.jactr.tutorial.unit3.experiment.handler.CleanupHandler"/>		
+  
+  
+  <group id="group" shuffle="true">
+    <display row1="abcd" row2="efgh" row3="ijkl" delay="0" cue="1"/>
+    <display row1="wxyz" row2="qrst" row3="mnop" delay="0.15" cue="2"/>
+    <display row1="vntz" row2="crbk" row3="wxgf" delay="0.3" cue="3"/>
+    <display row1="zkft" row2="yanr" row3="jvcw" delay="1" cue="1"/>
+    
+    <display row1="abcd" row2="efgh" row3="ijkl" delay="0" cue="2"/>
+    <display row1="wxyz" row2="qrst" row3="mnop" delay="0.15" cue="3"/>
+    <display row1="vntz" row2="crbk" row3="wxgf" delay="0.3" cue="1"/>
+    <display row1="zkft" row2="yanr" row3="jvcw" delay="1" cue="2"/>
+    
+    <display row1="abcd" row2="efgh" row3="ijkl" delay="0" cue="3"/>
+    <display row1="wxyz" row2="qrst" row3="mnop" delay="0.15" cue="1"/>
+    <display row1="vntz" row2="crbk" row3="wxgf" delay="0.3" cue="2"/>
+    <display row1="zkft" row2="yanr" row3="jvcw" delay="1" cue="3"/>
+    <!-- 
+     -->
+  </group>
+	
+
+	<start>
+		<log message="starting experiment" />
+		<!-- block until actr is ready to run -->
+		<lock name="demo"/>
+		<wait-for-actr />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+	  <terminate /> 
+	  <wait-for-actr start="false"/>
+	</end>
+
+</experiment>  

@@ -1,0 +1,308 @@
+namespace org.jactr.tutorial.unit3.sperling{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.aural.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"["BaseLevelLearningRate" : "0.5"
+]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "EnableIndexedRetrievals" : "false"
+  "FINSTDurationTime"       : "30.0" // not default
+  "LatencyFactor"           : "1"
+  "NumberOfFINSTs"          : "4"
+  "RetrievalThreshold"      : "-2.25" ] // not default 
+module "org.jactr.core.module.random.six.DefaultRandomModule"["RandomSeed" : ""
+]
+module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableBufferStuff" : "true"]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableStrictSynchronization"                                   : "true"
+  "EnableVisualBufferStuff"                                       : "true"
+  "VisualPersistenceDelay"                                        : "1"
+  "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" // remove cursor encoder so we don't accidentally see it
+  "org.jactr.modules.pm.visual.memory.impl.encoder.LabelEncoder"  : "false" // remove so we only see text not labels too
+]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+
+buffers{
+  @Override
+  goal {goal}["StrictHarvestingEnabled" : "false"
+  ]
+}
+
+chunktype read-letters {
+  location = null
+  tone     = null
+  state    = attending
+  upper-y  = 15
+  lower-y  = -15
+}
+chunktype report-row {row = null}
+
+chunk attending, low, medium, high, find, encode
+
+read-letters goal
+
+
+production detected-sound{
+  aural-location{
+    isa audio-event
+  }
+  ?aural{
+    state =  free
+  }
+}{
+  +aural{
+    isa attend-to
+    where =  =aural-location
+  }
+}["Utility" : "10"]
+
+
+production sound-respond-low {
+  goal{
+    isa read-letters
+    tone =  null
+  }
+  aural{
+    isa sound
+    content =  "500"
+  }
+}{
+  goal{
+    tone    = low
+    upper-y = -3
+    lower-y = -10
+  }
+  -aural{}
+}["Utility" : "10"]
+
+production sound-respond-medium {
+  goal{
+    isa read-letters
+    tone =  null
+  }
+  aural{
+    isa sound
+    content =  "1000"
+  }
+}{
+  goal{
+    tone    = medium
+    upper-y = 2
+    lower-y = -2
+  }
+  -aural{}
+}["Utility" : "10"]
+
+production sound-respond-high {
+  goal{
+    isa read-letters
+    tone =  null
+  }
+  aural{
+    isa sound
+    content =  "2000"
+  }
+}{
+  goal{
+    tone    = high
+    upper-y = 10
+    lower-y = 3
+  }
+  -aural{}
+}["Utility" : "10"]
+
+production attend-low{
+  goal{
+    isa read-letters
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-y < -3
+    screen-y > -10
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  goal{
+    location = low
+    state    = encode
+  }
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  -visual-location{}
+}
+
+production attend-medium{
+  goal{
+    isa read-letters
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-y < 2
+    screen-y > -2
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  goal{
+    location = medium
+    state    = encode
+  }
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  -visual-location{}
+}
+
+production attend-high{
+  goal{
+    isa read-letters
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-y < 10
+    screen-y > 3
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  goal{
+    location = high
+    state    = encode
+  }
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  -visual-location{}
+}
+
+
+production encode-row-and-find{
+  goal{
+    isa read-letters
+    location =  =pos
+    upper-y  =  =uy
+    lower-y  =  =ly
+  }
+  visual{
+    isa text
+  }
+}{
+  -visual{
+    status = =pos
+  }
+  goal{
+    location = null
+    state    = attending
+  }
+  +visual-location{
+    isa visual-location
+    screen-y  > =ly
+    screen-y  < =uy
+    :attended != true
+  }
+}
+
+production start-report{
+  goal{
+    isa read-letters
+    tone =  =tone
+  }
+  ?visual{
+    state =  free
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  +goal{
+    isa report-row
+    row =  =tone
+  }
+  +retrieval{
+    isa text
+    status =  =tone
+  }
+}["Utility" : "-2"]
+
+production do-report {
+  goal{
+    isa report-row
+    row =  =tone
+  }
+  retrieval{
+    isa visual-object
+    status =  =tone
+    value  =  =val
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  +motor{
+    isa press-key
+    key =  =val
+  }
+  +retrieval{
+    isa text
+    status              =  =tone
+    :recently-retrieved != true
+  }
+}
+
+production stop-report{
+  goal{
+    isa report-row
+    row =  =tone
+  }
+  ?retrieval{
+    state =  error
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  +motor{
+    isa press-key
+    key =  "SPACE"
+  }
+  +goal{ // restart
+    isa read-letters
+  }
+  +visual{
+    isa clear // reset any error
+  }
+}
+
+}[
+  "EnableUnusedCycleSkipping" : "false"
+  "EnablePersistentExecution" : "true"
+]
