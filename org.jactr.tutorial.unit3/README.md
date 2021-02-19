@@ -2,7 +2,7 @@
 
 This unit is concerned with developing a better understanding of how perceptual attention works in ACT-R, particularly as it is concerned with visual attention.
 
-##Visual Locations
+## Visual Locations
 When a visual display such as this
 ![display](images/display.png)
 is presented to ACT-R a representation of all the visual information is immediately accessible in a visual icon.  
@@ -11,11 +11,11 @@ is presented to ACT-R a representation of all the visual information is immediat
  fill in image
 ```
 
-###Visual Location Requests
+### Visual Location Requests
 
 When requesting the visual location of an object there are many slots that can be specified in the request.  In the last unit we only used the request parameter :attended.  We will expand on the use of :attended in this unit.  In addition, we will also provide more information about requests on all of the slots of the visual-location chunk-type and show another request parameter which can be specified - :nearest.  
 
-###The Attended Test in More Detail
+### The Attended Test in More Detail
  
 The :attended request parameter was introduced in unit 2.  It tests whether or not the model has attended the object at that location, and the possible values are new, null, and true.  Very often we use the fact that attention tags elements in the visual display as attended or not to enable us to draw attention to the previously unattended elements.  Consider the following production:
 
@@ -34,13 +34,13 @@ The :attended request parameter was introduced in unit 2.  It tests whether or n
 ```
 In its action, this production requests the location of an object that has not yet been attended (:attended nil).  Otherwise, it places no preference on the location to be selected. When there is more than one item in the visicon that matches the request, the newest (most recent) one will be chosen. If multiple items also match on their recency, then one will be picked randomly. If there are no objects which meet the constraints, then the error state will be set for the visual-location buffer.  After a feature is attended (with a +visual request), it will be tagged as attended true and this production’s request for a visual-location will not return the location of such an object.
 
-####Finsts
+#### Finsts
 
 There is a limit to the number of objects which can be tagged as attended t, and there is also a time limit on how long an item will remain marked as attended t.  These attentional markers are called finsts (INSTantiation FINgers) and are based on the work of Zenon Pylyshyn.  The number of finsts and the length of time that they persist can be set with the parameters :visual-num-finsts and :visual-finst-span respectively.  
 
 The default number of finsts is four, and the default decay time is three seconds. Thus, with these default settings, at any time there can be no more than four objects marked as attended t, and after three seconds the attended state of an item will revert from t to nil.  Also, when attention is shifted to an item that would require more finsts than there are available the oldest one is reused for the new item i.e. if there are four items marked with finsts as attended t and you move attention to a fifth item the first item that had been marked as attended t will now be marked as attended nil and the fifth item will be marked as attended t. Because the default value is small, productions like the one above are not very useful for modeling tasks with a large number of items on the screen because the model will end up revisiting items very quickly.  One solution is to always set :visual-num-finsts to a value that works for your task, but one of the goals of ACT-R modeling is to produce parameter free models, so a different approach is generally desired.  After discussing some of the other specifications one can use in a request we will come back to how one could do such things. 
 
-###Visual-location slots 
+### Visual-location slots 
 
 Because the vision module was designed around interacting with a 2-D screen the primary slots for visual-locations are screen-x and screen-y.  They represent the location based on its x and y position on the screen.  We will only be working with models that are interacting with a 2-D screen in the tutorial and thus all the visual items have locations based on their positions within the window the model is interacting with.  The upper left corner is screen-x 0 and screen-y 0 with x increasing from left to right and y increasing from top to bottom.  
 
