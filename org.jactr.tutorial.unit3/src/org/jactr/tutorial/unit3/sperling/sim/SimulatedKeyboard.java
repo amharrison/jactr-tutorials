@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.sim;
+package org.jactr.tutorial.unit3.sperling.sim;
 
 import java.util.HashMap;
 import java.util.Map;

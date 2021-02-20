@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/org.jactr.tools.experiment/src/org/jactr/tools/experiment/bootstrap/Main.java"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/AdoptOpenJDK (OpenJ9) 15 [15.0.1]"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.jactr.tools.experiment.bootstrap.Main"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="org.jactr.tutorial.unit2"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="org/jactr/tutorial/unit3/subitize/experiment.xml"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jactr.tutorial.unit3"/>
+</launchConfiguration>

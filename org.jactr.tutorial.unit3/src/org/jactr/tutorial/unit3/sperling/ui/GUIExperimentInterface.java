@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.ui;
+package org.jactr.tutorial.unit3.sperling.ui;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 import org.commonreality.reality.CommonReality;
 import org.commonreality.sensors.aural.DefaultAuralSensor;
 import org.jactr.tools.experiment.IExperiment;
-import org.jactr.tutorial.unit3.experiment.IExperimentInterface;
+import org.jactr.tutorial.unit3.sperling.IExperimentInterface;
 
 public class GUIExperimentInterface implements IExperimentInterface {
 

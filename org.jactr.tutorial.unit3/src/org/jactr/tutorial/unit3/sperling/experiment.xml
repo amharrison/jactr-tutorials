@@ -8,8 +8,8 @@
 		file="output.xml" />
 	
 	<trial-handler
-		class="org.jactr.tutorial.unit3.experiment.handler.DisplayHandler" />
-  <action-handler class="org.jactr.tutorial.unit3.experiment.handler.CleanupHandler"/>		
+		class="org.jactr.tutorial.unit3.sperling.handler.DisplayHandler" />
+  <action-handler class="org.jactr.tutorial.unit3.sperling.handler.CleanupHandler"/>		
   
   
   <group id="group" shuffle="true">

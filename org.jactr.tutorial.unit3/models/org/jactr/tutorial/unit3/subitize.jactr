@@ -1,0 +1,80 @@
+/*
+ * 
+ */
+namespace subitize{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.aural.*
+import jactr.vocal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "EnableIndexedRetrievals" : "false"
+  "FINSTDurationTime"       : "10.0"
+  "LatencyFactor"           : "1"
+  "NumberOfFINSTs"          : "4"
+  "RetrievalThreshold"      : "0" ]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableVisualBufferStuff"                                       : "true"
+  "VisualPersistenceDelay"                                        : "1"
+  "NumberOfFINSTs"                                                : "10" // one for each possible target
+  "FINSTDurationTime"                                             : "10" // 10s 
+  "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" // remove cursor encoder so we don't accidentally see it
+  "org.jactr.modules.pm.visual.memory.impl.encoder.LabelEncoder"  : "false" // remove so we only see text not labels too
+]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"[]
+
+
+/**
+ * common buffers
+ */
+buffers {
+  @Override
+   goal {goal} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+chunktype count {
+  count = null
+  state = start
+}
+chunktype number-fact {
+  identity = null
+  next     = null
+  value    = null
+}
+
+//number symbols
+chunk zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, start
+//number facts
+number-fact n0(identity=zero, next=one, value="0"), n1(identity=one, next=two, value="1"),
+  n2(identity=two, next=three, value="2"), n3(identity=three, next=four, value="3"),
+  n4(identity=four, next=five, value="4"), n5(identity=five, next=six, value="5"),
+  n6(identity=six, next=seven, value="6"), n7(identity=seven, next=eight, value="7"),
+  n8(identity=eight, next=nine, value="8"), n9(identity=nine, next=ten, value="9"),
+  n10(identity=ten, next=eleven, value="10")
+// goal 
+count goal
+ 
+}[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+]

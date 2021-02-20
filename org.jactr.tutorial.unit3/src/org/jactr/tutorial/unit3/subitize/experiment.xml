@@ -1,0 +1,50 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+	
+	<trial-handler
+		class="org.jactr.tutorial.unit3.subitize.handler.DisplayHandler" />
+  <action-handler class="org.jactr.tutorial.unit3.subitize.handler.CleanupHandler"/>		
+  
+  
+  <group id="group" shuffle="true">
+    <display targets="1"/>
+    <display targets="2"/>
+    <display targets="3"/>
+    <display targets="4"/>
+    <display targets="5"/>
+    <display targets="6"/>
+    <display targets="7"/>
+    <display targets="8"/>
+    <display targets="9"/>
+    <display targets="10"/>
+     
+  </group>
+	
+
+	<start>
+		<log message="starting experiment" />
+		<!-- block until actr is ready to run -->
+		<wait-for-actr start="true" />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+	  <terminate /> 
+	  <wait-for-actr start="false"/>
+	</end>
+
+</experiment>  

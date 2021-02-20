@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.data;
+package org.jactr.tutorial.unit3.sperling.data;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,11 +22,11 @@ public class DataCollection {
 
 	}
 	
-	public void logScore(String condition, int score)
+	public void logData(String condition, double value)
 	{
 		_scoreStatistics.computeIfAbsent(condition, (key)->{
 			return new SummaryStatistics();
-		}).addValue(score);
+		}).addValue(value);
 	}
 	
 	public Collection<String> getConditions(){

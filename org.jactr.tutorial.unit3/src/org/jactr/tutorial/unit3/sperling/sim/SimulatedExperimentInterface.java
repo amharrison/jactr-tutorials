@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.sim;
+package org.jactr.tutorial.unit3.sperling.sim;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -13,7 +13,7 @@ import org.jactr.tools.experiment.IExperiment;
 import org.jactr.tools.experiment.actions.sensor.XMLSensorAction;
 import org.jactr.tools.experiment.impl.IVariableContext;
 import org.jactr.tools.experiment.misc.ExperimentUtilities;
-import org.jactr.tutorial.unit3.experiment.IExperimentInterface;
+import org.jactr.tutorial.unit3.sperling.IExperimentInterface;
 
 public class SimulatedExperimentInterface implements IExperimentInterface {
 
@@ -62,12 +62,12 @@ public class SimulatedExperimentInterface implements IExperimentInterface {
 			for (int col = 0; col < _labels[row].length; col++)
 				context.set(String.format("%d%d", row, col), _labels[row][col]);
 
-		new XMLSensorAction("org/jactr/tutorial/unit3/experiment/sim/grid.xml", true, _experiment).fire(context);
+		new XMLSensorAction("org/jactr/tutorial/unit3/sperling/sim/grid.xml", true, _experiment).fire(context);
 
 	}
 
 	public void clear() {
-		new XMLSensorAction("org/jactr/tutorial/unit3/experiment/sim/clear.xml", true, _experiment)
+		new XMLSensorAction("org/jactr/tutorial/unit3/sperling/sim/clear.xml", true, _experiment)
 				.fire(_experiment.getVariableContext());
 	}
 

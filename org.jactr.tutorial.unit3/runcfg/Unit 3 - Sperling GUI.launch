@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.jactr.eclipse.runtime.launching.normal">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/org.jactr.tutorial.unit3"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jactr.tutorial.unit3"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DConfigurationFile=org/jactr/tutorial/unit3/experiment/experiment.xml"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DConfigurationFile=org/jactr/tutorial/unit3/sperling/experiment.xml"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit2/models/org/jactr/tutorial/unit2/demo.jactr" value="demo"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit3/models/org/jactr/tutorial/unit3/sperling.jactr" value="sperling"/>
     <intAttribute key="org.jactr.eclipse.runtime.launching.cr.ackTime" value="2000"/>

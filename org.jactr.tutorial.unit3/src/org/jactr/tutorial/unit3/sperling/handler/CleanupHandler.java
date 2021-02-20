@@ -1,11 +1,11 @@
-package org.jactr.tutorial.unit3.experiment.handler;
+package org.jactr.tutorial.unit3.sperling.handler;
 
 import org.jactr.tools.experiment.IExperiment;
 import org.jactr.tools.experiment.actions.IAction;
 import org.jactr.tools.experiment.impl.IVariableContext;
 import org.jactr.tools.experiment.parser.handlers.INodeHandler;
-import org.jactr.tutorial.unit3.experiment.data.DataCollection;
-import org.jactr.tutorial.unit3.experiment.sim.SimulatedKeyboard;
+import org.jactr.tutorial.unit3.sperling.data.DataCollection;
+import org.jactr.tutorial.unit3.sperling.sim.SimulatedKeyboard;
 import org.w3c.dom.Element;
 
 public class CleanupHandler implements INodeHandler<IAction> {

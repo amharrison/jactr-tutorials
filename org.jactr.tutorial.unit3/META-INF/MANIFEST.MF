@@ -4,11 +4,11 @@ Bundle-Name: org.jactr.tutorial.unit3
 Bundle-SymbolicName: org.jactr.tutorial.unit3;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: My Company
-Export-Package: org.jactr.tutorial.unit3.experiment,
- org.jactr.tutorial.unit3.experiment.data,
- org.jactr.tutorial.unit3.experiment.handler,
- org.jactr.tutorial.unit3.experiment.sim,
- org.jactr.tutorial.unit3.experiment.ui
+Export-Package: org.jactr.tutorial.unit3.sperling,
+ org.jactr.tutorial.unit3.sperling.data,
+ org.jactr.tutorial.unit3.sperling.handler,
+ org.jactr.tutorial.unit3.sperling.sim,
+ org.jactr.tutorial.unit3.sperling.ui
 Require-Bundle: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,

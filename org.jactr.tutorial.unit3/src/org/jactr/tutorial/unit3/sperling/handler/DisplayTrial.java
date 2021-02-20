@@ -1,5 +1,5 @@
 
-package org.jactr.tutorial.unit3.experiment.handler;
+package org.jactr.tutorial.unit3.sperling.handler;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,10 +21,10 @@ import org.jactr.tools.experiment.trial.impl.Trial;
 import org.jactr.tools.experiment.triggers.ITrigger;
 import org.jactr.tools.experiment.triggers.ImmediateTrigger;
 import org.jactr.tools.experiment.triggers.TimeTrigger;
-import org.jactr.tutorial.unit3.experiment.IExperimentInterface;
-import org.jactr.tutorial.unit3.experiment.data.DataCollection;
-import org.jactr.tutorial.unit3.experiment.sim.SimulatedExperimentInterface;
-import org.jactr.tutorial.unit3.experiment.ui.GUIExperimentInterface;
+import org.jactr.tutorial.unit3.sperling.IExperimentInterface;
+import org.jactr.tutorial.unit3.sperling.data.DataCollection;
+import org.jactr.tutorial.unit3.sperling.sim.SimulatedExperimentInterface;
+import org.jactr.tutorial.unit3.sperling.ui.GUIExperimentInterface;
 
 public class DisplayTrial extends Trial {
 
@@ -174,7 +174,7 @@ public class DisplayTrial extends Trial {
 			 * and also to the internal data collection singleton we created just for this
 			 * project
 			 */
-			DataCollection.get().logScore(condition, score);
+			DataCollection.get().logData(condition, score);
 
 		} else {
 

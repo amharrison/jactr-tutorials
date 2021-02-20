@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment;
+package org.jactr.tutorial.unit3.sperling;
 
 import java.util.function.Consumer;
 

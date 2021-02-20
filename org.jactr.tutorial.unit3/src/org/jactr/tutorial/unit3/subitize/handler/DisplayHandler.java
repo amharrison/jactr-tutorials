@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.handler;
+package org.jactr.tutorial.unit3.subitize.handler;
 
 import java.util.concurrent.Executors;
 
@@ -21,13 +21,7 @@ public class DisplayHandler implements INodeHandler<ITrial> {
 		if (experiment.getClock() == null) {
 			experiment.setClock(new RealtimeClock(Executors.newSingleThreadScheduledExecutor()));
 		}
-
-		double delay = Double.parseDouble(experiment.getVariableResolver()
-				.resolve(element.getAttribute("delay"), experiment.getVariableContext()).toString());
-
-		return new DisplayTrial(element.getAttribute("id"), experiment, delay,
-				Integer.parseInt(element.getAttribute("cue")), element.getAttribute("row1"),
-				element.getAttribute("row2"), element.getAttribute("row3"));
+		return new DisplayTrial(element.getAttribute("id"), experiment, Integer.parseInt(element.getAttribute("targets")));
 	}
 
 	@Override

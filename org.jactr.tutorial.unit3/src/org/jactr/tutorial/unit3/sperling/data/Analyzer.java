@@ -1,4 +1,4 @@
-package org.jactr.tutorial.unit3.experiment.data;
+package org.jactr.tutorial.unit3.sperling.data;
 
 import java.io.File;
 import java.io.FileWriter;
