@@ -24,15 +24,16 @@ module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearnin
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "EnableIndexedRetrievals" : "false"
-  "FINSTDurationTime"       : "30.0" // not default
+  "FINSTDurationTime"       : "60.0" // not default
   "LatencyFactor"           : "1"
   "NumberOfFINSTs"          : "4"
-  "RetrievalThreshold"      : "-2.25" ] // not default 
+  "RetrievalThreshold"      : "-2.5" ] // not default 
 module "org.jactr.core.module.random.six.DefaultRandomModule"["RandomSeed" : ""
 ]
-module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableBufferStuff" : "true"]
+module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableBufferStuff" : "true"
+  
+]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
-  "EnableStrictSynchronization"                                   : "true"
   "EnableVisualBufferStuff"                                       : "true"
   "VisualPersistenceDelay"                                        : "1"
   "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" // remove cursor encoder so we don't accidentally see it
@@ -90,7 +91,6 @@ production sound-respond-low {
     upper-y = -3
     lower-y = -10
   }
-  -aural{}
 }["Utility" : "10"]
 
 production sound-respond-medium {
@@ -108,7 +108,6 @@ production sound-respond-medium {
     upper-y = 2
     lower-y = -2
   }
-  -aural{}
 }["Utility" : "10"]
 
 production sound-respond-high {
@@ -126,7 +125,6 @@ production sound-respond-high {
     upper-y = 10
     lower-y = 3
   }
-  -aural{}
 }["Utility" : "10"]
 
 production attend-low{
@@ -151,7 +149,6 @@ production attend-low{
     isa attend-to
     where =  =visual-location
   }
-  -visual-location{}
 }
 
 production attend-medium{
@@ -176,7 +173,6 @@ production attend-medium{
     isa attend-to
     where =  =visual-location
   }
-  -visual-location{}
 }
 
 production attend-high{
@@ -201,7 +197,6 @@ production attend-high{
     isa attend-to
     where =  =visual-location
   }
-  -visual-location{}
 }
 
 

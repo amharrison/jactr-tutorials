@@ -61,7 +61,7 @@
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.ProceduralModuleTracer"/>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.VisualModuleTracer"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.recordTrace" value="false"/>
-    <stringAttribute key="org.jactr.eclipse.runtime.launching.sensors" value="org.commonreality.sensors.speech.DefaultSpeechSensor"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.sensors" value="org.commonreality.sensors.speech.DefaultSpeechSensor,org.commonreality.sensors.xml2.XMLSensor"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.tracers" value="org.jactr.tools.tracer.listeners.BufferTracer,org.jactr.tools.tracer.listeners.LogTracer,org.jactr.tools.tracer.listeners.ProceduralModuleTracer,org.jactr.tools.tracer.listeners.VisualModuleTracer"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.useEmbed" value="false"/>
     <stringAttribute key="pde.version" value="3.3"/>

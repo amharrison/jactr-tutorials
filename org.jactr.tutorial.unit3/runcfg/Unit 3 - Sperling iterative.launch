@@ -28,7 +28,7 @@
         <mapEntry key="IAuralMutator." value=""/>
     </mapAttribute>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.keyboard.DefaultKeyboardSensor">
-        <mapEntry key="Actuator" value="org.jactr.tutorial.unit3.experiment.sim.SimulatedKeyboard"/>
+        <mapEntry key="Actuator" value="org.jactr.tutorial.unit3.sperling.sim.SimulatedKeyboard"/>
         <mapEntry key="DurationEquation" value="org.commonreality.sensors.keyboard.SerialDurationEquation"/>
     </mapAttribute>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.swing.DefaultSwingSensor">
