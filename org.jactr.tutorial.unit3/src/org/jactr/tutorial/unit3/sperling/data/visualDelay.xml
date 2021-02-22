@@ -4,7 +4,7 @@
 
 <root name="Visual Delay">
 	<analyzer
-		class="org.jactr.tutorial.unit3.experiment.data.Analyzer" />
+		class="org.jactr.tutorial.unit3.sperling.data.Analyzer" />
 
 	<population>
 		<modifier
@@ -13,31 +13,7 @@
 				value="org.jactr.modules.pm.visual.six.DefaultVisualModule6" />
 			<parameter name="ParameterName"
 				value="VisualPersistenceDelay" />
-			<parameter name="ParameterValues" value="0.71" />
+			<parameter name="ParameterValues" value="0.6, 0.7, 0.8" />
 		</modifier>
-		<modifier
-      class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
-      <parameter name="ModuleClass"
-        value="org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6" />
-      <parameter name="ParameterName"
-        value="BaseLevelLearningRate" />
-      <parameter name="ParameterValues" value="0.5" />
-    </modifier>
-    <modifier
-      class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
-      <parameter name="ModuleClass"
-        value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
-      <parameter name="ParameterName"
-        value="RetrievalThreshold" />
-      <parameter name="ParameterValues" value="-2.25" />
-    </modifier>
-    <modifier
-      class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
-      <parameter name="ModuleClass"
-        value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
-      <parameter name="ParameterName"
-        value="LatencyFactor" />
-      <parameter name="ParameterValues" value="1, 1.5, 2" />
-    </modifier>
 	</population>
 </root>

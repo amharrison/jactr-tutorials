@@ -59,38 +59,45 @@ public class SimulatedExperimentInterface implements IExperimentInterface {
 
 	protected void spoke(String text) {
 		char key = '\n';
-		switch (text) {
-		case "ten":
-			key = '0';
-			break;
-		case "one":
-			key = '1';
-			break;
-		case "two":
-			key = '2';
-			break;
-		case "three":
-			key = '3';
-			break;
-		case "four":
-			key = '4';
-			break;
-		case "five":
-			key = '5';
-			break;
-		case "six":
-			key = '6';
-			break;
-		case "seven":
-			key = '7';
-			break;
-		case "eight":
-			key = '8';
-			break;
-		case "nine":
-			key = '9';
-			break;
+		if (text.length() > 1) {
+			switch (text) {
+			case "ten":
+				key = '0';
+				break;
+			case "one":
+				key = '1';
+				break;
+			case "two":
+				key = '2';
+				break;
+			case "three":
+				key = '3';
+				break;
+			case "four":
+				key = '4';
+				break;
+			case "five":
+				key = '5';
+				break;
+			case "six":
+				key = '6';
+				break;
+			case "seven":
+				key = '7';
+				break;
+			case "eight":
+				key = '8';
+				break;
+			case "nine":
+				key = '9';
+				break;
+			}
 		}
+		else
+		{
+			key = text.charAt(0);
+		}
+		
 		_consumer.accept(key);
 	}
 

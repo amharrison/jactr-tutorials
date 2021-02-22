@@ -8,8 +8,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.concurrent.CompletableFuture;
 
+import org.commonreality.time.IClock;
 import org.jactr.core.runtime.ACTRRuntime;
+import org.jactr.entry.iterative.IterativeMain;
 import org.jactr.tools.experiment.IDataLogger;
 import org.jactr.tools.experiment.IExperiment;
 import org.jactr.tools.experiment.actions.IAction;
@@ -30,11 +33,11 @@ public class DisplayTrial extends Trial {
 
 	static public IExperimentInterface _interface;
 
-	private char[][] _display;
-
-	private double DISPLAY_DURATION = 0.5;
-	private double INTERTRIAL_DELAY = 30;
+	private double DISPLAY_DURATION = 0.5; //s
+	private double INTERTRIAL_DELAY = 30; //s
 	private double MAX_TRIAL_TIME = 660; // 11min why so long? the low retrieval threshold means long retrievals
+	
+	private char[][] _display;
 	private int _cueRow;
 	private double _delayInSeconds;
 	private double _timeOfFirstResponse;
@@ -53,36 +56,24 @@ public class DisplayTrial extends Trial {
 		configure(experiment);
 	}
 
+	/**
+	 * called before start of trial.
+	 */
+	public void initialize() {
+		_interface.configure(DisplayTrial.this::consumeKey, _display);
+	}
+
 	protected void configure(final IExperiment experiment) {
 		/*
 		 * we want to use the simulated interface when doing bulk runs
 		 */
-		boolean useSimulated = ACTRRuntime.getRuntime().getModels().size() > 0;
+		boolean useSimulated = IterativeMain.isRunning();
 		if (_interface == null) {
 			if (useSimulated)
 				_interface = new SimulatedExperimentInterface(getExperiment());
 			else
 				_interface = new GUIExperimentInterface(getExperiment(), _display.length, _display[0].length);
 		}
-
-		// we use this for the delayed clearing of the display
-		ITrigger delayed = new TimeTrigger(DISPLAY_DURATION, true, experiment);
-		delayed.add(new IAction() {
-
-			@Override
-			public void fire(IVariableContext arg0) {
-				_interface.clear();
-			}
-		});
-
-		ITrigger delayedCue = new TimeTrigger(_delayInSeconds, true, experiment);
-		delayedCue.add(new IAction() {
-
-			@Override
-			public void fire(IVariableContext arg0) {
-				_interface.beep(_cueRow);
-			}
-		});
 
 		ITrigger timeout = new TimeTrigger(MAX_TRIAL_TIME, true, experiment);
 		timeout.add(new LogAction("Timing out model, terminating.", experiment));
@@ -108,15 +99,31 @@ public class DisplayTrial extends Trial {
 			@Override
 			public void fire(IVariableContext context) {
 
-				_interface.configure(DisplayTrial.this::consumeKey, _display);
-
 				_interface.show();
+
+				/**
+				 * for timing tolerances this tight, this is the preferred
+				 * way to do time triggers. TimedTrigger is a little too sloppy
+				 * for this time tolerance.
+				 */
+				IClock clock = getExperiment().getClock();
+
+				CompletableFuture<Double> future = clock.waitForTime(clock.getTime() + _delayInSeconds);
+				future.thenAccept(time -> {
+					_interface.beep(_cueRow);
+				});
+				
+				future = clock.waitForTime(clock.getTime() + DISPLAY_DURATION);
+				future.thenAccept(time -> {
+					_interface.clear();
+				});
+
 			}
 		});
-
-		trigger.add(delayed);
-		trigger.add(delayedCue);
+		
 		trigger.add(timeout);
+		
+		
 		setStartTrigger(trigger);
 
 		trigger = new ImmediateTrigger(experiment);
@@ -127,8 +134,6 @@ public class DisplayTrial extends Trial {
 		 */
 		trigger = new ImmediateTrigger(experiment);
 
-		trigger.add(new DelayAction(INTERTRIAL_DELAY, experiment));
-
 		trigger.add(new IAction() {
 			@Override
 			public void fire(IVariableContext context) {
@@ -136,6 +141,7 @@ public class DisplayTrial extends Trial {
 				_interface.hide();
 			}
 		});
+		trigger.add(new DelayAction(INTERTRIAL_DELAY, experiment));
 
 		setEndTrigger(trigger);
 	}
@@ -167,6 +173,7 @@ public class DisplayTrial extends Trial {
 			attr.put("delta", String.format("%.2f", now - getStartTime()));
 			attr.put("response", _response.toString());
 			attr.put("score", "" + score);
+			attr.put("condition", condition);
 			attr.put("firstResponse", String.format("%.2f", _timeOfFirstResponse - getStartTime()));
 			collector.simple("response", attr, getExperiment().getVariableContext());
 
@@ -210,7 +217,7 @@ public class DisplayTrial extends Trial {
 	}
 
 	private void timedOut(String subjectId) {
-		//DataCollection.get().wipeSubject();
+		// DataCollection.get().wipeSubject();
 		try {
 			PrintWriter pw = new PrintWriter(new FileWriter("timedoutModels.txt", true));
 			pw.format("%s\t%s\n", subjectId, ACTRRuntime.getRuntime().getWorkingDirectory().getName());

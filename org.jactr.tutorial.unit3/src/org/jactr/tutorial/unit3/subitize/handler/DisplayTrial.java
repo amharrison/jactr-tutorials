@@ -39,6 +39,10 @@ public class DisplayTrial extends Trial {
 
 		configure(experiment);
 	}
+	
+	public void initialize() {
+		_interface.configure(DisplayTrial.this::consumeKey, _targetCount);
+	}
 
 	protected void configure(final IExperiment experiment) {
 		/*
@@ -86,7 +90,7 @@ public class DisplayTrial extends Trial {
 			@Override
 			public void fire(IVariableContext context) {
 
-				_interface.configure(DisplayTrial.this::consumeKey, _targetCount);
+				
 
 				_interface.show();
 			}
@@ -136,6 +140,7 @@ public class DisplayTrial extends Trial {
 		attr.put("time", String.format("%.2f", now));
 		attr.put("delta", String.format("%.2f", latency));
 		attr.put("response", "" + keyPressed);
+		attr.put("condition", condition);
 		collector.simple("response", attr, getExperiment().getVariableContext());
 
 		/*

@@ -12,7 +12,7 @@
   <action-handler class="org.jactr.tutorial.unit3.sperling.handler.CleanupHandler"/>		
   
   
-  <group id="group" shuffle="true">
+  <group id="group" choose="1" shuffle="true">
     <display row1="abcd" row2="efgh" row3="ijkl" delay="0" cue="1"/>
     <display row1="wxyz" row2="qrst" row3="mnop" delay="0.15" cue="2"/>
     <display row1="vntz" row2="crbk" row3="wxgf" delay="0.3" cue="3"/>

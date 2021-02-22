@@ -4,7 +4,7 @@
 		<add alias="0" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${0}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -15,7 +15,7 @@
 		<add alias="1" type="AFFERENT">
 			<boolean name="visual.isVisual" value="true" />
 			<doubles name="visual.retinal.location" value="${1}" />
-			<double name="visual.retinal.distance" value="1" />
+			<double name="visual.retinal.distance" value="33" />
 			<doubles name="visual.retinal.size" value="5,5" />
 			<boolean name="visual.visible" value="true" />
 			<strings name="visual.type" value="text" />
@@ -26,7 +26,7 @@
     <add alias="2" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${2}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -37,7 +37,7 @@
     <add alias="3" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${3}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -49,7 +49,7 @@
     <add alias="4" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${4}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -60,7 +60,7 @@
     <add alias="5" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${5}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -71,7 +71,7 @@
     <add alias="6" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${6}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -82,7 +82,7 @@
     <add alias="7" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${7}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />
@@ -94,7 +94,7 @@
     <add alias="8" type="AFFERENT">
       <boolean name="visual.isVisual" value="true" />
       <doubles name="visual.retinal.location" value="${8}" />
-      <double name="visual.retinal.distance" value="1" />
+      <double name="visual.retinal.distance" value="33" />
       <doubles name="visual.retinal.size" value="5,5" />
       <boolean name="visual.visible" value="true" />
       <strings name="visual.type" value="text" />

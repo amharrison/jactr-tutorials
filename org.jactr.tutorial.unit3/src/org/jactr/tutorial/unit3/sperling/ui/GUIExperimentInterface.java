@@ -119,24 +119,15 @@ public class GUIExperimentInterface implements IExperimentInterface {
 				_window.setVisible(true);
 				_window.requestFocus();
 			});
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// and wait until idle..
-		try {
-			SwingUtilities.invokeAndWait(() -> {
+			SwingUtilities.invokeAndWait(()->{
+				//just wait until idle.
 			});
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	@Override
@@ -166,9 +157,7 @@ public class GUIExperimentInterface implements IExperimentInterface {
 			hZ = 1000;
 		else if (beepCount == 3)
 			hZ = 500;
-//		_experiment.getVariableContext().set("beep", hZ);
-//		new XMLSensorAction("org/jactr/tutorial/unit3/experiment/sim/beep.xml", true, _experiment)
-//				.fire(_experiment.getVariableContext());
+
 		Optional<DefaultAuralSensor> aural = CommonReality.getSensors().stream()
 				.filter(DefaultAuralSensor.class::isInstance).map(s -> {
 					return (DefaultAuralSensor) s;

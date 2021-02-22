@@ -418,24 +418,24 @@ the encoding and request to find the next are combined into a single production,
 item there is no production that does an initial find.  
 
 ### Buffer Stuffing
-Notice the second production to fire, **attend-high**
+Notice the first production to fire, **attend-medium**
 ```
-production attend-high{
+production attend-medium{
   goal{
     isa read-letters
     state =  attending
   }
   visual-location{
     isa visual-location
-    screen-y < 10
-    screen-y > 3
+    screen-y < 2
+    screen-y > -2
   }
   ?visual{
     state =  free
   }
 }{
   goal{
-    location = high
+    location = medium
     state    = encode
   }
   +visual{
@@ -845,6 +845,8 @@ Try running a few bulk runs with different values for the VisualPersistanceDelay
 can find a value that consistently gets a high R-squared.
 
 
+***
+Once you are comfortable with the process of parameter fitting, move on to the [Subitizing Task](README2.md).
 
 ***
 Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.
