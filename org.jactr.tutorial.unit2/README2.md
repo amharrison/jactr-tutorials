@@ -9,7 +9,7 @@ on out will have three primary components: the model itself, the task, and the
 environment the task and model are situated within. Here we will focus on the later
 two components. 
 
-### The Environment
+## The Environment
 The interface to the environment in jACT-R is provided by CommonReality, a simulation
 middleware designed specifically for cognitive architectures. Unless you are integrating
 with a new system, you should be able to get by with using one or more of the existing
@@ -26,7 +26,7 @@ of the keyboard and mouse.
 Interfaces are designed to composable and swappable. 
 
 
-### The Experiment
+## The Experiment
 The task component is provided by the [jACT-R experiment framework](https://github.com/amharrison/jactr-core/tree/master/org.jactr.tools.experiment).
 This framework provides the skeletal structure on an experiment, providing basic building
 blocks for building an experiment. It can be used on its own, as in the **Unit 2 - experiment** run configuration.
@@ -44,7 +44,7 @@ experiment trial. Most of the code written for jACT-R models are those pieces of
 experimental task. In the unit 2 example, we have three main files: [DisplayTrial](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/handler/DisplayTrial.java), 
 [IExperimentInterface](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/IExperimentInterface.java), and [GUIExperimentInterface](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/ui/GUIExperimentInterface.java).
 
-#### DisplayTrial
+### DisplayTrial
 DisplayTrial is the actual implementation of the ITrial interface for the experiment framework. 
 In other words, it's the actual meat of the experiment. It controls which stimuli is displayed,
  when, for how long, and handles collecting of responses from the participant. What it doesn't do
@@ -53,7 +53,7 @@ GUIExperimentalInterface. By structuring the code like this we can easily and dy
 replace the IExperimentInterface with a simulated interface when necessary (i.e., for bulk runs you generally
 use simulated interfaces instead of actual ones).
 
-#### Handlers
+### Handlers
 The two remaining source files are CleanupHandler and DisplayHandler, these are explained in the
 *experiment.xml* configuration file, but are basically just there so that the experiment parser knows
 how to deal with the custom tags *display* and *cleanup*. 

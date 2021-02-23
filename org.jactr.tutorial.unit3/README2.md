@@ -126,5 +126,6 @@ the representation between the goal and imaginal buffers.  As always however, th
 provided chunk-types and chunks are only a recommended starting point and one is 
 free to use other representations and control mechanisms.
 
-
+***
+See [this](README3.md) for more information on the code in this unit.
  

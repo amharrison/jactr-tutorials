@@ -2,6 +2,12 @@ package org.jactr.tutorial.unit3.sperling;
 
 import java.util.function.Consumer;
 
+
+/**
+ * Abstract interface for the implementation specific portion of the experiment.
+ * @author harrison
+ *
+ */
 public interface IExperimentInterface {
 
 	public void configure(Consumer<Character> keyConsumer, char[][] rows);

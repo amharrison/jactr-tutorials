@@ -29,19 +29,32 @@ import org.jactr.tutorial.unit3.sperling.data.DataCollection;
 import org.jactr.tutorial.unit3.sperling.sim.SimulatedExperimentInterface;
 import org.jactr.tutorial.unit3.sperling.ui.GUIExperimentInterface;
 
+
+/**
+ * Actual experimental trial for the unit 3 sperling experiment
+ * 
+ * @author harrison
+ *
+ */
 public class DisplayTrial extends Trial {
 
 	static public IExperimentInterface _interface;
 
-	private double DISPLAY_DURATION = 0.5; //s
-	private double INTERTRIAL_DELAY = 30; //s
-	private double MAX_TRIAL_TIME = 660; // 11min why so long? the low retrieval threshold means long retrievals
+	/*
+	 * various constants
+	 */
+	final private double DISPLAY_DURATION = 0.5; //s
+	final private double INTERTRIAL_DELAY = 30; //s
+	final private double MAX_TRIAL_TIME = 660; // 11min why so long? the low retrieval threshold means long retrievals
 	
-	private char[][] _display;
-	private int _cueRow;
-	private double _delayInSeconds;
+	/*
+	 * trial variables
+	 */
+	final private char[][] _display;
+	final private int _cueRow;
+	final private double _delayInSeconds;
 	private double _timeOfFirstResponse;
-	private StringBuilder _response = new StringBuilder();
+	final private StringBuilder _response = new StringBuilder();
 
 	public DisplayTrial(String id, IExperiment experiment, double delayInSecond, int row, String... rows) {
 		super(id, experiment);
@@ -57,14 +70,17 @@ public class DisplayTrial extends Trial {
 	}
 
 	/**
-	 * called before start of trial.
+	 * called before start of trial. We configure here because the configuration
+	 * can take some time. If it were part of start() we would loose precious
+	 * time to the configuration. By doing it initialize() we are performing
+	 * the configuration before the clock starts.
 	 */
 	public void initialize() {
 		_interface.configure(DisplayTrial.this::consumeKey, _display);
 	}
 
 	protected void configure(final IExperiment experiment) {
-		/*
+		/**
 		 * we want to use the simulated interface when doing bulk runs
 		 */
 		boolean useSimulated = IterativeMain.isRunning();
@@ -74,7 +90,11 @@ public class DisplayTrial extends Trial {
 			else
 				_interface = new GUIExperimentInterface(getExperiment(), _display.length, _display[0].length);
 		}
-
+		
+		/**
+		 * time out after certain amount of time. We will log the model to a file
+		 * of problematic models for future analysis.
+		 */
 		ITrigger timeout = new TimeTrigger(MAX_TRIAL_TIME, true, experiment);
 		timeout.add(new LogAction("Timing out model, terminating.", experiment));
 		timeout.add(new EndExperimentAction(experiment));
@@ -88,10 +108,10 @@ public class DisplayTrial extends Trial {
 
 		});
 
-		ITrigger trigger = new ImmediateTrigger(experiment);
 		/*
 		 * these are executed at the start of each trial
 		 */
+		ITrigger trigger = new ImmediateTrigger(experiment);
 		trigger.add(new LogAction("Starting " + getId(), experiment));
 
 		trigger.add(new IAction() {
@@ -108,11 +128,17 @@ public class DisplayTrial extends Trial {
 				 */
 				IClock clock = getExperiment().getClock();
 
+				/*
+				 * the beep
+				 */
 				CompletableFuture<Double> future = clock.waitForTime(clock.getTime() + _delayInSeconds);
 				future.thenAccept(time -> {
 					_interface.beep(_cueRow);
 				});
 				
+				/*
+				 * clear the screen
+				 */
 				future = clock.waitForTime(clock.getTime() + DISPLAY_DURATION);
 				future.thenAccept(time -> {
 					_interface.clear();
@@ -122,16 +148,15 @@ public class DisplayTrial extends Trial {
 		});
 		
 		trigger.add(timeout);
-		
-		
+				
 		setStartTrigger(trigger);
-
-		trigger = new ImmediateTrigger(experiment);
-		trigger.add(new LogAction("Stopping " + getId(), experiment));
 
 		/*
 		 * these are all executed at the end of the trial
 		 */
+		trigger = new ImmediateTrigger(experiment);
+		trigger.add(new LogAction("Stopping " + getId(), experiment));
+
 		trigger = new ImmediateTrigger(experiment);
 
 		trigger.add(new IAction() {
@@ -184,17 +209,11 @@ public class DisplayTrial extends Trial {
 			DataCollection.get().logData(condition, score);
 
 		} else {
-
 			_response.append(Character.toLowerCase(keyPressed));
 		}
 	}
 
-	/**
-	 * not strictly correct as it doesn't account for duplicates.. but the model
-	 * shouldn't produce any.
-	 * 
-	 * @return
-	 */
+	
 	private int computeScore() {
 		int score = 0;
 		Set<Character> processed = new TreeSet<>();
@@ -216,14 +235,18 @@ public class DisplayTrial extends Trial {
 		return false;
 	}
 
+	/**
+	 * timeout tracking is useful when developing a model as it high lights edge
+	 * conditions.
+	 * 
+	 * @param subjectId
+	 */
 	private void timedOut(String subjectId) {
-		// DataCollection.get().wipeSubject();
 		try {
 			PrintWriter pw = new PrintWriter(new FileWriter("timedoutModels.txt", true));
 			pw.format("%s\t%s\n", subjectId, ACTRRuntime.getRuntime().getWorkingDirectory().getName());
 			pw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

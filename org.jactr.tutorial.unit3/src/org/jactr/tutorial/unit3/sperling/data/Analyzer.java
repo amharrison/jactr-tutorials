@@ -10,13 +10,23 @@ import org.jactr.tools.itr.fit.FitStatistics;
 import org.jactr.tools.itr.ortho.ISliceAnalysis;
 import org.jactr.tools.itr.ortho.ISliceAnalyzer;
 
+/**
+ * statistical analysis code for Unit 3 sperling.
+ * 
+ * @author harrison
+ *
+ */
 public class Analyzer implements ISliceAnalyzer {
 
+	/** 
+	 * reference data
+	 */
 	static private final double[] SPERLING_DATA = { 3.03, 2.40, 2.0, 1.50 };
 
 	@Override
 	public Object analyze(ISliceAnalysis sliceAnalysis) {
 
+		//make sure all the data is collected
 		if (DataCollection.get().hasSubject())
 			DataCollection.get().subjectCompleted();
 
@@ -24,8 +34,15 @@ public class Analyzer implements ISliceAnalyzer {
 		if (conditions.size() != SPERLING_DATA.length)
 			throw new RuntimeException("Unexpected number of conditions " + conditions.size());
 
+		/**
+		 * generate a simple summary report file for this analysis
+		 */
+		saveGroupNumbers(sliceAnalysis);
+		
+		/**
+		 * repackage the data for correlations
+		 */
 		double[][] fitData = new double[SPERLING_DATA.length][2];
-
 		int index = 0;
 		long n = 0;
 		for (String condition : conditions) {
@@ -35,10 +52,14 @@ public class Analyzer implements ISliceAnalyzer {
 			index++;
 		}
 
-		saveGroupNumbers(sliceAnalysis);
-
+		/**
+		 * clear the data for the next slice
+		 */
 		DataCollection.get().clear();
 
+		/**
+		 * calculate the various numbers
+		 */
 		FitStatistics fitStatistics = new FitStatistics(fitData);
 
 		double r2 = fitStatistics.getRSquared();
@@ -49,6 +70,11 @@ public class Analyzer implements ISliceAnalyzer {
 		return null;
 	}
 
+	
+	/**
+	 * save an analysis file local to the slice analysis
+	 * @param sliceAnalysis
+	 */
 	private void saveGroupNumbers(ISliceAnalysis sliceAnalysis) {
 
 		try {

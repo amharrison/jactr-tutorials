@@ -7,6 +7,13 @@ import java.util.TreeMap;
 
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
+/**
+ * Data collection singleton that works for any named conditions, collecting a single measure.
+ * To log the data call DataCollection#get(){@link #logData(String, double)}.
+ * 
+ * @author harrison
+ *
+ */
 public class DataCollection {
 
 	static public DataCollection get() {
@@ -18,6 +25,7 @@ public class DataCollection {
 	private Map<String,SummaryStatistics> _scoreStatistics = new TreeMap<>();
 	private Map<String,SummaryStatistics> _groupScoreStatistics = new TreeMap<>();
     private SummaryStatistics EMPTY = new SummaryStatistics();
+    
 	private DataCollection() {
 
 	}
@@ -40,6 +48,7 @@ public class DataCollection {
 	public boolean hasSubject() {
 		return _scoreStatistics.size()>0;
 	}
+	
 	/**
 	 * if something goes wrong, wipe the subject's data
 	 */
