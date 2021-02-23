@@ -18,6 +18,12 @@ import javax.swing.SwingUtilities;
 
 import org.jactr.tutorial.unit2.experiment.IExperimentInterface;
 
+/**
+ * This is the gui version of the experimental interface.
+ * 
+ * @author harrison
+ *
+ */
 public class GUIExperimentInterface implements IExperimentInterface {
 
 	protected JFrame _window;
@@ -30,13 +36,12 @@ public class GUIExperimentInterface implements IExperimentInterface {
 
 		_keyListener = new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				try
-				{
-				_window.removeKeyListener(_keyListener);
-				_keyConsumer.accept(e.getKeyChar());
-				}
-				catch(Exception e1)
-				{
+				try {
+					//remove immediately so we only get the first key press
+					_window.removeKeyListener(_keyListener);
+					//pass it on to the consumer
+					_keyConsumer.accept(e.getKeyChar());
+				} catch (Exception e1) {
 					e1.printStackTrace(System.err);
 				}
 			}
@@ -55,7 +60,7 @@ public class GUIExperimentInterface implements IExperimentInterface {
 		container.setLayout(new BorderLayout());
 
 		String[] hints = new String[] { "Center", "East", "West" };
-		int[] alignment = new int[] {SwingConstants.CENTER, SwingConstants.LEFT, SwingConstants.RIGHT};
+		int[] alignment = new int[] { SwingConstants.CENTER, SwingConstants.LEFT, SwingConstants.RIGHT };
 		for (int i = 0; i < _labels.length; i++) {
 			container.add(_labels[i], hints[i]);
 			_labels[i].setHorizontalAlignment(alignment[i]);
@@ -79,55 +84,56 @@ public class GUIExperimentInterface implements IExperimentInterface {
 					_labels[i].setText(labels[i]);
 			});
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void show() {
-		
-			try {
-				SwingUtilities.invokeAndWait(() -> {
-					_window.setVisible(true);
-					_window.requestFocusInWindow();
-				});
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		/*
+		 * we use invokeAndWait with an idle noop to ensure 
+		 * that the window is fully visible by the time
+		 * this method exits.
+		 */
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				_window.setVisible(true);
+				_window.requestFocusInWindow();
+			});
+			SwingUtilities.invokeAndWait(() -> {
+				// idle noop
+			});
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void hide() {
-		
-			try {
-				SwingUtilities.invokeAndWait(() -> {
-					_window.setVisible(false);
-				});
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+
+		try {
+			SwingUtilities.invokeAndWait(() -> {
+				_window.setVisible(false);
+			});
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void dispose() {
-		SwingUtilities.invokeLater(()->{
+		SwingUtilities.invokeLater(() -> {
 			_window.setVisible(false);
 			_window.dispose();
 		});
-		
+
 	}
 
 }

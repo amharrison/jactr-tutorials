@@ -292,9 +292,16 @@ If one wants to keep a chunk in a buffer after a production fires without modify
 ```
 
 
-
-
 ## Unit 2 Assignment 
 
 Your assignment is to extend the abilities of the model in demo2 to do a more complex experiment.  The new experiment presents three letters.  Two of those letters will be the same.  The participant's task is to press the key that corresponds to the letter that is different from the other two. 
+
+***
+See [this](README2.md) for more details on the actual code in this tutorial.
+
+
+***
+Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 

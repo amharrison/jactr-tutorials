@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
-Automatic-Module-Name: org.jactr.tutorial.unit2
 Bundle-ManifestVersion: 2
 Bundle-Name: org.jactr.tutorial.unit2
-Bundle-Vendor: My Company
+Bundle-SymbolicName: org.jactr.tutorial.unit2;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: org.jactr.tutorial.unit2; singleton:=true
-Bundle-ActivationPolicy: lazy
+Bundle-Vendor: My Company
+Export-Package: org.jactr.tutorial.unit2.experiment,
+ org.jactr.tutorial.unit2.experiment.handler,
+ org.jactr.tutorial.unit2.experiment.ui
 Require-Bundle: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,
@@ -19,15 +20,19 @@ Require-Bundle: org.jactr.core,
  org.commonreality.sensors;bundle-version="1.5.1",
  org.commonreality.core;bundle-version="1.5.1",
  org.commonreality.sensors.swing;bundle-version="1.5.1",
- org.eclipse.core.runtime;bundle-version="3.20.0"
+ org.eclipse.core.runtime;bundle-version="3.20.0",
+ org.jactr.modules.threaded,
+ org.jactr.modules.timing
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.jactr.tutorial.unit2
 Eclipse-BuddyPolicy: registered
-Eclipse-RegisterBuddy: org.jactr.core,
+Eclipse-RegisterBuddy: org.commonreality.sensors,
+ org.commonreality.sensors.xml,
+ org.jactr.core,
  org.jactr.io,
- org.jactr.tools,
- org.jactr.tools.experiment,
  org.jactr.io2.jactr,
- org.commonreality.sensors
-Export-Package: org.jactr.tutorial.unit2.experiment,
- org.jactr.tutorial.unit2.experiment.handler,
- org.jactr.tutorial.unit2.experiment.ui
+ org.jactr.modules.threaded,
+ org.jactr.modules.timing,
+ org.jactr.tools,
+ org.jactr.tools.experiment

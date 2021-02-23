@@ -21,15 +21,14 @@
 		class="org.jactr.tutorial.unit2.experiment.handler.CleanupHandler" />
 
 	<!-- this defines a group of experimental trials that are shuffled -->
-	<group id="group" shuffle="true">
+	<group id="group" choose="1" shuffle="true">
 
-		<!-- only one trial for now, display letter 'a' and record the response -->
 		<display letter="a" />
 		<display letter="s" />
 		<display letter="j" />
 		<display letter="k" />
 		
-		<!-- uncoment below to enable second experiment -->
+		<!-- uncoment below for second experiment trials -->
 		<!-- <display letters="a, s"/> --> 
 	</group>
 
@@ -39,7 +38,8 @@
 		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
 		<lock name="demo" />
-		<wait-for-actr />
+		<!-- make sure that jactr is up and running if necessary -->
+		<wait-for-actr start="true"/>
 
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
@@ -53,10 +53,11 @@
 		<!-- close the data tag in the log file -->
 		<record close="data" />
 
-		<terminate />
-		<wait-for-actr start="false" />
 		<!-- do our cleanup -->
 		<cleanup />
+		<!-- kill jactr -->
+		<terminate />
+		<wait-for-actr start="false" />
 	</end>
 
 </experiment>  

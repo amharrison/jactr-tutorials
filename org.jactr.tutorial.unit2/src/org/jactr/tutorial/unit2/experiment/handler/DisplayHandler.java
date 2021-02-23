@@ -8,6 +8,13 @@ import org.jactr.tools.experiment.parser.handlers.INodeHandler;
 import org.jactr.tools.experiment.trial.ITrial;
 import org.w3c.dom.Element;
 
+
+/**
+ * Handlers merely handle the parsing of an xml element into an experimental trial. 
+ * 
+ * @author harrison
+ *
+ */
 public class DisplayHandler implements INodeHandler<ITrial> {
 
 	@Override

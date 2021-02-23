@@ -13,7 +13,7 @@ public interface IExperimentInterface {
 
 	/**
 	 * configure the display for the current trial. 
-	 * @param keyConsumer
+	 * @param keyConsumer who to notify when a key is pressed
 	 * @param labels one or two strings to be displayed. The first is the target,
 	 * the second is the optional foil
 	 */
