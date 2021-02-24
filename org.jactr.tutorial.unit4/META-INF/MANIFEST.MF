@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.jactr.tutorial.unit4
+Bundle-ManifestVersion: 2
+Bundle-Name: org.jactr.tutorial.unit4
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.jactr.tutorial.unit4; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.jactr.core,
+ org.jactr.io,
+ org.jactr.tools,
+ org.jactr.tools.experiment,
+ org.jactr.io2.jactr,
+ org.apache.commons.math3;bundle-version="3.6.1",
+ org.commonreality.time;bundle-version="1.5.1",
+ org.commonreality.api,
+ org.commonreality.sensors,
+ org.commonreality.modalities;bundle-version="1.5.1",
+ org.commonreality.core;bundle-version="1.5.1",
+ org.slf4j.api;bundle-version="1.7.30"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Eclipse-BuddyPolicy: registered
+Eclipse-RegisterBuddy: org.jactr.core,
+ org.jactr.io,
+ org.jactr.tools,
+ org.jactr.tools.experiment,
+ org.jactr.io2.jactr
