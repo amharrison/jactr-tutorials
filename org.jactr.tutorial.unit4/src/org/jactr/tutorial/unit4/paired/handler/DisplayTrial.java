@@ -179,6 +179,7 @@ public class DisplayTrial extends Trial {
 			 */
 			IDataLogger collector = getExperiment().getDataCollector();
 
+			boolean accurate = (_number + '0') == keyPressed;
 			double now = getExperiment().getClock().getTime();
 			double latency = now - getStartTime();
 			Map<String, String> attr = new TreeMap<>();
@@ -188,13 +189,13 @@ public class DisplayTrial extends Trial {
 			attr.put("response", ""+keyPressed);
 			attr.put("probe", _word);
 			attr.put("condition", ""+_trial);
+			attr.put("accurate", ""+accurate);
 			collector.simple("response", attr, getExperiment().getVariableContext());
 
 			/*
 			 * and also to the internal data collection singleton we created just for this
 			 * project
 			 */
-			boolean accurate = (_number + '0') == keyPressed;
 			
 			DataCollection.get().logData(_trial, accurate, latency);
 	}

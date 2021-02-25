@@ -491,7 +491,13 @@ parameter space search tool with the iterative run.
 This time, we've included chart generation to the [Analyzer](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/data/Analyzer.java)
 which makes it significantly easier to understand what the parameters are doing.
 Try running **Unit 4 - Paired Bulk Run** with different exploration values in 
-[fit.xml]().
+[fit.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/data/fit.xml).
+
+![graphs](images/graphs.png)
+
+***
+
+
 
 ***
 Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.
