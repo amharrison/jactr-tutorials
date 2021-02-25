@@ -38,7 +38,7 @@ public class DataCollection {
 
 		stats[0].addValue(accurate ? 1 : 0);
 		if (accurate)
-			stats[0].addValue(latency);
+			stats[1].addValue(latency);
 	}
 
 	public Collection<String> getConditions() {

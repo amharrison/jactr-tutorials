@@ -1,5 +1,6 @@
 package org.jactr.tutorial.unit4.paired.data;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,13 @@ import java.util.Collection;
 import org.jactr.tools.itr.fit.FitStatistics;
 import org.jactr.tools.itr.ortho.ISliceAnalysis;
 import org.jactr.tools.itr.ortho.ISliceAnalyzer;
+import org.knowm.xchart.BitmapEncoder;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.BitmapEncoder.BitmapFormat;
+import org.knowm.xchart.style.lines.SeriesLines;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
  * statistical analysis code for Unit 3 sperling.
@@ -18,16 +26,16 @@ import org.jactr.tools.itr.ortho.ISliceAnalyzer;
  */
 public class Analyzer implements ISliceAnalyzer {
 
-	/** 
+	/**
 	 * reference data
 	 */
-	static private final double[] ACCURACY_DATA = { 0, 0.526, 0.667, 0.798, 0.887, 0.924, 0.958 };
-	static private final double[] LATENCY_DATA = { 0, 2.156, 1.967, 1.762, 1.680, 1.552, 1.467 };
+	static private final double[] ACCURACY_DATA = { 0, 0.526, 0.667, 0.798, 0.887, 0.924, 0.958, 0.954 };
+	static private final double[] LATENCY_DATA = { 0, 2.156, 1.967, 1.762, 1.680, 1.552, 1.467, 1.402 };
 
 	@Override
 	public Object analyze(ISliceAnalysis sliceAnalysis) {
 
-		//make sure all the data is collected
+		// make sure all the data is collected
 		if (DataCollection.get().hasSubject())
 			DataCollection.get().subjectCompleted();
 
@@ -39,7 +47,8 @@ public class Analyzer implements ISliceAnalyzer {
 		 * generate a simple summary report file for this analysis
 		 */
 		saveGroupNumbers(sliceAnalysis);
-		
+		saveImages(sliceAnalysis);
+
 		/**
 		 * repackage the data for fitsß
 		 */
@@ -51,10 +60,10 @@ public class Analyzer implements ISliceAnalyzer {
 			n = (long) Math.max(n, DataCollection.get().getGroupAccuracy(condition).getN());
 			accuracyFitData[index][0] = DataCollection.get().getGroupAccuracy(condition).getMean();
 			accuracyFitData[index][1] = ACCURACY_DATA[index];
-			
+
 			latencyFitData[index][0] = DataCollection.get().getGroupLatency(condition).getMean();
 			latencyFitData[index][1] = LATENCY_DATA[index];
-			
+
 			index++;
 		}
 
@@ -72,7 +81,7 @@ public class Analyzer implements ISliceAnalyzer {
 		double rmse = fitStatistics.getRMSE();
 
 		sliceAnalysis.addFitStatistics("Accuracy", rmse, r2, n, r2 > 0.9);
-		
+
 		fitStatistics = new FitStatistics(latencyFitData);
 
 		r2 = fitStatistics.getRSquared();
@@ -83,9 +92,9 @@ public class Analyzer implements ISliceAnalyzer {
 		return null;
 	}
 
-	
 	/**
 	 * save an analysis file local to the slice analysis
+	 * 
 	 * @param sliceAnalysis
 	 */
 	private void saveGroupNumbers(ISliceAnalysis sliceAnalysis) {
@@ -95,12 +104,11 @@ public class Analyzer implements ISliceAnalyzer {
 					new FileWriter(new File(new File(sliceAnalysis.getWorkingDirectory()), "accuracy.txt")));
 			Collection<String> conditions = DataCollection.get().getConditions();
 			conditions.forEach(c -> {
-				analysisRoot.print(c + ".Mean\t" + c + ".Stdev\t");
+				analysisRoot.print(c + ".Mean\t");
 			});
 			analysisRoot.println();
 			conditions.forEach(c -> {
-				analysisRoot.format("%.2f\t%.2f\t", DataCollection.get().getGroupAccuracy(c).getMean(),
-						DataCollection.get().getGroupAccuracy(c).getStandardDeviation());
+				analysisRoot.format("%.2f\t", DataCollection.get().getGroupAccuracy(c).getMean());
 			});
 			analysisRoot.println();
 			analysisRoot.close();
@@ -116,12 +124,11 @@ public class Analyzer implements ISliceAnalyzer {
 					new FileWriter(new File(new File(sliceAnalysis.getWorkingDirectory()), "latency.txt")));
 			Collection<String> conditions = DataCollection.get().getConditions();
 			conditions.forEach(c -> {
-				analysisRoot.print(c + ".Mean\t" + c + ".Stdev\t");
+				analysisRoot.print(c + ".Mean\t");
 			});
 			analysisRoot.println();
 			conditions.forEach(c -> {
-				analysisRoot.format("%.2f\t%.2f\t", DataCollection.get().getGroupLatency(c).getMean(),
-						DataCollection.get().getGroupLatency(c).getStandardDeviation());
+				analysisRoot.format("%.2f\t", DataCollection.get().getGroupLatency(c).getMean());
 			});
 			analysisRoot.println();
 			analysisRoot.close();
@@ -133,4 +140,52 @@ public class Analyzer implements ISliceAnalyzer {
 		}
 	}
 
+	private void saveImages(ISliceAnalysis sliceAnalysis) {
+		//accuracy first
+		double[] xData = new double[] {1,2,3,4,5,6,7,8};
+		double[] model = packageDataForGraphs(true);
+		XYChart chart = generateChart("Accuracy", xData, ACCURACY_DATA, model);
+		saveChart(sliceAnalysis, "Accuracy", "accuracy", chart);
+		
+		model = packageDataForGraphs(false);
+		chart = generateChart("Latency", xData, LATENCY_DATA, model);
+		saveChart(sliceAnalysis, "Latency", "latency", chart);
+
+	}
+
+	private double[] packageDataForGraphs(boolean collectAccuracy) {
+		Collection<String> conditions = DataCollection.get().getConditions();
+		double[] rtn = new double[conditions.size()];
+		int index = 0;
+		for (String cond : conditions) {
+			double value = DataCollection.get().getGroupAccuracy(cond).getMean();
+			if (!collectAccuracy)
+				value = DataCollection.get().getGroupLatency(cond).getMean();
+			rtn[index++] = value;
+		}
+		return rtn;
+	}
+
+	private XYChart generateChart(String label, double[] xData, double[] empirical, double[] model) {
+		XYChart chart = QuickChart.getChart(label, "Trial", label, "Data", xData, empirical);
+		chart.getSeriesMap().entrySet().iterator().next().getValue().setLineColor(Color.BLACK);
+		
+		XYSeries series = chart.addSeries("Model", model);
+		series.setMarker(SeriesMarkers.CIRCLE);
+		series.setLineStyle(SeriesLines.DASH_DASH);
+		series.setLineColor(Color.GRAY);
+		series.setMarkerColor(Color.GRAY);
+		return chart;
+	}
+
+	private void saveChart(ISliceAnalysis sliceAnalysis, String label, String fileName, XYChart chart) {
+		File fp = new File(new File(sliceAnalysis.getWorkingDirectory()), fileName);
+		try {
+			BitmapEncoder.saveBitmap(chart, fp.getAbsolutePath(), BitmapFormat.PNG);
+			sliceAnalysis.addImage(label, fileName+".png");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

@@ -28,7 +28,6 @@ module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearnin
   "OptimizedLearning"     : "0"] //number of samples for hybrid bll equation
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
-  "EnableIndexedRetrievals" : "false"
   "FINSTDurationTime"       : "3.0"
   "LatencyFactor"           : "0.4"
   "NumberOfFINSTs"          : "4"

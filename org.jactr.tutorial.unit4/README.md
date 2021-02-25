@@ -488,6 +488,10 @@ accomplish that.  For the tutorial models there will typically be only one or
 two parameters to modify and they can easily be explored using the Orthogonal
 parameter space search tool with the iterative run.
 
+This time, we've included chart generation to the [Analyzer](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/data/Analyzer.java)
+which makes it significantly easier to understand what the parameters are doing.
+Try running **Unit 4 - Paired Bulk Run** with different exploration values in 
+[fit.xml]().
 
 ***
 Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.

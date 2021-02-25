@@ -186,6 +186,7 @@ public class DisplayTrial extends Trial {
 			attr.put("time", String.format("%.2f", now));
 			attr.put("latency", String.format("%.2f", latency));
 			attr.put("response", ""+keyPressed);
+			attr.put("probe", _word);
 			attr.put("condition", ""+_trial);
 			collector.simple("response", attr, getExperiment().getVariableContext());
 

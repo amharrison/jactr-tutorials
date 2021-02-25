@@ -19,7 +19,8 @@ Require-Bundle: org.jactr.core,
  org.commonreality.core;bundle-version="1.5.1",
  org.slf4j.api;bundle-version="1.7.30",
  org.commonreality.sensors.swing;bundle-version="1.5.1",
- org.commonreality.sensors.xml;bundle-version="1.5.1"
+ org.commonreality.sensors.xml;bundle-version="1.5.1",
+ org.jactr.io2.tools;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.jactr.core,
@@ -33,3 +34,5 @@ Export-Package: org.jactr.tutorial.unit4.paired,
  org.jactr.tutorial.unit4.paired.handler,
  org.jactr.tutorial.unit4.paired.sim,
  org.jactr.tutorial.unit4.paired.ui
+Bundle-ClassPath: lib/xchart-3.8.0.jar,
+ .
