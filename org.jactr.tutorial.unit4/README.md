@@ -6,22 +6,26 @@ values are learned through the history of usage of the chunks.
 ## Introduction
 We have seen retrieval requests in productions like this:
 ```
-(P example-counting
-   =goal>
+production example-counting{
+   goal{
       isa         count
-      state       counting
-      number       =num1
-   =retrieval>
+      state   =   counting
+      number  =    =num1
+   }   
+   retrieval{
       isa         count-order
-      first       =num1
-      second      =num2
-==>
-   =goal>
-      number       =num2
-   +retrieval>
+      first   =   =num1
+      second  =   =num2
+   }
+}{
+   goal{
+      number  =   =num2
+   }   
+   +retrieval{
       isa         count-order
-      first       =num2
-)
+      first  =    =num2
+    }
+}
 
 ```
 In this case an attempt is being made to retrieve a count-order chunk with a 
@@ -208,13 +212,242 @@ Anderson, J.R. (1981).  Interference:  The relationship between response latency
  and response accuracy.  *Journal of Experimental Psychology: Human Learning and 
  Memory*, 7, 326-343.
  
-As before, the experiment is defined by the experiment.xml file. Take a look at
+As before, the experiment is defined by the [experiment.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/experiment.xml) file. Take a look at
 it, this time we have multiple groups for each of the repeated trials. If you'd
 like to run yourself through the experiment, the run configuration **Unit 4 - Paired
 Experiment** will run the full gui experiment.
 
+The model can be run using **Unit 4 - Paired GUI**. The basic structure of the 
+screen processing productions should be familiar by now.  The one thing to note 
+is that because this model must wait for stimuli to appear on screen it takes 
+advantage of the buffer stuffing mechanism so that it can wait for the change 
+instead of continuously checking.  The way it does so is that the first production 
+that will fire, for either the probe or the associated number, has a visual-location 
+buffer test on its LHS which will only match once buffer stuffing places a chunk 
+into the buffer.  Here are the attend-probe and detect-study-item productions for 
+reference:
 
+```
+production attend-probe{
+  goal{
+    isa goal
+    state =  start
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state =  attending-probe
+  }
+}
 
+production detect-study-item{
+  goal{
+    isa goal
+    state = read-study-item
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state = free
+  }
+}{
+  +visual{
+    isa attend-to
+    where = =visual-location
+  }
+  goal{
+    state = attending-target
+  }
+}
+
+```
+
+Because the buffer is cleared automatically by strict harvesting and no later 
+productions issue a request for a visual-location these productions must wait for 
+buffer stuffing to put a chunk into the visual-location buffer before they can 
+match.  Since none of the other productions match in the mean time the model will 
+essentially just wait for the screen to change before doing anything else.
+
+Now we will focus on the productions which are responsible for forming the 
+association and retrieving the chunk.  When the model attends to the probe with 
+the read-probe production two actions are taken (in addition to the updating of 
+the goal state):
+```
+production read-probe{
+  goal{
+    isa goal
+    state =  attending-probe
+  }
+  visual{
+    isa text
+    value =  =value
+  }
+}{
+  +imaginal{
+    isa pair
+    probe =  =value
+  }
+  +retrieval{
+    isa pair
+    probe =  =value
+  }
+  goal{
+    state = testing
+  }
+}
+
+```
+It makes a request to the imaginal buffer to create a chunk of type pair which 
+will hold the value read from the screen in the probe slot.   It also makes a 
+request through the retrieval buffer to retrieve a pair chunk from declarative 
+memory which has that same probe value.  
+
+We will come back to the retrieval request shortly.  For now we will focus on 
+the creation of the pair chunk.  This request will cause the imaginal module to 
+create a new chunk which it will place into the imaginal buffer.  This chunk will 
+encode the association between the probe and the answer which is presented later.  
+The associate production fires after the model reads the number which is 
+associated with the probe:
+```
+production associate{
+  goal{
+    isa goal
+    state = attending-target
+  }
+  visual{
+    isa text
+    value = =value
+  }
+  imaginal{
+    isa pair
+  }
+}{
+  -imaginal{
+    answer = =value
+  }
+  goal{
+    state = start
+  }
+  +visual{
+    isa clear
+  }
+}
+
+```
+This production sets the answer slot of the pair chunk which is in the imaginal 
+buffer to the answer which was read from the screen.  It also then clears that 
+chunk from the buffer so that it can be entered into declarative memory.  That 
+will result in a chunk like this being added to the model’s declarative memory:
+```
+PAIR0-0
+  ISA PAIR
+   PROBE  "zinc"
+   ANSWER  "9"
+```
+This chunk serves as the memory of this trial.  An important thing to note is 
+that the chunk in the buffer is not added to the model’s declarative memory until 
+that buffer is cleared.  Often that happens when the model later harvests that 
+chunk from the buffer, but in this case the model does not harvest the chunk 
+later so it is explicitly cleared at that point. One could imagine adding 
+additional productions which would rehearse that chunk, but for the demonstration 
+model that is not done. 
+
+This production also makes a clear request to the visual buffer to stop attending 
+to the item.  That is done so that the model does not have the automatic 
+re-encoding when the screen is updated.
+
+Now, consider the retrieval request in the read-probe production again:
+```
++retrieval>
+      isa      pair
+      probe    =val
+
+```
+The declarative memory module will attempt to retrieve a pair chunk with the requested 
+probe.  Depending on whether a chunk can be retrieved, one of two production rules 
+may apply corresponding the either the successful retrieval of such a chunk or 
+the failure to retrieve a matching chunk:
+```
+production recall{
+  goal{
+    isa goal
+    state = testing
+  }
+  retrieval{
+    isa pair
+    answer = =answer
+  }
+  ?motor{
+    state = free
+  }
+}{
+  +motor{
+    isa press-key
+    key = =answer
+  }
+  goal{
+    state =  read-study-item
+  }
+  +visual{
+    isa clear
+  }
+}
+
+production cannot-recall{
+  goal{
+    isa goal
+    state = testing
+  }
+  ?retrieval{
+    state = error
+  }
+}{
+  goal{
+    state = read-study-item
+  }
+  +visual{
+    isa clear
+  }
+}
+
+```
+The probability of the recall production firing and the mean latency for the recall 
+will be determined by the activation of the chunk that is retrieved and will increase 
+with repeated presentations and harvested retrievals.  
+
+## Parameter Estimation
+The behavior of this model and the one that you have to write really depends on 
+the settings of four parameters.  Here are those parameters and their settings 
+in this model.  The retrieval threshold is set at -2.  This determines how active 
+a chunk has to be to be retrieved 50% of the time. The instantaneous activation 
+noise is set at 0.5. This determines how quickly probability of retrieval changes 
+as we move past the threshold.  The latency factor is set at 0.4. This determines 
+the magnitude of the activation effects on latency.  Finally, the decay rate for 
+base-level learning is set to the value 0.5 which is where we recommend it be 
+set for most tasks that involve the base-level learning mechanism.
+
+How to determine those values can be a tricky process because the equations are 
+all related and thus they cannot be independently manipulated for a best fit.  
+Typically some sort of searching is required, and there are many ways to 
+accomplish that.  For the tutorial models there will typically be only one or 
+two parameters to modify and they can easily be explored using the Orthogonal
+parameter space search tool with the iterative run.
+
+## The Activation Trace
+If you look under the Activation column of the log viewer, you will see a detailed
+tracing of the sources and sinks of activation. You may find this detailed accounting 
+of the activation computation useful in debugging your models or just in 
+understanding how the system computes activation values.
 
 
 

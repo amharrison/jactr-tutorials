@@ -77,15 +77,8 @@ public class DisplayTrial extends Trial {
 		}
 		
 	
-		ITrigger clearScreen = new TimeTrigger(TRIAL_DURATION, true, experiment);
-		clearScreen.add(new IAction() {
-
-			@Override
-			public void fire(IVariableContext context) {
-				_interface.clear();		
-			}
-		});
-		clearScreen.add(new EndTrialAction(getExperiment()));
+		ITrigger endTrial = new TimeTrigger(TRIAL_DURATION, true, experiment);
+		endTrial.add(new EndTrialAction(getExperiment()));
 
 		/*
 		 * these are executed at the start of each trial
@@ -100,7 +93,7 @@ public class DisplayTrial extends Trial {
 			}
 		});
 		
-		trigger.add(clearScreen);
+		trigger.add(endTrial);
 				
 		setStartTrigger(trigger);
 
@@ -110,7 +103,15 @@ public class DisplayTrial extends Trial {
 		 * these are all executed at the end of the trial
 		 */
 		trigger = new ImmediateTrigger(experiment);
-		trigger.add(new LogAction("Stopping " + getId(), experiment));
+		trigger.add(new IAction() {
+
+			@Override
+			public void fire(IVariableContext context) {
+				_interface.clear();		
+			}
+		});
+				
+		trigger.add(new DelayAction(1, experiment)); //one second blank
 		trigger.add(new IAction() {
 			@Override
 			public void fire(IVariableContext context) {
@@ -118,6 +119,7 @@ public class DisplayTrial extends Trial {
 			}
 		});
 		trigger.add(new DelayAction(TRIAL_DURATION, experiment));
+		trigger.add(new LogAction("Stopping " + getId(), experiment));
 		trigger.add(new IAction() {
 
 			@Override
@@ -132,6 +134,7 @@ public class DisplayTrial extends Trial {
 					noResponse();
 			}
 		});
+		trigger.add(new DelayAction(1, experiment));
 
 		setEndTrigger(trigger);
 	}
@@ -151,13 +154,13 @@ public class DisplayTrial extends Trial {
 		attr.put("latency", String.format("%.2f", latency));
 		attr.put("condition", ""+_trial);
 		collector.simple("no-response", attr, getExperiment().getVariableContext());
+		
+		DataCollection.get().logData(_trial, false, 0);
 	}
 
 	protected void consumeKey(Character keyPressed) {
-		/*
-		 * consume each character until space to finish
-		 */
-		if (!Character.isDigit(keyPressed) && _responded)
+		
+		if (!Character.isDigit(keyPressed) || _responded)
 			return;
 		
 		_responded = true;

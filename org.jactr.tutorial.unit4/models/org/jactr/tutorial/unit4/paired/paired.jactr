@@ -1,0 +1,202 @@
+/*
+ * 
+ */
+ namespace paired{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.5"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
+  "BaseLevelLearningRate" : "0.5"
+  "OptimizedLearning"     : "0"
+ ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "EnableIndexedRetrievals" : "false"
+  "FINSTDurationTime"       : "3.0"
+  "LatencyFactor"           : "0.4"
+  "NumberOfFINSTs"          : "4"
+  "RetrievalThreshold"      : "-1" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableVisualBufferStuff"                                       : "true"
+  "VisualPersistenceDelay"                                        : "1"
+  "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" // remove cursor encoder so we don't accidentally see it
+  "org.jactr.modules.pm.visual.memory.impl.encoder.LabelEncoder"  : "false" // remove so we only see text not labels too
+]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+/**
+ * common buffers
+ */
+buffers {
+  @Override
+   goal {goalChunk} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+
+chunktype goal {state = start}
+chunktype pair {
+  probe  = null
+  answer = null
+}
+
+chunk start, attending-target, attending-probe, testing, read-study-item
+goal goalChunk
+
+
+production attend-probe{
+  goal{
+    isa goal
+    state =  start
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state =  attending-probe
+  }
+}
+
+production read-probe{
+  goal{
+    isa goal
+    state =  attending-probe
+  }
+  visual{
+    isa text
+    value =  =value
+  }
+}{
+  +imaginal{
+    isa pair
+    probe =  =value
+  }
+  +retrieval{
+    isa pair
+    probe =  =value
+  }
+  goal{
+    state = testing
+  }
+}
+
+production recall{
+  goal{
+    isa goal
+    state = testing
+  }
+  retrieval{
+    isa pair
+    answer = =answer
+  }
+  ?motor{
+    state = free
+  }
+}{
+  +motor{
+    isa press-key
+    key = =answer
+  }
+  goal{
+    state =  read-study-item
+  }
+  +visual{
+    isa clear
+  }
+}
+
+production cannot-recall{
+  goal{
+    isa goal
+    state = testing
+  }
+  ?retrieval{
+    state = error
+  }
+}{
+  goal{
+    state = read-study-item
+  }
+  +visual{
+    isa clear
+  }
+}
+
+production detect-study-item{
+  goal{
+    isa goal
+    state = read-study-item
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state = free
+  }
+}{
+  +visual{
+    isa attend-to
+    where = =visual-location
+  }
+  goal{
+    state = attending-target
+  }
+}
+
+
+production associate{
+  goal{
+    isa goal
+    state = attending-target
+  }
+  visual{
+    isa text
+    value = =value
+  }
+  imaginal{
+    isa pair
+  }
+}{
+  -imaginal{
+    answer = =value
+  }
+  goal{
+    state = start
+  }
+  +visual{
+    isa clear
+  }
+}
+
+}[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+]

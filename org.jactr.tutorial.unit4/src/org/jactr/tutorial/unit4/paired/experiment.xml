@@ -6,194 +6,245 @@
 	<data-logger
 		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
 		file="output.xml" />
-	
+
 	<trial-handler
 		class="org.jactr.tutorial.unit4.paired.handler.DisplayHandler" />
-  <action-handler class="org.jactr.tutorial.unit4.paired.handler.CleanupHandler"/>		
-  
-  
-  <group id="1" shuffle="true">
-    <display trial="1" pair="bank,0" />
-    <display trial="1" pair="card,1" />
-    <display trial="1" pair="dart,2" />
-    <display trial="1" pair="face,3" />
-    <display trial="1" pair="game,4" />
-    <display trial="1" pair="hand,5" />
-    <display trial="1" pair="jack,6" />
-    <display trial="1" pair="king,7" />
-    <display trial="1" pair="lamb,8" />
-    <display trial="1" pair="mask,9" />
-    <display trial="1" pair="neck,0" />
-    <display trial="1" pair="pipe,1" />
-    <display trial="1" pair="quip,2" />
-    <display trial="1" pair="rope,3" />
-    <display trial="1" pair="sock,4" />
-    <display trial="1" pair="tent,5" />
-    <display trial="1" pair="vent,6" />
-    <display trial="1" pair="wall,7" />
-    <display trial="1" pair="xray,8" />
-    <display trial="1" pair="zinc,0" />
-  </group>
-  <group id="2" shuffle="true">
-    <display trial="2" pair="bank,0" />
-    <display trial="2" pair="card,1" />
-    <display trial="2" pair="dart,2" />
-    <display trial="2" pair="face,3" />
-    <display trial="2" pair="game,4" />
-    <display trial="2" pair="hand,5" />
-    <display trial="2" pair="jack,6" />
-    <display trial="2" pair="king,7" />
-    <display trial="2" pair="lamb,8" />
-    <display trial="2" pair="mask,9" />
-    <display trial="2" pair="neck,0" />
-    <display trial="2" pair="pipe,1" />
-    <display trial="2" pair="quip,2" />
-    <display trial="2" pair="rope,3" />
-    <display trial="2" pair="sock,4" />
-    <display trial="2" pair="tent,5" />
-    <display trial="2" pair="vent,6" />
-    <display trial="2" pair="wall,7" />
-    <display trial="2" pair="xray,8" />
-    <display trial="2" pair="zinc,0" />
-  </group>
-  <group id="3" shuffle="true">
-    <display trial="3" pair="bank,0" />
-    <display trial="3" pair="card,1" />
-    <display trial="3" pair="dart,2" />
-    <display trial="3" pair="face,3" />
-    <display trial="3" pair="game,4" />
-    <display trial="3" pair="hand,5" />
-    <display trial="3" pair="jack,6" />
-    <display trial="3" pair="king,7" />
-    <display trial="3" pair="lamb,8" />
-    <display trial="3" pair="mask,9" />
-    <display trial="3" pair="neck,0" />
-    <display trial="3" pair="pipe,1" />
-    <display trial="3" pair="quip,2" />
-    <display trial="3" pair="rope,3" />
-    <display trial="3" pair="sock,4" />
-    <display trial="3" pair="tent,5" />
-    <display trial="3" pair="vent,6" />
-    <display trial="3" pair="wall,7" />
-    <display trial="3" pair="xray,8" />
-    <display trial="3" pair="zinc,0" />
-  </group>
-  <group id="4" shuffle="true">
-    <display trial="4" pair="bank,0" />
-    <display trial="4" pair="card,1" />
-    <display trial="4" pair="dart,2" />
-    <display trial="4" pair="face,3" />
-    <display trial="4" pair="game,4" />
-    <display trial="4" pair="hand,5" />
-    <display trial="4" pair="jack,6" />
-    <display trial="4" pair="king,7" />
-    <display trial="4" pair="lamb,8" />
-    <display trial="4" pair="mask,9" />
-    <display trial="4" pair="neck,0" />
-    <display trial="4" pair="pipe,1" />
-    <display trial="4" pair="quip,2" />
-    <display trial="4" pair="rope,3" />
-    <display trial="4" pair="sock,4" />
-    <display trial="4" pair="tent,5" />
-    <display trial="4" pair="vent,6" />
-    <display trial="4" pair="wall,7" />
-    <display trial="4" pair="xray,8" />
-    <display trial="4" pair="zinc,0" />
-  </group>
-  <group id="5" shuffle="true">
-    <display trial="5" pair="bank,0" />
-    <display trial="5" pair="card,1" />
-    <display trial="5" pair="dart,2" />
-    <display trial="5" pair="face,3" />
-    <display trial="5" pair="game,4" />
-    <display trial="5" pair="hand,5" />
-    <display trial="5" pair="jack,6" />
-    <display trial="5" pair="king,7" />
-    <display trial="5" pair="lamb,8" />
-    <display trial="5" pair="mask,9" />
-    <display trial="5" pair="neck,0" />
-    <display trial="5" pair="pipe,1" />
-    <display trial="5" pair="quip,2" />
-    <display trial="5" pair="rope,3" />
-    <display trial="5" pair="sock,4" />
-    <display trial="5" pair="tent,5" />
-    <display trial="5" pair="vent,6" />
-    <display trial="5" pair="wall,7" />
-    <display trial="5" pair="xray,8" />
-    <display trial="5" pair="zinc,0" />
-  </group>
-  <group id="6" shuffle="true">
-    <display trial="6" pair="bank,0" />
-    <display trial="6" pair="card,1" />
-    <display trial="6" pair="dart,2" />
-    <display trial="6" pair="face,3" />
-    <display trial="6" pair="game,4" />
-    <display trial="6" pair="hand,5" />
-    <display trial="6" pair="jack,6" />
-    <display trial="6" pair="king,7" />
-    <display trial="6" pair="lamb,8" />
-    <display trial="6" pair="mask,9" />
-    <display trial="6" pair="neck,0" />
-    <display trial="6" pair="pipe,1" />
-    <display trial="6" pair="quip,2" />
-    <display trial="6" pair="rope,3" />
-    <display trial="6" pair="sock,4" />
-    <display trial="6" pair="tent,5" />
-    <display trial="6" pair="vent,6" />
-    <display trial="6" pair="wall,7" />
-    <display trial="6" pair="xray,8" />
-    <display trial="6" pair="zinc,0" />
-  </group>
-  <group id="7" shuffle="true">
-    <display trial="7" pair="bank,0" />
-    <display trial="7" pair="card,1" />
-    <display trial="7" pair="dart,2" />
-    <display trial="7" pair="face,3" />
-    <display trial="7" pair="game,4" />
-    <display trial="7" pair="hand,5" />
-    <display trial="7" pair="jack,6" />
-    <display trial="7" pair="king,7" />
-    <display trial="7" pair="lamb,8" />
-    <display trial="7" pair="mask,9" />
-    <display trial="7" pair="neck,0" />
-    <display trial="7" pair="pipe,1" />
-    <display trial="7" pair="quip,2" />
-    <display trial="7" pair="rope,3" />
-    <display trial="7" pair="sock,4" />
-    <display trial="7" pair="tent,5" />
-    <display trial="7" pair="vent,6" />
-    <display trial="7" pair="wall,7" />
-    <display trial="7" pair="xray,8" />
-    <display trial="7" pair="zinc,0" />
-  </group>
-  <group id="8" shuffle="true">
-    <display trial="8" pair="bank,0" />
-    <display trial="8" pair="card,1" />
-    <display trial="8" pair="dart,2" />
-    <display trial="8" pair="face,3" />
-    <display trial="8" pair="game,4" />
-    <display trial="8" pair="hand,5" />
-    <display trial="8" pair="jack,6" />
-    <display trial="8" pair="king,7" />
-    <display trial="8" pair="lamb,8" />
-    <display trial="8" pair="mask,9" />
-    <display trial="8" pair="neck,0" />
-    <display trial="8" pair="pipe,1" />
-    <display trial="8" pair="quip,2" />
-    <display trial="8" pair="rope,3" />
-    <display trial="8" pair="sock,4" />
-    <display trial="8" pair="tent,5" />
-    <display trial="8" pair="vent,6" />
-    <display trial="8" pair="wall,7" />
-    <display trial="8" pair="xray,8" />
-    <display trial="8" pair="zinc,0" />
-  </group>
-	
+	<action-handler
+		class="org.jactr.tutorial.unit4.paired.handler.CleanupHandler" />
+
+
+	<group id="1" shuffle="true">
+		<!-- markers are useful to denote large sections of runs -->
+		<start>
+			<marker-open models="paired" type="Iteration" name="1" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="1" />
+		</end>
+		<display trial="1" pair="bank,0" />
+		<display trial="1" pair="card,1" />
+		<display trial="1" pair="dart,2" />
+		<display trial="1" pair="face,3" />
+		<display trial="1" pair="game,4" />
+		<display trial="1" pair="hand,5" />
+		<display trial="1" pair="jack,6" />
+		<display trial="1" pair="king,7" />
+		<display trial="1" pair="lamb,8" />
+		<display trial="1" pair="mask,9" />
+		<display trial="1" pair="neck,0" />
+		<display trial="1" pair="pipe,1" />
+		<display trial="1" pair="quip,2" />
+		<display trial="1" pair="rope,3" />
+		<display trial="1" pair="sock,4" />
+		<display trial="1" pair="tent,5" />
+		<display trial="1" pair="vent,6" />
+		<display trial="1" pair="wall,7" />
+		<display trial="1" pair="xray,8" />
+		<display trial="1" pair="zinc,0" />
+	</group>
+	<group id="2" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="2" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="2" />
+		</end>
+
+		<display trial="2" pair="bank,0" />
+		<display trial="2" pair="card,1" />
+		<display trial="2" pair="dart,2" />
+		<display trial="2" pair="face,3" />
+		<display trial="2" pair="game,4" />
+		<display trial="2" pair="hand,5" />
+		<display trial="2" pair="jack,6" />
+		<display trial="2" pair="king,7" />
+		<display trial="2" pair="lamb,8" />
+		<display trial="2" pair="mask,9" />
+		<display trial="2" pair="neck,0" />
+		<display trial="2" pair="pipe,1" />
+		<display trial="2" pair="quip,2" />
+		<display trial="2" pair="rope,3" />
+		<display trial="2" pair="sock,4" />
+		<display trial="2" pair="tent,5" />
+		<display trial="2" pair="vent,6" />
+		<display trial="2" pair="wall,7" />
+		<display trial="2" pair="xray,8" />
+		<display trial="2" pair="zinc,0" />
+	</group>
+	<group id="3" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="3" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="3" />
+		</end>
+		<display trial="3" pair="bank,0" />
+		<display trial="3" pair="card,1" />
+		<display trial="3" pair="dart,2" />
+		<display trial="3" pair="face,3" />
+		<display trial="3" pair="game,4" />
+		<display trial="3" pair="hand,5" />
+		<display trial="3" pair="jack,6" />
+		<display trial="3" pair="king,7" />
+		<display trial="3" pair="lamb,8" />
+		<display trial="3" pair="mask,9" />
+		<display trial="3" pair="neck,0" />
+		<display trial="3" pair="pipe,1" />
+		<display trial="3" pair="quip,2" />
+		<display trial="3" pair="rope,3" />
+		<display trial="3" pair="sock,4" />
+		<display trial="3" pair="tent,5" />
+		<display trial="3" pair="vent,6" />
+		<display trial="3" pair="wall,7" />
+		<display trial="3" pair="xray,8" />
+		<display trial="3" pair="zinc,0" />
+	</group>
+	<group id="4" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="4" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="4" />
+		</end>
+		<display trial="4" pair="bank,0" />
+		<display trial="4" pair="card,1" />
+		<display trial="4" pair="dart,2" />
+		<display trial="4" pair="face,3" />
+		<display trial="4" pair="game,4" />
+		<display trial="4" pair="hand,5" />
+		<display trial="4" pair="jack,6" />
+		<display trial="4" pair="king,7" />
+		<display trial="4" pair="lamb,8" />
+		<display trial="4" pair="mask,9" />
+		<display trial="4" pair="neck,0" />
+		<display trial="4" pair="pipe,1" />
+		<display trial="4" pair="quip,2" />
+		<display trial="4" pair="rope,3" />
+		<display trial="4" pair="sock,4" />
+		<display trial="4" pair="tent,5" />
+		<display trial="4" pair="vent,6" />
+		<display trial="4" pair="wall,7" />
+		<display trial="4" pair="xray,8" />
+		<display trial="4" pair="zinc,0" />
+	</group>
+	<group id="5" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="5" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="5" />
+		</end>
+		<display trial="5" pair="bank,0" />
+		<display trial="5" pair="card,1" />
+		<display trial="5" pair="dart,2" />
+		<display trial="5" pair="face,3" />
+		<display trial="5" pair="game,4" />
+		<display trial="5" pair="hand,5" />
+		<display trial="5" pair="jack,6" />
+		<display trial="5" pair="king,7" />
+		<display trial="5" pair="lamb,8" />
+		<display trial="5" pair="mask,9" />
+		<display trial="5" pair="neck,0" />
+		<display trial="5" pair="pipe,1" />
+		<display trial="5" pair="quip,2" />
+		<display trial="5" pair="rope,3" />
+		<display trial="5" pair="sock,4" />
+		<display trial="5" pair="tent,5" />
+		<display trial="5" pair="vent,6" />
+		<display trial="5" pair="wall,7" />
+		<display trial="5" pair="xray,8" />
+		<display trial="5" pair="zinc,0" />
+	</group>
+	<group id="6" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="6" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="6" />
+		</end>
+		<display trial="6" pair="bank,0" />
+		<display trial="6" pair="card,1" />
+		<display trial="6" pair="dart,2" />
+		<display trial="6" pair="face,3" />
+		<display trial="6" pair="game,4" />
+		<display trial="6" pair="hand,5" />
+		<display trial="6" pair="jack,6" />
+		<display trial="6" pair="king,7" />
+		<display trial="6" pair="lamb,8" />
+		<display trial="6" pair="mask,9" />
+		<display trial="6" pair="neck,0" />
+		<display trial="6" pair="pipe,1" />
+		<display trial="6" pair="quip,2" />
+		<display trial="6" pair="rope,3" />
+		<display trial="6" pair="sock,4" />
+		<display trial="6" pair="tent,5" />
+		<display trial="6" pair="vent,6" />
+		<display trial="6" pair="wall,7" />
+		<display trial="6" pair="xray,8" />
+		<display trial="6" pair="zinc,0" />
+	</group>
+	<group id="7" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="7" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="7" />
+		</end>
+		<display trial="7" pair="bank,0" />
+		<display trial="7" pair="card,1" />
+		<display trial="7" pair="dart,2" />
+		<display trial="7" pair="face,3" />
+		<display trial="7" pair="game,4" />
+		<display trial="7" pair="hand,5" />
+		<display trial="7" pair="jack,6" />
+		<display trial="7" pair="king,7" />
+		<display trial="7" pair="lamb,8" />
+		<display trial="7" pair="mask,9" />
+		<display trial="7" pair="neck,0" />
+		<display trial="7" pair="pipe,1" />
+		<display trial="7" pair="quip,2" />
+		<display trial="7" pair="rope,3" />
+		<display trial="7" pair="sock,4" />
+		<display trial="7" pair="tent,5" />
+		<display trial="7" pair="vent,6" />
+		<display trial="7" pair="wall,7" />
+		<display trial="7" pair="xray,8" />
+		<display trial="7" pair="zinc,0" />
+	</group>
+	<group id="8" shuffle="true">
+		<start>
+			<marker-open models="paired" type="Iteration" name="8" />
+		</start>
+		<end>
+			<marker-close models="paired" type="Iteration" name="8" />
+		</end>
+		<display trial="8" pair="bank,0" />
+		<display trial="8" pair="card,1" />
+		<display trial="8" pair="dart,2" />
+		<display trial="8" pair="face,3" />
+		<display trial="8" pair="game,4" />
+		<display trial="8" pair="hand,5" />
+		<display trial="8" pair="jack,6" />
+		<display trial="8" pair="king,7" />
+		<display trial="8" pair="lamb,8" />
+		<display trial="8" pair="mask,9" />
+		<display trial="8" pair="neck,0" />
+		<display trial="8" pair="pipe,1" />
+		<display trial="8" pair="quip,2" />
+		<display trial="8" pair="rope,3" />
+		<display trial="8" pair="sock,4" />
+		<display trial="8" pair="tent,5" />
+		<display trial="8" pair="vent,6" />
+		<display trial="8" pair="wall,7" />
+		<display trial="8" pair="xray,8" />
+		<display trial="8" pair="zinc,0" />
+	</group>
+
 
 	<start>
 		<log message="starting experiment" />
 		<!-- block until actr is ready to run -->
-		<lock name="demo"/>
+		<lock name="demo" />
 		<wait-for-actr />
 		<!-- drop open data tag w/ attrs subject and conf to the log file -->
 		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
@@ -207,8 +258,8 @@
 		<record close="data" />
 		<cleanup />
 
-	  <terminate /> 
-	  <wait-for-actr start="false"/>
+		<terminate />
+		<wait-for-actr start="false" />
 	</end>
 
 </experiment>  

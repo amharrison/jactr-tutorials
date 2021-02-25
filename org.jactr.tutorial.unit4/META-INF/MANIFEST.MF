@@ -17,7 +17,9 @@ Require-Bundle: org.jactr.core,
  org.commonreality.sensors,
  org.commonreality.modalities;bundle-version="1.5.1",
  org.commonreality.core;bundle-version="1.5.1",
- org.slf4j.api;bundle-version="1.7.30"
+ org.slf4j.api;bundle-version="1.7.30",
+ org.commonreality.sensors.swing;bundle-version="1.5.1",
+ org.commonreality.sensors.xml;bundle-version="1.5.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.jactr.core,
