@@ -443,7 +443,7 @@ of arbitrary model elements.
 
 The probe is configured using an xml file such as [data/baselevel.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/data/baselevel.xml).
 
-```
+```xml
 <instrument window="0.1">   <!-- how often to poll -->
  <group id="Associations">  <!-- everything in a group is rendered on the same graph -->
   <model pattern=".*">  <!-- what model to probe -->
@@ -482,7 +482,7 @@ base-level learning is set to the value 0.5 which is where we recommend it be
 set for most tasks that involve the base-level learning mechanism.
 
 How to determine those values can be a tricky process because the equations are 
-all related and thus they cannot be independently manipulated for a best fit.  
+all related and thus they cannot be independently manipulated for a best fit.
 Typically some sort of searching is required, and there are many ways to 
 accomplish that.  For the tutorial models there will typically be only one or 
 two parameters to modify and they can easily be explored using the Orthogonal
