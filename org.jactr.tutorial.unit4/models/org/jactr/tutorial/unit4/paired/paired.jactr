@@ -17,22 +17,22 @@ module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
   "MaximumDifference"        : "-1"
   "MaximumSimilarity"        : "0"
   "MismatchPenalty"          : "1"
-  "PermanentActivationNoise" : "0"]
+  "PermanentActivationNoise" : "0"
+  "ChunkNamerClass"          : "org.jactr.tutorial.unit4.paired.chunk.ChunkNamer"]
 module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "DefaultProductionFiringTime" : "0.05"
   "ExpectedUtilityNoise"        : "0"
   "NumberOfProductionsFired"    : "0" ]
 module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
   "BaseLevelLearningRate" : "0.5"
-  "OptimizedLearning"     : "0"
- ]
+  "OptimizedLearning"     : "0"] //number of samples for hybrid bll equation
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "EnableIndexedRetrievals" : "false"
   "FINSTDurationTime"       : "3.0"
   "LatencyFactor"           : "0.4"
   "NumberOfFINSTs"          : "4"
-  "RetrievalThreshold"      : "-1" ]
+  "RetrievalThreshold"      : "-2" ]
 module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
@@ -111,19 +111,19 @@ production read-probe{
 production recall{
   goal{
     isa goal
-    state = testing
+    state =  testing
   }
   retrieval{
     isa pair
-    answer = =answer
+    answer =  =answer
   }
   ?motor{
-    state = free
+    state =  free
   }
 }{
   +motor{
     isa press-key
-    key = =answer
+    key =  =answer
   }
   goal{
     state =  read-study-item
@@ -136,10 +136,10 @@ production recall{
 production cannot-recall{
   goal{
     isa goal
-    state = testing
+    state =  testing
   }
   ?retrieval{
-    state = error
+    state =  error
   }
 }{
   goal{
@@ -153,18 +153,18 @@ production cannot-recall{
 production detect-study-item{
   goal{
     isa goal
-    state = read-study-item
+    state =  read-study-item
   }
   visual-location{
     isa visual-location
   }
   ?visual{
-    state = free
+    state =  free
   }
 }{
   +visual{
     isa attend-to
-    where = =visual-location
+    where =  =visual-location
   }
   goal{
     state = attending-target
@@ -175,11 +175,11 @@ production detect-study-item{
 production associate{
   goal{
     isa goal
-    state = attending-target
+    state =  attending-target
   }
   visual{
     isa text
-    value = =value
+    value =  =value
   }
   imaginal{
     isa pair

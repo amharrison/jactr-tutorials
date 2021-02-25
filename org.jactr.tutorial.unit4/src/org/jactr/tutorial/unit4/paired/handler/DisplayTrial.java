@@ -36,7 +36,7 @@ public class DisplayTrial extends Trial {
 	 * various constants
 	 */
 	final private double TRIAL_DURATION = 5; //s
-	
+	final private double CLEAR_DURATION = 05.;
 	/*
 	 * trial variables
 	 */
@@ -68,7 +68,7 @@ public class DisplayTrial extends Trial {
 		/**
 		 * we want to use the simulated interface when doing bulk runs
 		 */
-		boolean useSimulated = IterativeMain.isRunning();
+		boolean useSimulated = true;
 		if (_interface == null) {
 			if (useSimulated)
 				_interface = new SimulatedExperimentInterface(getExperiment());
@@ -77,10 +77,14 @@ public class DisplayTrial extends Trial {
 		}
 		
 	
+		/**
+		 * after the probe duration expires, we end the trial regardless of
+		 * keypress
+		 */
 		ITrigger endTrial = new TimeTrigger(TRIAL_DURATION, true, experiment);
 		endTrial.add(new EndTrialAction(getExperiment()));
 
-		/*
+		/**
 		 * these are executed at the start of each trial
 		 */
 		ITrigger trigger = new ImmediateTrigger(experiment);
@@ -92,15 +96,16 @@ public class DisplayTrial extends Trial {
 				_interface.showWord();
 			}
 		});
-		
 		trigger.add(endTrial);
 				
 		setStartTrigger(trigger);
 
 		
 		
-		/*
-		 * these are all executed at the end of the trial
+		/**
+		 * these are all executed at the end of the trial. We clear for a second
+		 * then show the target. If we went straight from word to digit, the visual
+		 * system would actually miss the change and the buffer stuff would fail
 		 */
 		trigger = new ImmediateTrigger(experiment);
 		trigger.add(new IAction() {
@@ -111,7 +116,7 @@ public class DisplayTrial extends Trial {
 			}
 		});
 				
-		trigger.add(new DelayAction(1, experiment)); //one second blank
+		trigger.add(new DelayAction(CLEAR_DURATION, experiment)); //one second blank
 		trigger.add(new IAction() {
 			@Override
 			public void fire(IVariableContext context) {
@@ -134,7 +139,7 @@ public class DisplayTrial extends Trial {
 					noResponse();
 			}
 		});
-		trigger.add(new DelayAction(1, experiment));
+		trigger.add(new DelayAction(CLEAR_DURATION, experiment));
 
 		setEndTrigger(trigger);
 	}

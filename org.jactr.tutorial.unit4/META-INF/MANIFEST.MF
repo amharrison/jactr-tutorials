@@ -27,3 +27,9 @@ Eclipse-RegisterBuddy: org.jactr.core,
  org.jactr.tools,
  org.jactr.tools.experiment,
  org.jactr.io2.jactr
+Export-Package: org.jactr.tutorial.unit4.paired,
+ org.jactr.tutorial.unit4.paired.chunk,
+ org.jactr.tutorial.unit4.paired.data,
+ org.jactr.tutorial.unit4.paired.handler,
+ org.jactr.tutorial.unit4.paired.sim,
+ org.jactr.tutorial.unit4.paired.ui

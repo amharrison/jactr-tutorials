@@ -1,0 +1,26 @@
+package org.jactr.tutorial.unit4.paired.chunk;
+
+import org.jactr.core.chunk.IChunk;
+import org.jactr.core.chunk.ISymbolicChunk;
+import org.jactr.core.module.declarative.basic.chunk.IChunkNamer;
+
+
+/**
+ * This little snippet is useful for creating custom chunk names for your model.
+ * This is applied to all chunks, so never return null.
+ * @author harrison
+ *
+ */
+public class ChunkNamer implements IChunkNamer {
+
+	@Override
+	public String generateName(IChunk chunk) {
+		ISymbolicChunk sc = chunk.getSymbolicChunk();
+		if (sc.getChunkType().getSymbolicChunkType().getName().equals("pair")) {
+
+			return String.format("pair-%s-%s", sc.getSlot("probe").getValue(), sc.getSlot("answer").getValue());
+		} else
+			return sc.getName();
+	}
+
+}

@@ -213,9 +213,10 @@ Anderson, J.R. (1981).  Interference:  The relationship between response latency
  Memory*, 7, 326-343.
  
 As before, the experiment is defined by the [experiment.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/experiment.xml) file. Take a look at
-it, this time we have multiple groups for each of the repeated trials. If you'd
-like to run yourself through the experiment, the run configuration **Unit 4 - Paired
-Experiment** will run the full gui experiment.
+it, this time we have multiple groups for each of the repeated trials. A simplified
+version is available in [short.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/short.xml), and will be what we use when not running
+bulk model runs. If you'd like to run yourself through the shortened experiment, 
+the run configuration **Unit 4 - Paired Experiment** will run the full gui experiment.
 
 The model can be run using **Unit 4 - Paired GUI**. The basic structure of the 
 screen processing productions should be familiar by now.  The one thing to note 
@@ -368,10 +369,10 @@ re-encoding when the screen is updated.
 
 Now, consider the retrieval request in the read-probe production again:
 ```
-+retrieval>
-      isa      pair
-      probe    =val
-
++retrieval{
+      isa       pair
+      probe   = =value
+}
 ```
 The declarative memory module will attempt to retrieve a pair chunk with the requested 
 probe.  Depending on whether a chunk can be retrieved, one of two production rules 
@@ -425,6 +426,50 @@ The probability of the recall production firing and the mean latency for the rec
 will be determined by the activation of the chunk that is retrieved and will increase 
 with repeated presentations and harvested retrievals.  
 
+## The Activation Trace
+If you look under the Activation column of the log viewer, you will see a detailed
+tracing of the sources and sinks of activation. You may find this detailed accounting 
+of the activation computation useful in debugging your models or just in 
+understanding how the system computes activation values.
+
+## jACT-R Probes
+Another useful tool when trying to understand how a subsymbolic parameter is behaving
+is the GeneralProbe and Probe Viewer. The GeneralProbe, enabled in the run configuration
+under Logging/Trace tab, as its name implies, allows you to probe the parameter values
+of arbitrary model elements.
+
+![generalProbe](images/generalProbe.png)
+
+
+The probe is configured using an xml file such as [data/baselevel.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/paired/data/baselevel.xml).
+
+```
+<instrument window="0.1">   <!-- how often to poll -->
+ <group id="Associations">  <!-- everything in a group is rendered on the same graph -->
+  <model pattern=".*">  <!-- what model to probe -->
+   <chunk-type pattern="pair"> <!-- chunks of this type are to be probed -->
+    <chunk pattern=".*">    <!-- select all of this chunk type regardless of name -->
+     <probe pattern="BaseLevelActivation" poll="true"/> <!-- what parameter(s) -->
+    </chunk>
+   </chunk-type>
+   <module pattern=".*DefaultRetrievalModule6">
+     <probe pattern="RetrievalThreshold" poll="true"/>
+   </module>
+  </model>
+ </group>
+</instrument>
+```
+This one will allow us to see the base level activation values for all the pair chunks
+that are encoded during the trial. The retrieval threshold is also rendered for clarity. 
+You can then view the probed values live as the model executes by opening the 
+jACT-R Probes tab.
+
+![probe viewer](images/probeView.png)
+
+**Note** Probes (and logs) can consume significant amounts of memory. Be sure to 
+close any traces that you aren't actively using. 
+
+
 ## Parameter Estimation
 The behavior of this model and the one that you have to write really depends on 
 the settings of four parameters.  Here are those parameters and their settings 
@@ -442,13 +487,6 @@ Typically some sort of searching is required, and there are many ways to
 accomplish that.  For the tutorial models there will typically be only one or 
 two parameters to modify and they can easily be explored using the Orthogonal
 parameter space search tool with the iterative run.
-
-## The Activation Trace
-If you look under the Activation column of the log viewer, you will see a detailed
-tracing of the sources and sinks of activation. You may find this detailed accounting 
-of the activation computation useful in debugging your models or just in 
-understanding how the system computes activation values.
-
 
 
 ***

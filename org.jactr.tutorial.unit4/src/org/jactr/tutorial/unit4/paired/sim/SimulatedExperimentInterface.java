@@ -29,7 +29,8 @@ public class SimulatedExperimentInterface implements IExperimentInterface {
 				.filter((s) -> {
 					return s instanceof DefaultKeyboardSensor;
 				}).findFirst().get();
-		_keyboard = (SimulatedKeyboard) keyboardSensor.getActuator();
+		_keyboard = new SimulatedKeyboard();
+		keyboardSensor.setActuator(_keyboard);
 	}
 
 	protected IIdentifier getAgentIdOfExperimentModel() {

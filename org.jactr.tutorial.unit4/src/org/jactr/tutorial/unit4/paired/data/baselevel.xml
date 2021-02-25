@@ -1,11 +1,14 @@
 <instrument window="0.1">   <!-- how often to poll -->
  <group id="Associations">  <!-- everything in a group is rendered on the same graph -->
-  <model pattern="paired">  <!-- what model to probe -->
+  <model pattern=".*">  <!-- what model to probe -->
    <chunk-type pattern="pair"> <!-- chunks of this type are to be probed -->
     <chunk pattern=".*">    <!-- select all of this chunk type regardless of name -->
      <probe pattern="BaseLevelActivation" poll="true"/> <!-- what parameter(s) -->
     </chunk>
    </chunk-type>
+   <module pattern=".*DefaultRetrievalModule6">
+     <probe pattern="RetrievalThreshold" poll="true"/>
+   </module>
   </model>
  </group>
 </instrument>

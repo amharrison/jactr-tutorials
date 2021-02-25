@@ -14,13 +14,6 @@
 
 
 	<group id="1" shuffle="true">
-		<!-- markers are useful to denote large sections of runs -->
-		<start>
-			<marker-open models="paired" type="Iteration" name="1" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="1" />
-		</end>
 		<display trial="1" pair="bank,0" />
 		<display trial="1" pair="card,1" />
 		<display trial="1" pair="dart,2" />
@@ -43,13 +36,6 @@
 		<display trial="1" pair="zinc,0" />
 	</group>
 	<group id="2" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="2" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="2" />
-		</end>
-
 		<display trial="2" pair="bank,0" />
 		<display trial="2" pair="card,1" />
 		<display trial="2" pair="dart,2" />
@@ -72,12 +58,6 @@
 		<display trial="2" pair="zinc,0" />
 	</group>
 	<group id="3" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="3" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="3" />
-		</end>
 		<display trial="3" pair="bank,0" />
 		<display trial="3" pair="card,1" />
 		<display trial="3" pair="dart,2" />
@@ -100,12 +80,6 @@
 		<display trial="3" pair="zinc,0" />
 	</group>
 	<group id="4" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="4" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="4" />
-		</end>
 		<display trial="4" pair="bank,0" />
 		<display trial="4" pair="card,1" />
 		<display trial="4" pair="dart,2" />
@@ -128,12 +102,6 @@
 		<display trial="4" pair="zinc,0" />
 	</group>
 	<group id="5" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="5" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="5" />
-		</end>
 		<display trial="5" pair="bank,0" />
 		<display trial="5" pair="card,1" />
 		<display trial="5" pair="dart,2" />
@@ -156,12 +124,6 @@
 		<display trial="5" pair="zinc,0" />
 	</group>
 	<group id="6" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="6" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="6" />
-		</end>
 		<display trial="6" pair="bank,0" />
 		<display trial="6" pair="card,1" />
 		<display trial="6" pair="dart,2" />
@@ -184,12 +146,6 @@
 		<display trial="6" pair="zinc,0" />
 	</group>
 	<group id="7" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="7" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="7" />
-		</end>
 		<display trial="7" pair="bank,0" />
 		<display trial="7" pair="card,1" />
 		<display trial="7" pair="dart,2" />
@@ -212,12 +168,6 @@
 		<display trial="7" pair="zinc,0" />
 	</group>
 	<group id="8" shuffle="true">
-		<start>
-			<marker-open models="paired" type="Iteration" name="8" />
-		</start>
-		<end>
-			<marker-close models="paired" type="Iteration" name="8" />
-		</end>
 		<display trial="8" pair="bank,0" />
 		<display trial="8" pair="card,1" />
 		<display trial="8" pair="dart,2" />
