@@ -1,0 +1,383 @@
+/*
+ * 
+ */
+ namespace zbrodoff{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.aural.*
+import jactr.vocal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.5"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"
+  "ChunkNamerClass"          : "org.jactr.tutorial.unit4.paired.chunk.ChunkNamer"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
+  "BaseLevelLearningRate" : "0.5"
+  "OptimizedLearning"     : "0"]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "3.0"
+  "LatencyFactor"      : "0.4"
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "0.83" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"["EnableVisualBufferStuff" : "true"
+]
+module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"["SyllableRate" : "0.15"
+]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+
+buffers {
+  @Override
+   goal {goal} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+
+chunktype problem {
+  arg1   = null
+  arg2   = null
+  result = null
+}
+chunktype goal {
+  state  = waiting
+  count  = null
+  target = null
+}
+chunktype sequence {
+  identity = null
+  next     = null
+}
+
+chunk waiting, retrieving, retrieve, attending, counting, count
+sequence zero(identity="0", next="1"), one(identity="1", next="2"), two(identity="2", next="3"),
+  three(identity="3", next="4"), four(identity="4", next="5"), five(identity="5", next="6")
+sequence aa(identity="a", next="b"), bb(identity="b", next="c"), cc(identity="c", next="d"), dd(identity="d", next="e"),
+  ee(identity="e", next="f"), ff(identity="f", next="g"), gg(identity="g", next="h"), hh(identity="h", next="i"),
+  ii(identity="i", next="j"), jj(identity="j", next="k"), kk(identity="k", next="l"), ll(identity="l", next="m"),
+  mm(identity="m", next="n"), nn(identity="n", next="o"), oo(identity="o", next="p")
+
+//overlearn the sequence chunks
+parameters( zero, one, two, three, four, aa, bb, cc, dd, ee, ff, gg, hh, ii, jj, kk, ll, mm, nn, oo)[
+    "CreationTime"   : "-1000"
+    "ReferenceCount" : "100000"
+]
+
+goal goal
+
+
+production attend{
+  goal{
+    isa goal
+    state =  waiting
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state != busy
+  }
+}{
+  goal{
+    state = attending
+  }
+  visual-location{}
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+/**
+ * only true because of the buffer stuff preferencing center of gaze.
+ * 
+ */
+production read-middle{
+  goal{
+    isa goal
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-x > -1
+    screen-x < 1
+  }
+  visual{
+    isa text
+    value =  =number
+  }
+  ?vocal{
+    state =  free
+  }
+  ?imaginal{
+    buffer =  empty
+    state  =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =number
+  }
+  +imaginal{
+    isa problem
+    arg2 =  =number
+  }
+  goal{
+    state = waiting
+  }
+  +visual-location{
+    isa visual-location
+    screen-x =  lowest
+  }
+}
+
+/**
+ * read left most, then look right most
+ */
+production read-left{
+  goal{
+    isa goal
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-x < -1
+  }
+  visual{
+    isa text
+    value =  =arg1
+  }
+  imaginal{
+    isa problem
+    arg1 =  null
+    arg2 =  =arg2
+  }
+  ?vocal{
+    state =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =arg1
+  }
+  imaginal{
+    arg1 = =arg1
+  }
+  goal{
+    state = waiting
+  }
+  +visual-location{
+    isa visual-location
+    screen-x =  highest
+  }
+}
+
+
+production read-right{
+  goal{
+    isa goal
+    state =  attending
+  }
+  visual-location{
+    isa visual-location
+    screen-x > 1
+  }
+  visual{
+    isa text
+    value =  =char
+  }
+  imaginal{
+    isa problem
+    arg1   =  =arg1
+    arg2   =  =arg2
+    result =  null
+  }
+  ?vocal{
+    state =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =char
+  }
+  imaginal{}
+  goal{
+    target = =char
+    state  = count
+  }
+  +visual{
+    isa clear
+  }
+}
+
+
+production start-counting{
+  goal{
+    isa goal
+    state =  count
+  }
+  imaginal{
+    isa problem
+    arg1 =  =alpha
+    arg2 =  =value
+  }
+  ?vocal{
+    state =  free
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =alpha
+  }
+  imaginal{
+    result = =alpha
+  }
+  goal{
+    count = "0"
+    state = counting
+  }
+  +retrieval{
+    isa sequence
+    identity =  =alpha
+  }
+}
+
+production increment-count{
+  goal{
+    isa goal
+    state =  counting
+    count =  =value
+  }
+  imaginal{
+    isa problem
+    result =  =answer
+    arg2   != =value
+  }
+  retrieval{
+    isa sequence
+    identity =  =value
+    next     =  =next
+  }
+  ?vocal{
+    state =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =answer
+  }
+  imaginal{}
+  goal{
+    count = =next
+  }
+  +retrieval{
+    isa sequence
+    identity =  =answer
+  }
+}
+
+production increment-result{
+  goal{
+    isa goal
+    state =  counting
+    count =  =value
+  }
+  imaginal{
+    isa problem
+    result =  =letter
+    arg2   != =value
+  }
+  retrieval{
+    isa sequence
+    identity =  =letter
+    next     =  =next
+  }
+  ?vocal{
+    state =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =value
+  }
+  imaginal{
+    result = =next
+  }
+  +retrieval{
+    isa sequence
+    identity =  =value
+  }
+}
+
+
+production final-answer-yes{
+  goal{
+    isa goal
+    target =  =letter
+    count  =  =value
+  }
+  imaginal{
+    isa problem
+    result =  =letter
+    arg2   =  =value
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  +goal{
+    isa goal
+  }
+  +motor{
+    isa press-key
+    key =  "K"
+  }
+}
+
+production final-answer-no{
+  goal{
+    isa goal
+    target =  =letter
+    count  =  =value
+  }
+  imaginal{
+    isa problem
+    arg2   =  =value
+    result != =letter
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  +goal{
+    isa goal
+  }
+  +motor{
+    isa press-key
+    key =  "D"
+  }
+}
+
+}[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+]

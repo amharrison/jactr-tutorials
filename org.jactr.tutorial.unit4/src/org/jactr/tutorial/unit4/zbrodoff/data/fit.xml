@@ -1,0 +1,38 @@
+<!--
+ This is an Orthogonal Parameter Space Searcher configuration file. 
+ -->
+
+<root name="Fit Search">
+	<analyzer
+		class="org.jactr.tutorial.unit4.zbrodoff.data.Analyzer" />
+
+	<population>
+		<modifier
+			class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+			<parameter name="ModuleClass"
+				value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
+			<parameter name="ParameterName"
+				value="RetrievalThreshold" />
+			<parameter name="ParameterValues" value="0.5, 0.75, 1" />
+		</modifier>
+		
+		<modifier
+      class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+      <parameter name="ModuleClass"
+        value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
+      <parameter name="ParameterName"
+        value="LatencyFactor" />
+      <parameter name="ParameterValues" value="0.4" />
+    </modifier>
+    
+    <modifier
+      class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+      <parameter name="ModuleClass"
+        value="org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" />
+      <parameter name="ParameterName"
+        value="ActivationNoise" />
+      <parameter name="ParameterValues" value="0.5" />
+    </modifier>
+    
+	</population>
+</root>

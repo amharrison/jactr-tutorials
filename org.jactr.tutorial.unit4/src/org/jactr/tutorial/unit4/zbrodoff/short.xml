@@ -1,0 +1,45 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+
+	<action-handler
+		class="org.jactr.tutorial.unit4.zbrodoff.handler.ConditionAssignmentHandler" />
+	<action-handler
+		class="org.jactr.tutorial.unit4.zbrodoff.handler.CleanupHandler" />
+
+
+	<group id="1" shuffle="true">
+		<start>
+			<assign repetitions="8" addends="3" letter-groups="2" block="1"/>
+		</start>
+	</group>
+
+
+
+	<start>
+		<log message="starting experiment" />
+		<!-- block until actr is ready to run -->
+		<lock name="demo" />
+		<wait-for-actr />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+		<terminate />
+		<wait-for-actr start="false" />
+	</end>
+
+</experiment>  
