@@ -30,14 +30,16 @@ public class DataCollection {
 
 	}
 
-	public void logData(int trial, boolean accurate, double latency) {
-		String condition = String.format("%d", trial);
+	public void logData(String condition, boolean onlyLogAccurateTimes, boolean accurate, double latency) {
+
 		SummaryStatistics[] stats = _scoreStatistics.computeIfAbsent(condition, (key) -> {
 			return new SummaryStatistics[] { new SummaryStatistics(), new SummaryStatistics() };
 		});
 
 		stats[0].addValue(accurate ? 1 : 0);
-		if (accurate)
+		if (accurate && onlyLogAccurateTimes)
+			stats[1].addValue(latency);
+		else if (!onlyLogAccurateTimes)
 			stats[1].addValue(latency);
 	}
 
@@ -73,8 +75,15 @@ public class DataCollection {
 			SummaryStatistics[] stats = _groupScoreStatistics.computeIfAbsent(entry.getKey(), (key) -> {
 				return new SummaryStatistics[] { new SummaryStatistics(), new SummaryStatistics() };
 			});
-			stats[0].addValue(entry.getValue()[0].getMean());
-			stats[1].addValue(entry.getValue()[1].getMean());
+			double value = entry.getValue()[0].getMean();
+			if (Double.isNaN(value))
+				value = 0;
+			stats[0].addValue(value);
+
+			value = entry.getValue()[1].getMean();
+			if (Double.isNaN(value))
+				value = 0;
+			stats[1].addValue(value);
 		});
 		_scoreStatistics.clear();
 	}

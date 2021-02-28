@@ -13,7 +13,7 @@
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogConfiguration" value="/jactr-log.xml"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogger" value="org.jactr.slf4j.impl.log4j12"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value=""/>
-    <intAttribute key="org.jactr.eclipse.runtime.launching.iterations" value="90"/>
+    <intAttribute key="org.jactr.eclipse.runtime.launching.iterations" value="80"/>
     <intAttribute key="org.jactr.eclipse.runtime.launching.iterativeDeadlock" value="10000"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.iterativeListeners" value="org.jactr.tools.itr.ortho.OrthogonalSliceAnalyzer"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.modelFiles" value="models/org/jactr/tutorial/unit4/paired/paired.jactr"/>

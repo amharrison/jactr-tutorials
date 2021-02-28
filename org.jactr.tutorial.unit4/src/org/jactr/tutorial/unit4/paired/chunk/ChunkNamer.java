@@ -17,9 +17,14 @@ public class ChunkNamer implements IChunkNamer {
 	public String generateName(IChunk chunk) {
 		ISymbolicChunk sc = chunk.getSymbolicChunk();
 		if (sc.getChunkType().getSymbolicChunkType().getName().equals("pair")) {
-
+			//for paired associates
 			return String.format("pair-%s-%s", sc.getSlot("probe").getValue(), sc.getSlot("answer").getValue());
-		} else
+		} else if(sc.getChunkType().getSymbolicChunkType().getName().equals("problem")) {
+			//for zbrodoff
+			return String.format("problem-%s%s%s", sc.getSlot("arg1").getValue(), sc.getSlot("arg2").getValue(),
+					sc.getSlot("result").getValue());
+					
+		}else
 			return sc.getName();
 	}
 

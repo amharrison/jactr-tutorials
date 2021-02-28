@@ -31,7 +31,7 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"       : "3.0"
   "LatencyFactor"           : "0.4"
   "NumberOfFINSTs"          : "4"
-  "RetrievalThreshold"      : "-2" ]
+  "RetrievalThreshold"      : "-2.5" ]
 module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[

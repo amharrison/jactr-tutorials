@@ -497,7 +497,9 @@ Try running **Unit 4 - Paired Bulk Run** with different exploration values in
 
 ***
 
-
+Once you are satisfied you understand the interplay between RetrievalThreshold and
+LatencyFactor with respect to this experiment's accuracy and latency, it's time to
+try Zbrodoff's [Alpha-Arithmetic](README2.md).
 
 ***
 Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.

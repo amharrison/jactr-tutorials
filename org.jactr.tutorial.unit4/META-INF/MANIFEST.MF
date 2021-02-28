@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.jactr.tutorial.unit4
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: org.jactr.tutorial.unit4; singleton:=true
+Bundle-SymbolicName: org.jactr.tutorial.unit4;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.jactr.core,
  org.jactr.io,
@@ -33,6 +33,10 @@ Export-Package: org.jactr.tutorial.unit4.paired,
  org.jactr.tutorial.unit4.paired.data,
  org.jactr.tutorial.unit4.paired.handler,
  org.jactr.tutorial.unit4.paired.sim,
- org.jactr.tutorial.unit4.paired.ui
+ org.jactr.tutorial.unit4.paired.ui,
+ org.jactr.tutorial.unit4.zbrodoff,
+ org.jactr.tutorial.unit4.zbrodoff.data,
+ org.jactr.tutorial.unit4.zbrodoff.handler,
+ org.jactr.tutorial.unit4.zbrodoff.sim
 Bundle-ClassPath: lib/xchart-3.8.0.jar,
  .

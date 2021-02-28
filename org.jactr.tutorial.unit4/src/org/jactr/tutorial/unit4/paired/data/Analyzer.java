@@ -161,6 +161,8 @@ public class Analyzer implements ISliceAnalyzer {
 			double value = DataCollection.get().getGroupAccuracy(cond).getMean();
 			if (!collectAccuracy)
 				value = DataCollection.get().getGroupLatency(cond).getMean();
+			if(Double.isNaN(value))
+				value = 0;
 			rtn[index++] = value;
 		}
 		return rtn;

@@ -36,7 +36,7 @@ public class DisplayTrial extends Trial {
 	 * various constants
 	 */
 	final private double TRIAL_DURATION = 5; //s
-	final private double CLEAR_DURATION = 05.;
+	final private double CLEAR_DURATION = 0.5;
 	/*
 	 * trial variables
 	 */
@@ -68,7 +68,7 @@ public class DisplayTrial extends Trial {
 		/**
 		 * we want to use the simulated interface when doing bulk runs
 		 */
-		boolean useSimulated = true;
+		boolean useSimulated = IterativeMain.isRunning();
 		if (_interface == null) {
 			if (useSimulated)
 				_interface = new SimulatedExperimentInterface(getExperiment());
@@ -82,7 +82,7 @@ public class DisplayTrial extends Trial {
 		 * keypress
 		 */
 		ITrigger endTrial = new TimeTrigger(TRIAL_DURATION, true, experiment);
-		endTrial.add(new EndTrialAction(getExperiment()));
+		endTrial.add(new EndTrialAction(this, getExperiment()));
 
 		/**
 		 * these are executed at the start of each trial
@@ -151,16 +151,17 @@ public class DisplayTrial extends Trial {
 	{
 		IDataLogger collector = getExperiment().getDataCollector();
 
+		String condition = String.format("%d", _trial);
 		double now = getExperiment().getClock().getTime();
 		double latency = now - getStartTime();
 		Map<String, String> attr = new TreeMap<>();
 
 		attr.put("time", String.format("%.2f", now));
 		attr.put("latency", String.format("%.2f", latency));
-		attr.put("condition", ""+_trial);
+		attr.put("condition", condition);
 		collector.simple("no-response", attr, getExperiment().getVariableContext());
 		
-		DataCollection.get().logData(_trial, false, 0);
+		DataCollection.get().logData(condition, true, false, 0);
 	}
 
 	protected void consumeKey(Character keyPressed) {
@@ -182,13 +183,14 @@ public class DisplayTrial extends Trial {
 			boolean accurate = (_number + '0') == keyPressed;
 			double now = getExperiment().getClock().getTime();
 			double latency = now - getStartTime();
+			String condition = String.format("%d", _trial);
 			Map<String, String> attr = new TreeMap<>();
 
 			attr.put("time", String.format("%.2f", now));
 			attr.put("latency", String.format("%.2f", latency));
 			attr.put("response", ""+keyPressed);
 			attr.put("probe", _word);
-			attr.put("condition", ""+_trial);
+			attr.put("condition", condition);
 			attr.put("accurate", ""+accurate);
 			collector.simple("response", attr, getExperiment().getVariableContext());
 
@@ -197,6 +199,6 @@ public class DisplayTrial extends Trial {
 			 * project
 			 */
 			
-			DataCollection.get().logData(_trial, accurate, latency);
+			DataCollection.get().logData(condition, true, accurate, latency);
 	}
 }

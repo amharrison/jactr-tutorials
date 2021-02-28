@@ -13,7 +13,7 @@
 				value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
 			<parameter name="ParameterName"
 				value="RetrievalThreshold" />
-			<parameter name="ParameterValues" value="-2, -2.25, -2.5" />
+			<parameter name="ParameterValues" value="-2, -2.5" />
 		</modifier>
 		
 		<modifier
@@ -22,7 +22,7 @@
         value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
       <parameter name="ParameterName"
         value="LatencyFactor" />
-      <parameter name="ParameterValues" value="0.4" />
+      <parameter name="ParameterValues" value="0.4, 0.3" />
     </modifier>
     
     <modifier
