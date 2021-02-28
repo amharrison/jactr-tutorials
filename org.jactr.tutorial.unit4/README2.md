@@ -30,9 +30,10 @@ on retrieval of answers they have stored from previous computations.
 
 The task for this unit is to develop a model of the control group data. Functions 
 to run the experiment and most of a model that can perform the task are provided 
-in the zbrodoff packages and the related experiment.xml. The run configurations
-for running an individual (**Unit 4 - Zbrodoff**) and bulk runs (**Unit 4 - Zbrodoff Bulk Run**) are
-provided. No GUI (i.e., human runnable) version is provided.
+in the zbrodoff packages and the related [experiment.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/zbrodoff/experiment.xml).
+The run configurations for running an individual (**Unit 4 - Zbrodoff**) and bulk
+runs (**Unit 4 - Zbrodoff Bulk Run**) are provided. A [bulk analyzer](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/zbrodoff/data/Analyzer.java) and grapher
+is provided as well. No GUI (i.e., human runnable) version is provided.
  
 The model as given does the task by counting through the alphabet and numbers 
 “in its head” (using the subvocalize action of 
@@ -77,8 +78,10 @@ retrieval threshold.  In the model you are given, the first three are set to the
 same values as in the paired associate model and represent reasonable values for 
 this task.  You should not have to adjust any of those.  However, the retrieval 
 threshold (the RetrievalThreshold parameter) is set to its default value of 0.  This is the 
-parameter you should manipulate to improve the fit to the data.  
+parameter you should manipulate to improve the fit to the data.  A template
+for the orthogonal parameter space searcher has been provided in [fit.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit4/src/org/jactr/tutorial/unit4/zbrodoff/data/fit.xml)
 
+![latencyGraph](images/latencyGraph.png)
 
 
 ***
