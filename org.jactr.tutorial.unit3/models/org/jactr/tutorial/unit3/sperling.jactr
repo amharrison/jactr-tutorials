@@ -20,6 +20,7 @@ module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "ExpectedUtilityNoise"        : "0"
   "NumberOfProductionsFired"    : "0" ]
 module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"["BaseLevelLearningRate" : "0.5"
+  
 ]
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
@@ -30,7 +31,7 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "RetrievalThreshold"      : "-2.5" ] // not default 
 module "org.jactr.core.module.random.six.DefaultRandomModule"["RandomSeed" : ""
 ]
-module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableBufferStuff" : "true"
+module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableAuralBufferStuff" : "true"
   
 ]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[

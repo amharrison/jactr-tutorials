@@ -29,4 +29,10 @@ public class SimulatedSpeaker implements ISpeaker {
 	public void configure(DefaultSpeechSensor sensor, Map<String, String> options) {
 	}
 
+	@Override
+	public void subvocalize(IAgentObject speaker, VocalizationCommand vocalization) {
+		
+		
+	}
+
 }
