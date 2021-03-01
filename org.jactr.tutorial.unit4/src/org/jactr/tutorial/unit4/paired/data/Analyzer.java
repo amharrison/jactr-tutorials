@@ -19,7 +19,7 @@ import org.knowm.xchart.style.lines.SeriesLines;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
 /**
- * statistical analysis code for Unit 3 sperling.
+ * statistical analysis code for Unit 4 paired associate.
  * 
  * @author harrison
  *

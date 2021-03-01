@@ -40,6 +40,8 @@ The model as given does the task by counting through the alphabet and numbers
 the speech module to produce reasonable timing data) to arrive at an answer which
 it compares to the initial equation to determine how to respond.
 
+![first run](images/firstLatency.png)
+
 It is always correct (64 out of 64 for each cell) but does not get any faster 
 from block to block because it always uses the counting strategy.  Your first 
 task is to extend the model so that it attempts to remember previous instances 
@@ -71,8 +73,8 @@ strategy given, your next step is to adjust the parameters so that the model’s
 performance better fits the experimental data.   
 
 The model is still always responding correctly on all trials, the correlation is 
-good, but the deviation is quite high because the model is too fast overall.  
-The model’s performance will depend on the same four parameters as the paired 
+good, but the deviation is quite high because the model is too fast overall. The 
+model’s performance will depend on the same four parameters as the paired 
 associate model: latency factor, activation noise, base-level decay rate, and 
 retrieval threshold.  In the model you are given, the first three are set to the 
 same values as in the paired associate model and represent reasonable values for 
@@ -83,8 +85,11 @@ for the orthogonal parameter space searcher has been provided in [fit.xml](https
 
 ![latencyGraph](images/latencyGraph.png)
 
-
 ***
 
 Zbrodoff, N. J. (1995).  Why is 9 + 7 harder than 2 + 3?  Strength and interference 
 as explanations of the problem-size effect.  *Memory & Cognition*, 23 (6), 689-700.
+
+*** 
+
+For more information on how the unit 4 code is assembled, see [here](README3.md).

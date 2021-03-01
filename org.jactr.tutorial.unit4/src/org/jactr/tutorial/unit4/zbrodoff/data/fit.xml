@@ -13,7 +13,7 @@
 				value="org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" />
 			<parameter name="ParameterName"
 				value="RetrievalThreshold" />
-			<parameter name="ParameterValues" value="0.5, 0.75, 1" />
+			<parameter name="ParameterValues" value="0, 0.5, 1" />
 		</modifier>
 		
 		<modifier

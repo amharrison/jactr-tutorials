@@ -33,12 +33,12 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"  : "3.0"
   "LatencyFactor"      : "0.4"
   "NumberOfFINSTs"     : "4"
-  "RetrievalThreshold" : "0.83" ]
+  "RetrievalThreshold" : "0.0" ]
 module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.core.module.random.six.DefaultRandomModule"[]
 module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"["EnableVisualBufferStuff" : "true"
 ]
-module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"["SyllableRate" : "0.15"
+module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"["SyllableDuration" : "0.15"
 ]
 module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
 
@@ -131,7 +131,7 @@ production read-middle{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =number
   }
   +imaginal{
@@ -173,7 +173,7 @@ production read-left{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =arg1
   }
   imaginal{
@@ -213,7 +213,7 @@ production read-right{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =char
   }
   imaginal{}
@@ -245,7 +245,7 @@ production start-counting{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =alpha
   }
   imaginal{
@@ -282,7 +282,7 @@ production increment-count{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =answer
   }
   imaginal{}
@@ -316,7 +316,7 @@ production increment-result{
   }
 }{
   +vocal{
-    isa speak
+    isa subvocalize
     string =  =value
   }
   imaginal{

@@ -44,6 +44,9 @@ experiment trial. Most of the code written for jACT-R models are those pieces of
 experimental task. In the unit 2 example, we have three main files: [DisplayTrial](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/handler/DisplayTrial.java), 
 [IExperimentInterface](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/IExperimentInterface.java), and [GUIExperimentInterface](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit2/src/org/jactr/tutorial/unit2/experiment/ui/GUIExperimentInterface.java).
 
+The experiment interface is by no means required. It is just a convenience and useful 
+place to look if you want to integrate your own task based structures.
+
 ### DisplayTrial
 DisplayTrial is the actual implementation of the ITrial interface for the experiment framework. 
 In other words, it's the actual meat of the experiment. It controls which stimuli is displayed,
