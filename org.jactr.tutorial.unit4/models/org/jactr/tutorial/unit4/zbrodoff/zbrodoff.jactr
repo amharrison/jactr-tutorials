@@ -1,7 +1,7 @@
 /*
  * 
  */
- namespace zbrodoff{
+ namespace org.jactr.tutorial.unit4.zbrodoff.zbrodoff{
 import jactr.declarative.*
 import jactr.procedural.*
 import jactr.retrieval.*
@@ -27,7 +27,7 @@ module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "NumberOfProductionsFired"    : "0" ]
 module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
   "BaseLevelLearningRate" : "0.5"
-  "OptimizedLearning"     : "0"]
+  "OptimizedLearning"     : "10"]
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"  : "3.0"
@@ -42,13 +42,13 @@ module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"["SyllableDuration" :
 ]
 module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
 
-buffers {
+buffers { 
   @Override
    goal {goal} [
     "Activation"              : "1"
     "StrictHarvestingEnabled" : "false" ]
 }
-
+ 
 
 chunktype problem {
   arg1   = null
@@ -62,7 +62,7 @@ chunktype goal {
 }
 chunktype sequence {
   identity = null
-  next     = null
+  next     = null 
 }
 
 chunk waiting, retrieving, retrieve, attending, counting, count
@@ -78,7 +78,7 @@ parameters( zero, one, two, three, four, aa, bb, cc, dd, ee, ff, gg, hh, ii, jj,
     "CreationTime"   : "-1000"
     "ReferenceCount" : "100000"
 ]
-
+ 
 goal goal
 
 
@@ -99,7 +99,7 @@ production attend{
   }
   visual-location{}
   +visual{
-    isa attend-to
+    isa attend-to 
     where =  =visual-location
   }
 }
