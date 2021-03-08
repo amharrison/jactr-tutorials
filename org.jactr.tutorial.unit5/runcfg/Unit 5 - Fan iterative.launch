@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.jactr.eclipse.runtime.launching.normal">
+    <stringAttribute key="bad_container_name" value="/org.jactr.tutorial.unit56/runcfg"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_SHOW_CODEDETAILS_IN_EXCEPTION_MESSAGES" value="true"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jactr.tutorial.unit5"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DConfigurationFile=org/jactr/tutorial/unit5/fan/experiment.xml"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit4/models/org/jactr/tutorial/unit4/paired/paired.jactr" value="paired"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit4/models/org/jactr/tutorial/unit4/zbrodoff/zbrodoff.jactr" value="zbrodoff"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit5/models/org/jactr/tutorial/unit5/fan/fan.jactr" value="fan"/>
+    <intAttribute key="org.jactr.eclipse.runtime.launching.cr.ackTime" value="2000"/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.cr.disconnect" value="false"/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.debugCoreEnabled" value="true"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogConfiguration" value="/jactr-log.xml"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogger" value="org.jactr.slf4j.impl.log4j12"/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.ideTrace" value="false"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value=""/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.modelFiles" value="models/org/jactr/tutorial/unit5/fan/fan.jactr"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.onStart" value="org.jactr.tools.experiment.bootstrap.StartModelExperiments"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.onStop" value="org.jactr.tools.experiment.bootstrap.StopModelExperiments"/>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.keyboard.DefaultKeyboardSensor">
+        <mapEntry key="Actuator" value="org.commonreality.sensors.keyboard.DefaultActuator"/>
+        <mapEntry key="DurationEquation" value="org.commonreality.sensors.keyboard.SerialDurationEquation"/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.speech.DefaultSpeechSensor">
+        <mapEntry key="CharactersPerSecond" value="20"/>
+        <mapEntry key="DurationEquation" value=""/>
+        <mapEntry key="Speaker" value=""/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.swing.DefaultSwingSensor">
+        <mapEntry key="DistanceToScreenCM" value="33"/>
+        <mapEntry key="DotsPerCM" value="86.8"/>
+        <mapEntry key="UseFixationTracker" value="true"/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.xml2.XMLSensor">
+        <mapEntry key="XMLSensor.DataURI" value=""/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.async.sync.SynchronizationManager">
+        <mapEntry key="SynchronizationDelayInMS" value="10000"/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.grapher.core.GeneralProbe">
+        <mapEntry key="ConfigFile" value="org/jactr/tutorial/unit5/fan/data/spread.xml"/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.io.ModelRecorder">
+        <mapEntry key="SaveAsExtension" value="jactr"/>
+        <mapEntry key="StartDirectory" value="start"/>
+        <mapEntry key="StopDirectory" value="stop"/>
+        <mapEntry key="TrimModuleContributions" value="true"/>
+        <mapEntry key="attach" value="all"/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.marker.tracer.MarkerTraceListener"/>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.BufferTracer"/>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.LogTracer"/>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.ProceduralModuleTracer"/>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.VisualModuleTracer"/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.recordTrace" value="false"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.sensors" value="org.commonreality.sensors.keyboard.DefaultKeyboardSensor,org.commonreality.sensors.xml2.XMLSensor"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.tracers" value=""/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.useEmbed" value="false"/>
+</launchConfiguration>

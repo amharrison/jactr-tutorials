@@ -1,0 +1,61 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+
+	 <trial-handler
+    class="org.jactr.tutorial.unit5.fan.handler.DisplayHandler" />
+	<action-handler
+		class="org.jactr.tutorial.unit5.fan.handler.CleanupHandler" />
+
+
+	<group id="1" shuffle="true">
+		<display id="t:1:1" person="lawyer" location="store" target="true" />
+		<display id="t:2:1" person="captain" location="cave" target="true" />
+		<display id="t:3:1" person="hippie" location="church" target="true" />
+		<display id="t:1:2" person="debutante" location="bank" target="true" />
+		<display id="t:2:2" person="earl" location="castle" target="true" />
+		<display id="t:3:2" person="hippie" location="bank" target="true" />
+		<display id="t:1:3" person="fireman" location="park" target="true" />
+		<display id="t:2:3" person="captain" location="park" target="true" />
+		<display id="t:3:3" person="hippie" location="park" target="true" />
+		
+		<display id="f:1:1" person="fireman" location="store" target="false" />
+		<display id="f:2:1" person="captain" location="store" target="false" />
+		<display id="f:3:1" person="giant" location="store" target="false" />
+		<display id="f:1:2" person="fireman" location="bank" target="false" />
+		<display id="f:2:2" person="captain" location="bank" target="false" />
+		<display id="f:3:2" person="giant" location="bank" target="false" />
+		<display id="f:1:3" person="lawyer" location="park" target="false" />
+		<display id="f:2:3" person="earl" location="park" target="false" />
+		<display id="f:3:3" person="giant" location="park" target="false" />
+	</group>
+
+
+
+	<start>
+		<log message="starting experiment" />
+		<!-- block until actr is ready to run -->
+		<lock name="demo" />
+		<wait-for-actr />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+		<terminate />
+		<wait-for-actr start="false" />
+	</end>
+
+</experiment>  
