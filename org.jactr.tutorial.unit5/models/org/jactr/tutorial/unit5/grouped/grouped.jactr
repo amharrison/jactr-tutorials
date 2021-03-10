@@ -34,7 +34,7 @@ module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.core.module.random.six.DefaultRandomModule"["RandomSeed" : "1615230064887"]
 
 buffers {
-  @Override
+  @Override 
    goal {goal} [
     "Activation"              : "1"
     "StrictHarvestingEnabled" : "false" ]

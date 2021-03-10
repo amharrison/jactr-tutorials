@@ -1,0 +1,229 @@
+/*
+ * 
+ */
+namespace org.jactr.tutorial.unit5.siegler.siegler{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.aural.*
+import jactr.vocal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.5"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "true"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "3.0"
+  "LatencyFactor"      : "0.4" 
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "-0.45" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.modules.pm.aural.six.DefaultAuralModule6"["EnableAuralBufferStuff" : "true"]
+module "org.jactr.modules.pm.vocal.six.DefaultVocalModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+ 
+buffers {
+  @Override
+   goal {} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+  @Override
+   imaginal {} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "true" ]  
+}
+
+chunktype plus {
+  add1 = null
+  add2 = null
+  sum  = null
+}
+chunktype number {
+  aural = null
+  vocal = null
+}
+
+// The similarity between the numbers are set with a simple
+// linear distance measure:
+// Mji =  -.1 * |val(i) - val(j)|
+number zero(aural="0", vocal="zero")["Similarities" : "((one -0.1),(two -0.2),(three -0.3),(four -0.4),(five -0.5))"],
+  one(aural="1", vocal="one")["Similarities" : "((two -0.1), (three -0.2), (four -0.3),(five -0.4))"],
+  two(aural="2", vocal="two")["Similarities" : "((three -0.1), (four -0.2), (five -0.3))"],
+  three(aural="3", vocal="three")["Similarities" : "((four -0.1),(five -0.2))"],
+  four(aural="4", vocal="four")["Similarities" : "((five -0.1))"],
+  five(aural="5", vocal="five"), six(aural="6", vocal="six"), seven(aural="7", vocal="seven"),
+  eight(aural="8", vocal="eight"), nine(aural="9", vocal="nine")
+
+// The base level activation of the number chunks are
+// set high so that there are no errors in retrieving them -
+// the assumption is that the kids know the numbers and have  
+// no errors from hearing or speaking them.
+
+parameters (zero, one, two, three, four, five, six, seven, eight, nine)["BaseLevelActivation" : "10"]
+
+plus f00(add1=zero, add2=zero, sum=zero), f01(add1=zero, add2=one, sum=one), f02(add1=zero, add2=two, sum=two),
+  f03(add1=zero, add2=three, sum=three), f04(add1=zero, add2=four, sum=four), f05(add1=zero, add2=five, sum=five),
+  f10(add1=one, add2=zero, sum=one), f11(add1=one, add2=one, sum=two), f12(add1=one, add2=two, sum=three),
+  f13(add1=one, add2=three, sum=four), f14(add1=one, add2=four, sum=five), f15(add1=one, add2=five, sum=six),
+  f20(add1=two, add2=zero, sum=two), f21(add1=two, add2=one, sum=three), f22(add1=two, add2=two, sum=four),
+  f23(add1=two, add2=three, sum=five), f24(add1=two, add2=four, sum=six), f25(add1=two, add2=five, sum=seven),
+  f30(add1=three, add2=zero, sum=three), f31(add1=three, add2=one, sum=four), f32(add1=three, add2=two, sum=five),
+  f33(add1=three, add2=three, sum=six), f34(add1=three, add2=four, sum=seven), f35(add1=three, add2=five, sum=eight),
+  f40(add1=four, add2=zero, sum=four), f41(add1=four, add2=one, sum=five), f42(add1=four, add2=two, sum=six),
+  f43(add1=four, add2=three, sum=seven), f44(add1=four, add2=four, sum=eight), f45(add1=four, add2=five, sum=nine),
+  f50(add1=five, add2=zero, sum=five), f51(add1=five, add2=one, sum=six), f52(add1=five, add2=two, sum=seven),
+  f53(add1=five, add2=three, sum=eight), f54(add1=five, add2=four, sum=nine)
+
+// Set the base-levels of the small facts (sum <= 5) slightly 
+// above the default of 0.0 because more errors occurred to low side  
+// of answer and other research has found that small addition
+// problems occur more frequently.
+// Use the same offset for all of them because the objective is not
+// to try and engineer every detail found in the data.
+parameters(f00, f01, f02, f03, f04, f10, f11, f12, f13, f20, f21, f22, f30, f31, f40)["BaseLevelActivation" : "0.65"]
+
+production hear-sound{
+  aural-location{
+    isa audio-event
+    location =  external 
+  }
+  ?aural{
+    state =  free
+  }
+}{ 
+  +aural{
+    isa attend-to
+    where =  =aural-location
+  }
+}
+
+production encode-digit{
+  aural{
+    isa sound
+    content =  =value
+  }
+  ?retrieval{
+    state !=  busy
+  }
+}{
+  +retrieval{
+    isa number
+    aural =  =value
+  }
+}
+
+production harvest-arg1{
+  retrieval{
+    isa number
+  }
+  ?imaginal{
+    state  =  free
+    buffer =  empty
+  }
+}{
+  +imaginal{
+    isa plus
+    add1 =  =retrieval
+  }
+} 
+
+production harvest-arg2{
+  retrieval{
+    isa number
+  }
+  imaginal{
+    isa plus
+    add2 =  null
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    add2 = =retrieval
+  }
+}
+
+production retrieve-answer{
+  imaginal{
+    isa plus
+    add1 =  =add1
+    add2 =  =add2
+    sum  =  null
+  }
+  ?retrieval{ 
+    state  =  free
+    buffer =  empty
+  }
+}{
+  imaginal{}
+  +retrieval{
+    isa plus
+    add1 =  =add1
+    add2 =  =add2
+  }
+} 
+
+production harvest-answer{
+  retrieval{
+    isa plus
+    sum =  =number
+  }
+  imaginal{
+    isa plus
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    sum = =number
+  }
+  +retrieval{
+    =number
+  }
+}
+
+production respond{
+  imaginal{
+    isa plus 
+    sum =  =sum
+  }
+  retrieval{
+    isa number
+    vocal =  =vocalRep
+  }
+  ?vocal{
+    state =  free
+  }
+}{
+  +vocal{
+    isa speak
+    string =  =vocalRep
+  }
+    // now we null out the imaginal so we don't encode incorrect answers
+    // to be later retrieved.
+  -imaginal{
+    add1 = null
+    add2 = null 
+    sum  = null
+  }
+}
+
+ 
+ }[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+ ]

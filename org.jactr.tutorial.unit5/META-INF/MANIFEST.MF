@@ -30,6 +30,11 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.jactr.tutorial.unit5.fan,
  org.jactr.tutorial.unit5.fan.data,
  org.jactr.tutorial.unit5.fan.handler,
- org.jactr.tutorial.unit5.fan.sim
+ org.jactr.tutorial.unit5.fan.sim,
+ org.jactr.tutorial.unit5.grouped,
+ org.jactr.tutorial.unit5.siegler,
+ org.jactr.tutorial.unit5.siegler.data,
+ org.jactr.tutorial.unit5.siegler.handler,
+ org.jactr.tutorial.unit5.siegler.sim
 Bundle-ClassPath: lib/xchart-3.8.0.jar,
  .

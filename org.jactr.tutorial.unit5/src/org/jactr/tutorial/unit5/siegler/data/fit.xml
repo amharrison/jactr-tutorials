@@ -1,0 +1,19 @@
+<!--
+ This is an Orthogonal Parameter Space Searcher configuration file. 
+ -->
+
+<root name="Fit Search">
+	<analyzer
+		class="org.jactr.tutorial.unit5.siegler.data.Analyzer" />
+
+	<population>
+		<modifier
+			class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+			<parameter name="ModuleClass"
+				value="org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" />
+			<parameter name="ParameterName"
+				value="MismatchPenalty" />
+			<parameter name="ParameterValues" value="15, 16, 17" />
+		</modifier>
+	</population>
+</root>
