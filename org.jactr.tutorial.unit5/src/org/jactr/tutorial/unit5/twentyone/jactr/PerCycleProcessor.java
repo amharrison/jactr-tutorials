@@ -29,7 +29,7 @@ public class PerCycleProcessor extends ModelListenerAdaptor {
 
 	static public final int TOTAL_BINS = 20;
 	private int MAX_HANDS = 100;
-	
+
 	private SimpleTwentyOneExtension _extension;
 	private SimpleTwentyOneGame _game;
 	private IPlayer _player;
@@ -84,13 +84,12 @@ public class PerCycleProcessor extends ModelListenerAdaptor {
 			}
 
 			IClock clock = ACTRRuntime.getRuntime().getClock(model);
-			
-			if(_summaryHistory.size()<TOTAL_BINS)
-			  model.getTimedEventQueue().enqueue(new RunnableTimedEvent(clock.getTime() + 10, _postLearningPhase));
-			else
-			{
+
+			if (_summaryHistory.size() < TOTAL_BINS)
+				model.getTimedEventQueue().enqueue(new RunnableTimedEvent(clock.getTime() + 10, _postLearningPhase));
+			else {
 				DataCollection.get().logData(_summaryHistory.toArray(new Double[0]));
-				
+
 				throw new ModelTerminatedException("End of the run");
 			}
 		};
@@ -106,15 +105,17 @@ public class PerCycleProcessor extends ModelListenerAdaptor {
 
 			_game.startHand();
 			try {
+				boolean goalWasNull = goalChunk == null;
 				goalChunk = buildGoal(goalChunk, model);
-				goalBuffer.addSourceChunk(goalChunk);
+				if (goalWasNull)
+					goalBuffer.addSourceChunk(goalChunk);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			if(_summaryHistory.size()<TOTAL_BINS)
-			  model.getTimedEventQueue().enqueue(new RunnableTimedEvent(clock.getTime() + 10, _postActionPhase));
+			if (_summaryHistory.size() < TOTAL_BINS)
+				model.getTimedEventQueue().enqueue(new RunnableTimedEvent(clock.getTime() + 10, _postActionPhase));
 		};
 	}
 

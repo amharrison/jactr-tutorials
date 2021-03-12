@@ -61,10 +61,10 @@ For testing, the model will be played through a series of 100 hands and its perc
 
 ### Starting model
 A starting model for this task can be found in the **org.jactr.tutorial.unit5.twentyone** packages. Specifically,
-the model is defined in [twentyone.jactr](), and can executed using **Unit 5- TwentyOne** run configuration. The given model uses a very simple approach to learn to play the game. It attempts to retrieve a chunk which contains an action to perform that is similar to the current hand from those which it created based on the feedback on previous hands. If it can retrieve such a chunk it performs the action that it contains, and if not it chooses to stay. Then, based on the feedback from the hand the model may create a new chunk which holds the learned information for this hand to use on future hands. As described below however, the feedback used by this model is not very helpful in producing a useful chunk for learning about the game – it learns a strategy of always hitting.
+the model is defined in [twentyone.jactr](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/models/org/jactr/tutorial/unit5/twentyone/twentyone.jactr), and can executed using **Unit 5- TwentyOne** run configuration. The given model uses a very simple approach to learn to play the game. It attempts to retrieve a chunk which contains an action to perform that is similar to the current hand from those which it created based on the feedback on previous hands. If it can retrieve such a chunk it performs the action that it contains, and if not it chooses to stay. Then, based on the feedback from the hand the model may create a new chunk which holds the learned information for this hand to use on future hands. As described below however, the feedback used by this model is not very helpful in producing a useful chunk for learning about the game – it learns a strategy of always hitting.
 
 Because there are many more potential starting configurations than hands which will be played, this model uses the partial matching mechanism to allow it to retrieve a similar chunk when a chunk which matches exactly is not available. The given code provides the model with similarity values between numbers by using a function.
-This is done by setting the SimilarityHandlers parameter to the class name of our ISimilarityHandler [implementation](). This is by far easier than setting similarities by hand, but does require a little bit of programming.
+This is done by setting the SimilarityHandlers parameter to the class name of our ISimilarityHandler [implementation](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/jactr/NumericSimilarityHandler.java). This is by far easier than setting similarities by hand, but does require a little bit of programming.
 
 The equation that is used to set the similarities between the card values is:
 
@@ -109,19 +109,19 @@ The important thing to remember however is that the model should not make any as
 There are two parameters that can be used to run the model through the game. Each is described below.
 
 #### Playing a number of hands
-The [SimpleTwentyOneExtension]() exposes a parameter "HandsToPlay". Setting it to a number will determine how many hands the model will play before exiting. 
+The [SimpleTwentyOneExtension](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/jactr/SimpleTwentyOneExtension.java) exposes a parameter "HandsToPlay". Setting it to a number will determine how many hands the model will play before exiting. 
 
 ### Different opponent
-The [SimpleTwentyOneExtension]() exposes a parameter "DealerStandsOn" which is the value that the opponent will stand on.
+The [SimpleTwentyOneExtension](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/jactr/SimpleTwentyOneExtension.java) exposes a parameter "DealerStandsOn" which is the value that the opponent will stand on.
 
 ### Showing learning over time
-The [SimpleTwentyOneExtension]() exposes a read-only parameter "WinLossRatio". By using the general probe tracer, you can plot the win/loss ratio as the model runs.
+The [SimpleTwentyOneExtension](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/jactr/SimpleTwentyOneExtension.java) exposes a read-only parameter "WinLossRatio". By using the general probe tracer, you can plot the win/loss ratio as the model runs.
 
 ![win/loss](images/winloss.png)
 
 ### Bulk runs
 Because the win/loss rate is so noisy, you'll have to run many iterations to see the learning effect clearly. The
-**Unit 5 - TwentyOne Bulk Run** has already been configured with a parameter search space [configuration]() and [analyzer]() to graph
+**Unit 5 - TwentyOne Bulk Run** has already been configured with a parameter search space [configuration](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/data/fit.xml) and [analyzer](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/twentyone/data/Analyzer.java) to graph
 the average over the iterative runs. Here you can see the accuracy for our solution is roughly 40% which is pretty good.
 
 ![accuracy](images/accuracy.png)

@@ -4,8 +4,8 @@ The other example model for the unit which uses partial matching is fit to exper
 ![siegler data](images/sieglerData.png)
 
 The Siegler model and code is under the **org.jactr.tutorial.unit5.siegler** package. As before, there is no human-runnable interface available. That should not be too much of a problem however because one would guess that you would make very few errors if presented with such a task.
-Both the full [experiment.xml]() and abbreviated [short.xml]() versions of the experiment are available for running. **Unit 5 - Siegler** will run the abbreviated model with full tracing. 
-**Unit 5 - Siegler Bulk Run** will run the iterative parameter search using [fit.xml](). 
+Both the full [experiment.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/siegler/experiment.xml) and abbreviated [short.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/siegler/short.xml) versions of the experiment are available for running. **Unit 5 - Siegler** will run the abbreviated model with full tracing. 
+**Unit 5 - Siegler Bulk Run** will run the iterative parameter search using [fit.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/siegler/data/fit.xml). 
 
 Since there is no learning involved with this experiment, the model does not generate additional declarative chunks. It is presented the numbers to add aurally and responds by speaking a number. Here is an example of the output:
 ```

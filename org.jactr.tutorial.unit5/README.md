@@ -80,14 +80,14 @@ The main effects in the data are that as the fan increases the time to respond i
 ## Fan Effect Model
 The fan effect model and simulated task environment is available under the **org.jactr.tutorial.unit5.fan** package.
 We have skipped the human-runnable version and gone straight to the simulation. As usual the experiment is defined
-in the [experiment.xml]() file, which contains a trial for each probe question. You can run the model using the
+in the [experiment.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/fan/experiment.xml) file, which contains a trial for each probe question. You can run the model using the
 **Unit 5 - Fan** run configuration. To make finding the relevant sections in the trace easier, we are using
 markers and their associated **Marker Tracer** in the run configuration. Markers allow you to annotate spans of time
 with type/name attributes. Here we are marking the trial type (Target/Foil) and the actual trial. In the log viewer,
 Target time spans will be rendered in blue, while foil time spans will be rendered in green.
 
 As in the prior tutorials, the bulk run configuration, **Unit 5 - Fan Bulk Run**, does parametric searches based on 
-its own configuration file [fit.xml](). The following fit was achieved using two parameters, LatencyFactor and
+its own configuration file [fit.xml](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit5/src/org/jactr/tutorial/unit5/fan/data/fit.xml). The following fit was achieved using two parameters, LatencyFactor and
 MaximumAssociativeStrength. The spreading activation value for the imaginal buffer was set to 1.
 
 ```
