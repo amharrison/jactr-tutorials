@@ -1,0 +1,9 @@
+<instrument window="60">   <!-- how often to poll -->
+ <group id="WinLossRatio">  <!-- everything in a group is rendered on the same graph -->
+  <model pattern=".*">  <!-- what model to probe -->
+   <extension pattern=".*"> 
+     <probe pattern="WinLossRatio" poll="true"/> <!-- what parameter(s) -->
+    </extension>
+  </model>
+ </group>
+</instrument>

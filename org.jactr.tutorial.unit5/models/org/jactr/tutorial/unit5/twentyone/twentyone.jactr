@@ -1,0 +1,219 @@
+/*
+ * 
+ */
+namespace org.jactr.tutorial.unit5.twentyone.twentyone{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.2"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "true"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "10"
+  "PermanentActivationNoise" : "0"
+  //add our custom similarity handler
+  "SimilarityHandlers"       : "(org.jactr.tutorial.unit5.twentyone.jactr.NumericSimilarityHandler)"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
+  "BaseLevelLearningRate"      : "0.5"
+  "MaximumAssociativeStrength" : "NaN" // turn off spreading activation
+  "OptimizedLearning"          : "10" 
+]
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "30"
+  "LatencyFactor"      : "0" // wicked fast retrievals
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "-Infinity" ] // turn off threshold
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+//attach our extension
+extension "org.jactr.tutorial.unit5.twentyone.jactr.SimpleTwentyOneExtension"[
+  "HandsToPlay" : "100"
+  "DealerStandsOn" : "15"
+]
+
+buffers {
+  @Override
+   imaginal {} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "true" ]
+}
+
+chunk win, lose, bust, retrieving, start, results
+chunktype learned-info {
+  mc1    = null
+  action = null
+}
+
+chunktype game-state {
+  mc1     = null //model card 1
+  mc2     = null //model card 2
+  mc3     = null //model card 3, if hit
+  mstart  = null //model sum at start
+  mtot    = null //model total at end
+  mresult = null //model win/lose/bust
+  oc1     = null //other card 1
+  oc2     = null //other card 2
+  oc3     = null //other card 3, if hit
+  ostart  = null //other sum at start (1 card)
+  otot    = null //other total at end
+  oresult = null //other result
+  state   = start
+}
+
+production start{
+  goal{
+    isa game-state
+    state  =  start
+    mc1    =  =mc1
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  goal{
+    state = retrieving
+  }
+  +retrieval{
+    isa learned-info
+    mc1                 =  =mc1
+    action              != null
+    :recently-retrieved =  false
+  }
+}
+
+
+
+production cant-remember{
+  goal{
+    isa game-state
+    state =  retrieving
+  }
+  ?retrieval{
+    state =  error
+  }
+}{
+  proxy("org.jactr.tutorial.unit5.twentyone.jactr.TwentyOneResponse"){
+    response = "stand"
+  }
+  goal{
+    state = null
+  }
+}
+
+
+/**
+ * note: jact-r does not support overwrite operation, we'll just
+ * have to deal with the noise naturally.
+ */
+production remember-game{
+  goal{
+    isa game-state
+    state =  retrieving
+  }
+  retrieval{
+    isa learned-info
+    action =  =action
+  }
+}{
+  proxy("org.jactr.tutorial.unit5.twentyone.jactr.TwentyOneResponse"){
+    response = =action
+  }
+  goal{
+    state = null
+  }
+}
+
+
+production results-should-hit{
+  goal{
+    isa game-state
+    state   =  results
+    mresult =  =outcome
+    mc1     =  =mc1
+    mresult != bust
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  output("I =outcome")
+  goal{
+    state = null
+  }
+  +imaginal{
+    isa learned-info
+    mc1    =  =mc1
+    action =  "hit"
+  }
+}["Utility" : "2"]
+
+
+production resuls-should-stay{
+  goal{
+    isa game-state
+    state   =  results
+    mresult =  =outcome
+    mc1     =  =mc1
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  output("I =outcome")
+  goal{
+    state = null
+  }
+  +imaginal{
+    isa learned-info
+    mc1    =  =mc1
+    action =  "stand"
+  }
+}
+
+
+
+production clear-reset{
+  goal{
+    isa game-state
+  }
+  imaginal{
+    isa learned-info
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  -imaginal{}
+  -goal{ // clear so we don't pollute memory with garbage
+    state  = null
+    oc1    = null
+    oc2    = null
+    oc3    = null
+    ostart = null
+    otot   = null
+    mstart = null
+    mtot   = null
+    mc1    = null
+    mc2    = null
+    mc3    = null
+  }
+}
+
+
+
+ 
+}[
+  "EnablePersistentExecution" : "false"
+  "EnableUnusedCycleSkipping" : "true"
+ ]

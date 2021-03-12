@@ -35,6 +35,14 @@ Export-Package: org.jactr.tutorial.unit5.fan,
  org.jactr.tutorial.unit5.siegler,
  org.jactr.tutorial.unit5.siegler.data,
  org.jactr.tutorial.unit5.siegler.handler,
- org.jactr.tutorial.unit5.siegler.sim
+ org.jactr.tutorial.unit5.siegler.sim,
+ org.jactr.tutorial.unit5.twentyone.cards,
+ org.jactr.tutorial.unit5.twentyone.cards.impl,
+ org.jactr.tutorial.unit5.twentyone.cards.simple,
+ org.jactr.tutorial.unit5.twentyone.cards.twentyone,
+ org.jactr.tutorial.unit5.twentyone.cards.twentyone.impl,
+ org.jactr.tutorial.unit5.twentyone.cards.twentyone.ui,
+ org.jactr.tutorial.unit5.twentyone.jactr,
+ org.jactr.tutorial.unit5.twentyone.jactr.internal
 Bundle-ClassPath: lib/xchart-3.8.0.jar,
  .

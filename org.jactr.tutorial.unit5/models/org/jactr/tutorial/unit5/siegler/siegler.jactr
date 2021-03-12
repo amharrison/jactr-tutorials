@@ -17,7 +17,8 @@ module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
   "MaximumDifference"        : "-1"
   "MaximumSimilarity"        : "0"
   "MismatchPenalty"          : "1"
-  "PermanentActivationNoise" : "0"]
+  "PermanentActivationNoise" : "0"
+  ]
 module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "DefaultProductionFiringTime" : "0.05"
   "ExpectedUtilityNoise"        : "0"

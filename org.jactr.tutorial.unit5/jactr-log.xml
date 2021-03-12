@@ -44,8 +44,8 @@
 	<logger name="org.jactr.extensions.cached.procedural"><level value="debug"/></logger>
 	<logger name="org.jactr.modules.pm.motor.managers.MotorCommandManager"><level value="debug"/></logger>
 		
-	<logger name="org.jactr.core.chunk.six.AssociativeLinkEquation6"><level value="debug"/></logger>
-	<logger name="org.jactr.core.module.declarative.four.associative.DefaultAssociativeLinkageSystem4"><level value="debug"/></logger>
+	<logger name="org.jactr.tools.async.sync"><level value="debug"/></logger>
+	<logger name="org.jactr.tools.misc.ModelsLock"><level value="debug"/></logger>
 		-->
 	
 	<root>
