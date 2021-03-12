@@ -7,6 +7,9 @@ The canonical ACT-R tutorials are available for jACT-R.
 3. [Unit 3](org.jactr.tutorial.unit3/)
 4. [Unit 4](org.jactr.tutorial.unit4/)
 5. [Unit 5](org.jactr.tutorial.unit5/)
+6. Unit 6 (pending)
+7. Unit 7 (pending)
+8. Unit 8 (pending)
 
 Older tutorials are available covering a few topics:
 * Creating custom [sensor](https://github.com/amharrison/jactr-tutorials/tree/master/org.commonreality.sensors.example) extending BaseSensor
