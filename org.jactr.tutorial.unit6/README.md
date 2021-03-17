@@ -1,4 +1,4 @@
-# Unit 6: Selecting PRoductions on the Basis of Their Utilities and Learning those Utilities
+# Unit 6: Selecting Productions on the Basis of Their Utilities and Learning those Utilities
 Occasionally, we have had cause to set parameters of productions so that one production will be preferred over another in the conflict resolution process. Now we will examine how production utilities are computed and used in conflict resolution. We will also look at how these utilities are learned.
 
 ## The Utility Theory
