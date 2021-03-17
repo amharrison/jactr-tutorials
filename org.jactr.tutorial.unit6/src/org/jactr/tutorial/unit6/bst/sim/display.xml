@@ -1,0 +1,120 @@
+
+<sensor name="test">
+	<time relative="0">
+		<add alias="A" type="AFFERENT">
+			<boolean name="visual.isVisual" value="true" />
+			<doubles name="visual.retinal.location" value="-2,2" />
+			<double name="visual.retinal.distance" value="1" />
+			<doubles name="visual.retinal.size" value="1,1" />
+			<boolean name="visual.visible" value="true" />
+			<strings name="visual.type" value="button" />
+			<string name="visual.token" value="A" />
+			<string name="visual.text" value="A" />
+			<doubles name="visual.color" value="1,0,0,1" />
+		</add>
+		<add alias="ALine" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="0,2" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="${aWidth}" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="line" />
+      <string name="visual.token" value="A" />
+      <string name="visual.text" value="A" />
+      <doubles name="visual.color" value="0,0,0,1" />
+			<double name="bst.lineLength" value="${aFeature}"/>
+    </add>
+
+     <add alias="B" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="-2,1" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="1,1" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="button" />
+      <string name="visual.token" value="B" />
+      <string name="visual.text" value="B" />
+      <doubles name="visual.color" value="1,0,0,1" />
+    </add>
+    <add alias="BLine" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="0,1" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="${bWidth}" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="line" />
+      <string name="visual.token" value="B" />
+      <string name="visual.text" value="B" />
+      <doubles name="visual.color" value="0,0,0,1" />
+      <double name="bst.lineLength" value="${bFeature}"/>
+    </add>
+
+     <add alias="C" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="-2,0" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="1,1" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="button" />
+      <string name="visual.token" value="C" />
+      <string name="visual.text" value="C" />
+      <doubles name="visual.color" value="1,0,0,1" />
+    </add>
+    <add alias="CLine" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="0,0" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="${cWidth}" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="line" />
+      <string name="visual.token" value="C" />
+      <string name="visual.text" value="C" />
+      <doubles name="visual.color" value="0,0,0,1" />
+      <double name="bst.lineLength" value="${cFeature}"/>
+    </add>
+
+ 
+    <add alias="goalLine" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="0,-1" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="${goalWidth}" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="line" />
+      <string name="visual.token" value="goal" />
+      <string name="visual.text" value="goal" />
+      <doubles name="visual.color" value="0,1,0,1" />
+      <double name="bst.lineLength" value="${goalFeature}"/>
+    </add>
+
+
+     <add alias="RESET" type="AFFERENT">
+      <boolean name="visual.isVisual" value="true" />
+      <doubles name="visual.retinal.location" value="-2,-2" />
+      <double name="visual.retinal.distance" value="1" />
+      <doubles name="visual.retinal.size" value="1,1" />
+      <boolean name="visual.visible" value="true" />
+      <strings name="visual.type" value="button" />
+      <string name="visual.token" value="Reset" />
+      <string name="visual.text" value="Reset" />
+      <doubles name="visual.color" value="1,0,0,1" />
+    </add>
+    
+
+		<add alias="current" type="AFFERENT">
+			<boolean name="visual.isVisual" value="true" />
+			<doubles name="visual.retinal.location" value="0,-2" />
+			<double name="visual.retinal.distance" value="1" />
+			<doubles name="visual.retinal.size" value="${currentWidth}" />
+			<boolean name="visual.visible" value="true" />
+			<strings name="visual.type" value="line" />
+			<string name="visual.token" value="current" />
+			<string name="visual.text" value="current" />
+			<doubles name="visual.color" value="0,0,1,1" />
+			<double name="bst.lineLength" value="${currentFeature}"/>
+		</add>
+
+
+	</time>
+
+</sensor>

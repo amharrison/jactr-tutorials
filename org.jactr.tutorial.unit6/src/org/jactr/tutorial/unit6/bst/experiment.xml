@@ -1,0 +1,56 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+
+	<trial-handler
+    class="org.jactr.tutorial.unit6.bst.handler.DisplayHandler" />
+	<action-handler
+		class="org.jactr.tutorial.unit6.bst.handler.CleanupHandler" />
+
+
+	<group id="1" shuffle="false">
+	<!-- 
+	 -->
+	 	<display id="1" a="15" b="250" c="55" goal="125"/>
+	 	<display id="2" a="10" b="155" c="22" goal="101"/>
+	 	<display id="3" a="14" b="200" c="37" goal="112"/>
+	 	<display id="4" a="22" b="200" c="32" goal="114"/>
+	 	<display id="5" a="10" b="243" c="37" goal="159"/>
+	 	<display id="6" a="22" b="175" c="40" goal="73"/>
+	 	<display id="7" a="15" b="250" c="49" goal="137"/>
+	 	<display id="8" a="10" b="179" c="32" goal="105"/>
+	 	<display id="9" a="20" b="213" c="42" goal="104"/>
+	 	<display id="10" a="14" b="237" c="51" goal="116"/>
+	 	<display id="11" a="12" b="149" c="30" goal="72"/>
+	 	<display id="12" a="14" b="237" c="51" goal="121"/>
+	 	<display id="13" a="22" b="200" c="32" goal="114"/>
+	 	<display id="14" a="14" b="200" c="37" goal="112"/>	 	
+	 	<display id="15" a="15" b="250" c="55" goal="125"/>
+	</group>
+	
+	<start>
+		<log message="starting experiment" />
+		<!-- block until actr is ready to run -->
+		<wait-for-actr />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+		<terminate />
+		<wait-for-actr start="false" />
+	</end>
+
+</experiment>  

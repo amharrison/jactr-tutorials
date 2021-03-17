@@ -1,0 +1,57 @@
+<experiment
+	class="org.jactr.tools.experiment.impl.BasicExperiment"
+	name="experiment1" shuffle="false" iterations="1">
+
+	<!-- dump to data/subjectID/output.xml -->
+	<data-logger
+		class="org.jactr.tools.experiment.impl.XMLDataLogger" path="./data"
+		file="output.xml" />
+
+<action-handler
+    class="org.jactr.tutorial.unit6.probability.handler.ConditionAssignmentHandler" />
+  <action-handler
+    class="org.jactr.tutorial.unit6.probability.handler.CleanupHandler" />
+
+  <group id="1" shuffle="true">
+    <start>
+      <assign block="1" repetitions="12" rate="0.9"/>
+    </start>
+  </group>
+   <group id="2" shuffle="true">
+    <start>
+      <assign block="2" repetitions="12" rate="0.9"/>
+    </start>
+  </group>
+   <group id="3" shuffle="true">
+    <start>
+      <assign block="3" repetitions="12" rate="0.9"/>
+    </start>
+  </group>
+   <group id="4" shuffle="true">
+    <start>
+      <assign block="4" repetitions="12" rate="0.9"/>
+    </start>
+  </group>
+	
+
+
+
+	<start>
+		<log message="starting experiment" />
+		<wait-for-actr />
+		<!-- drop open data tag w/ attrs subject and conf to the log file -->
+		<record open="data" subject="${SubjectId}" conf="${DataPath}" />
+	</start>
+
+	<end>
+		<log message="terminating experiment" />
+		<record simple="duration" time="${delta}" />
+		<!-- close the data tag in the log file -->
+		<record close="data" />
+		<cleanup />
+
+		<terminate />
+		<wait-for-actr start="false" />
+	</end>
+
+</experiment>  

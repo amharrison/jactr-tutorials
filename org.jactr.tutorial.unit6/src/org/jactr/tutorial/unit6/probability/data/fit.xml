@@ -1,0 +1,25 @@
+<!-- This is an Orthogonal Parameter Space Searcher configuration file. -->
+
+<root name="Fit Search">
+	<analyzer class="org.jactr.tutorial.unit6.probability.data.Analyzer" />
+
+	<population>
+		<modifier
+			class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+			<parameter name="ModuleClass"
+				value="org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6" />
+			<parameter name="ParameterName"
+				value="ParameterLearningRate" />
+			<parameter name="ParameterValues" value="0.2" />
+		</modifier>
+
+		<modifier
+			class="org.jactr.io2.tools.iterative.ortho.ModuleParameterModifier">
+			<parameter name="ModuleClass"
+				value="org.jactr.core.module.procedural.six.DefaultProceduralModule6" />
+			<parameter name="ParameterName"
+				value="ExpectedUtilityNoise" />
+			<parameter name="ParameterValues" value="2, 3" />
+		</modifier>
+	</population>
+</root>

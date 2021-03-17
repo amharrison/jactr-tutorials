@@ -1,0 +1,12 @@
+
+<sensor name="test">
+	<time relative="0">
+	  <update alias="current" type="AFFERENT">
+      <doubles name="visual.retinal.size" value="${currentWidth}" />
+      <double name="bst.lineLength" value="${currentFeature}"/>
+    </update>
+	
+	
+	</time>
+
+</sensor>

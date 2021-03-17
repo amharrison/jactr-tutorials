@@ -1,0 +1,846 @@
+/*
+ * 
+ */
+namespace org.jactr.tutorial.unit6.bst.bst{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "3"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6"[
+  "EnableProductionCompilation" : "false"
+  "ParameterLearningRate"       : "0.2"]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "3.0"
+  "LatencyFactor"      : "1"
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "0" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableVisualBufferStuff"                                       : "true"
+  /*
+   * goal and C are close to each other. this vertical resolution (2x)
+   * separates them better.
+   */
+  "VisualFieldVerticalResolution"                                 : "240"
+  // install our custom encoder
+  "org.jactr.tutorial.unit6.bst.jactr.LineVisualEncoder"          : "true"
+  // get rid of cursor encoding
+  "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" 
+]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+/*
+ * this extension installs optimizations that can speed up production-locked
+ * models 40-90%.
+ */
+extension "org.jactr.extensions.cached.procedural.CachedProductionSystem"[
+"EnableCaching" : "true"
+"ValidateInstantiations" : "false"]
+
+buffers {
+  @Override
+   goal {} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+chunk start, find-line, looking, attending, encode-under, encode-over, choose-strategy, calculate-difference,
+  consider-next, check-for-done, read-done, evaluate-c, prepare-mouse, evaluate-a, over, under, move-mouse,
+wait-for-click
+
+chunktype line-object extends visual-object {length = null}
+
+chunktype try-strategy {
+  strategy = null
+  state    = start
+}
+chunktype encoding {
+  a-loc    = null
+  b-loc    = null
+  c-loc    = null
+  goal-loc = null
+  length   = null
+  over     = null
+  under    = null
+}
+
+
+parameters (decide-under, decide-over)["Utility" : "13"]
+parameters (force-under, force-over)["Utility" : "10"]
+
+/*
+ * at the start of the experiment, move hand to the mouse
+ */
+production bootstrap{
+  ?goal{
+    buffer =  empty
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  +goal{
+    isa try-strategy
+  }
+  +motor{
+    isa hand-to-mouse
+    hand =  right
+  }
+}
+
+
+production start-trial{
+  goal{
+    isa try-strategy
+    state =  start
+  }
+  ?visual-location{
+    buffer =  unrequested
+  }
+}{
+  goal{
+    state = find-line
+  }
+}
+
+production find-next-line{
+  goal{
+    isa try-strategy
+    state =  find-line
+  }
+}{
+  +visual-location{
+    isa visual-location
+    :attended != true
+    kind      =  line-object
+    screen-y  =  highest // start at the top and go down
+  }
+  goal{
+    state = looking
+  }
+}
+
+production attend-line{
+  goal{
+    isa try-strategy
+    state =  looking
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state  =  free
+    buffer =  empty
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state = attending
+  }
+}
+
+production encode-line-a{
+  goal{
+    isa try-strategy
+    state =  attending
+  }
+  visual{
+    isa line-object
+    screen-pos =  =loc
+  }
+  ?imaginal{
+    state  =  free
+    buffer =  empty
+  }
+}{
+  +imaginal{
+    isa encoding
+    a-loc =  =loc
+  }
+  goal{
+    state = find-line
+  }
+}
+
+production encode-line-b{
+  goal{
+    isa try-strategy
+    state =  attending
+  }
+  visual{
+    isa line-object
+    screen-pos =  =loc
+  }
+  imaginal{
+    isa encoding
+    a-loc != null
+    b-loc =  null
+  }
+}{
+  imaginal{
+    b-loc = =loc
+  }
+  goal{
+    state = find-line
+  }
+}
+
+production encode-line-c{
+  goal{
+    isa try-strategy
+    state =  attending
+  }
+  visual{
+    isa line-object
+    screen-pos =  =loc
+  }
+  imaginal{
+    isa encoding
+    a-loc != null
+    b-loc != null
+    c-loc =  null
+  }
+}{
+  imaginal{
+    c-loc = =loc
+  }
+  goal{
+    state = find-line
+  }
+}
+
+production encode-line-current{
+  goal{
+    isa try-strategy
+    state =  attending
+  }
+  imaginal{
+    isa encoding
+    goal-loc =  =goalLoc
+  }
+  visual{
+    isa line-object
+    length =  =currentLength
+  }
+}{
+  imaginal{
+    length = =currentLength
+  }
+  goal{
+    state = calculate-difference
+  }
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    :nearest =  =goalLoc
+  }
+}
+
+
+production encode-line-goal{
+  goal{
+    isa try-strategy
+    state =  attending
+  }
+  visual{
+    isa line-object
+    screen-pos =  =loc
+    length     =  =length
+  }
+  imaginal{
+    isa encoding
+    c-loc    =  =c-loc
+    goal-loc =  null
+  }
+}{
+  imaginal{
+    goal-loc = =loc
+    length   = =length
+  }
+  goal{
+    state = encode-under
+  }
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    :nearest =  =c-loc
+  }
+}
+
+production encode-under-attend-line{
+  goal{
+    isa try-strategy
+    state =  encode-under
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+production encode-under{
+  goal{
+    isa try-strategy
+    state =  encode-under
+  }
+  imaginal{
+    isa encoding
+    b-loc  =  =bLoc
+    length =  =goalLength
+  }
+  visual{
+    isa line-object
+    length =  =cLength
+  }
+    // !bind! =val (- =goal-len =c-len)
+  proxy("org.jactr.tutorial.unit6.bst.jactr.Subtract"){
+    arg1 = =goalLength
+    arg2 = =cLength
+  }
+}{
+  imaginal{
+    under = =result
+  }
+  goal{
+    state = encode-over
+  }
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    :nearest =  =bLoc
+  }
+}
+
+production encode-over-attend-line{
+  goal{
+    isa try-strategy
+    state =  encode-over
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+production encode-over{
+  goal{
+    isa try-strategy
+    state =  encode-over
+  }
+  imaginal{
+    isa encoding
+    length =  =goalLength
+  }
+  visual{
+    isa line-object
+    length =  =bLength
+  }
+    // !bind! =val (- =b-len =goal-len)
+  proxy("org.jactr.tutorial.unit6.bst.jactr.Subtract"){
+    arg1 = =bLength
+    arg2 = =goalLength
+  }
+}{
+  imaginal{
+    over = =result
+  }
+  goal{
+    state = choose-strategy
+  }
+}
+
+production calculate-difference-attend-line{
+  goal{
+    isa try-strategy
+    state =  calculate-difference
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+production calculate-difference{
+  goal{
+    isa try-strategy
+    state =  calculate-difference
+  }
+  imaginal{
+    isa encoding
+    length =  =currentLength
+  }
+  visual{
+    isa line-object
+    length =  =goalLength
+  }
+    // !bind! =val (abs (- =current-len =goal-len))
+  proxy("org.jactr.tutorial.unit6.bst.jactr.AbsoluteSubtract"){
+    arg1 = =currentLength
+    arg2 = =goalLength
+  }
+}{
+  imaginal{
+    length = =result
+  }
+  goal{
+    state = consider-next
+  }
+}
+
+production check-for-done{
+  goal{
+    isa try-strategy
+    state =  consider-next
+  }
+  imaginal{
+    isa encoding
+    length =  0
+  }
+}{
+  goal{
+    state = check-for-done
+  }
+  +visual-location{
+    isa visual-location
+    value =  "Done"
+  }
+}
+
+production find-done{
+  goal{
+    isa try-strategy
+    state =  check-for-done
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state = read-done
+  }
+}
+
+production read-done{
+  goal{
+    isa try-strategy
+    state =  read-done
+  }
+  visual{
+    isa visual-object
+    value =  "Done"
+  }
+}{
+  +goal{
+    isa try-strategy
+  }
+  //drop a marker so it's easier to find the logs
+  proxy("org.jactr.tools.marker.PointMarkerAction"){
+    type = "Reward"
+    name = "20"
+  }
+}["Reward" : "20"]
+
+
+production consider-c{
+  goal{
+    isa try-strategy
+    state =  consider-next
+  }
+  imaginal{
+    isa encoding
+    c-loc  =  =cLoc
+    length > 0
+  }
+}{
+  imaginal{}
+  goal{
+    state = evaluate-c
+  }
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    :nearest =  =cLoc
+  }
+}
+
+production evaluate-c-attend-line{
+  goal{
+    isa try-strategy
+    state =  evaluate-c
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+production choose-c{
+  goal{
+    isa try-strategy
+    state =  evaluate-c
+  }
+  imaginal{
+    isa encoding
+    length =  =difference
+  }
+  visual{
+    isa line-object
+    length <= =difference
+  }
+}{
+  imaginal{}
+  goal{
+    state = prepare-mouse
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "C"
+  }
+}
+
+production consider-a{
+  goal{
+    isa try-strategy
+    state =  evaluate-c
+  }
+  imaginal{
+    isa encoding
+    a-loc  =  =aLoc
+    length =  =difference
+  }
+  visual{
+    isa line-object
+    length > =difference
+  }
+}{
+  imaginal{}
+  goal{
+    state = evaluate-a
+  }
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    :nearest =  =aLoc
+  }
+}
+
+production evaluate-a-attend-line{
+  goal{
+    isa try-strategy
+    state =  evaluate-a
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+}
+
+production choose-a{
+  goal{
+    isa try-strategy
+    state =  evaluate-a
+  }
+  imaginal{
+    isa encoding
+    length =  =difference
+  }
+  visual{
+    isa line-object
+    length <= =difference
+  }
+}{
+  imaginal{}
+  goal{
+    state = prepare-mouse
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "A"
+  }
+}
+
+production reset{
+  goal{
+    isa try-strategy
+    state =  evaluate-a
+  }
+  imaginal{
+    isa encoding
+    length =  =difference
+  }
+  visual{
+    isa line-object
+    length > =difference
+  }
+}{
+  imaginal{}
+  goal{
+    state = prepare-mouse
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "Reset"
+  }
+}
+
+production decide-over{
+  goal{
+    isa try-strategy
+    state    =  choose-strategy
+    strategy =  null
+  }
+  imaginal{
+    isa encoding
+    over  =  =over
+    under =  =under
+  }
+    // !eval! (< =over (- =under 25))
+  proxy("org.jactr.tutorial.unit6.bst.jactr.LessThanDelta")
+  {
+    arg1      = =over
+    arg2      = =under
+    threshold = 25
+  }
+}{
+  imaginal{}
+  goal{
+    state    = prepare-mouse
+    strategy = over
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "B"
+  }
+}
+
+production force-over{
+  goal{
+    isa try-strategy
+    state    =  choose-strategy
+    strategy != over
+  }
+}{
+  goal{
+    state    = prepare-mouse
+    strategy = over
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "B"
+  }
+}
+
+
+production decide-under{
+  goal{
+    isa try-strategy
+    state    =  choose-strategy
+    strategy =  null
+  }
+  imaginal{
+    isa encoding
+    over  =  =over
+    under =  =under
+  }
+//   !eval! (< =under (- =over 25))
+  proxy("org.jactr.tutorial.unit6.bst.jactr.LessThanDelta")
+  {
+    arg1      = =under
+    arg2      = =over
+    threshold = 25
+  }
+}{
+  imaginal{}
+  goal{
+    state    = prepare-mouse
+    strategy = under
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "C"
+  }
+}
+
+production force-under{
+  goal{
+    isa try-strategy
+    state    =  choose-strategy
+    strategy != under
+  }
+}{
+  goal{
+    state    = prepare-mouse
+    strategy = under
+  }
+  +visual-location{
+    isa visual-location
+    kind  =  button-object
+    value =  "C"
+  }
+}
+
+production move-mouse{
+  goal{
+    isa try-strategy
+    state =  prepare-mouse
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  goal{
+    state = move-mouse
+  }
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  +motor{
+    isa move-cursor
+    location =  =visual-location
+  }
+}
+
+production click-mouse{
+  goal{
+    isa try-strategy
+    state =  move-mouse
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  goal{
+    state = wait-for-click
+  }
+  +motor{
+    isa click-mouse
+  }
+}
+
+production look-for-current{
+  goal{
+    isa try-strategy
+    state =  wait-for-click
+  }
+  ?motor{
+    state =  free
+  }
+  visual{
+    isa visual-object
+    value != "Reset"
+  }
+}{
+  +visual-location{
+    isa visual-location
+    kind     =  line-object
+    screen-y =  lowest // current line
+  }
+  goal{
+    state = looking
+  }
+}
+
+production pick-another-strategy{
+  goal{
+    isa try-strategy
+    state =  wait-for-click
+  }
+  ?motor{
+    state =  free
+  }
+  visual{
+    isa visual-object
+    value =  "Reset"
+  }
+}{
+  goal{
+    state = choose-strategy
+  }
+  //drop a marker so it's easier to find in the logs
+  proxy("org.jactr.tools.marker.PointMarkerAction"){
+    type = "Reward"
+    name = "0"
+  }
+}["Reward" : "0"]
+
+ 
+ }[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+ ]
