@@ -1,4 +1,4 @@
-# Unit 6: Selecting PRoductions on the Basis of Their Utilities and Learning those Utilities
+# Unit 6: Selecting Productions on the Basis of Their Utilities and Learning those Utilities
 Occasionally, we have had cause to set parameters of productions so that one production will be preferred over another in the conflict resolution process. Now we will examine how production utilities are computed and used in conflict resolution. We will also look at how these utilities are learned.
 
 ## The Utility Theory
@@ -273,9 +273,7 @@ production force-under {
 ![probes](images/probes.png)
 
 The Utility parameters for the force productions are set to 10 while they are set to a more optimistic 13 for the decide productions.
-The ExpectedUtility parameter shows the last computed utility value for the production during a conflict-resolution event and includes the effect of utility noise. 
-Thus, we see that even though the true utility for decide-over is 13 it had a utility of 13.5 the last time it was matched in conflict-resolution
-Unless a production is explicitly assigned a value for Utility it is given a default of 0.  Therefore, the above four productions are the only ones in the model with non-zero values.
+The ExpectedUtility parameter shows the last computed utility value for the production during a conflict-resolution event but does not include the effect of utility noise (that is handled by the instantiation of the production). The above four productions are the only ones in the model with non-zero values.
 
 Let us consider how these productions apply in the case of the two problems in the model. Since the difference between the under and over differences is 35 pixels, there will be one decide and two force productions that match for both problems. Let us consider the probability of choosing each production using the equation shown above, and the fact that the noise parameter, s, is set to 3 in the model.
 
