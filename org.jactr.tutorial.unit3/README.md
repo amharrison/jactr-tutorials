@@ -463,7 +463,7 @@ buffer.  The `isBufferStuffRequest = true` at the end of the line in the trace i
 that this setting of the chunk in the buffer was not the result a production’s request. This can be
 turned off using the **EnabledVisualBufferStuff** parameter in the visual module.
 
-The default specification is merely `:attended = new`, but this can be configured in model or
+The default specification is merely `:attended = new :nearest = current`, but this can be configured in model or
 java.
  
 Using buffer stuffing allows the model to detect changes to the screen.  The alternative method

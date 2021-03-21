@@ -11,22 +11,32 @@ import org.jactr.tools.itr.ortho.ISliceAnalysis;
 import org.jactr.tools.itr.ortho.ISliceAnalyzer;
 
 /**
- * statistical analysis code for Unit 3 sperling.
+ * statistical analysis code for Unit 3 sperling. This code is called after a
+ * block of runs with a given parameter set is executed. It is contributed to
+ * the orthogonal parameter space search tool through its configuration file,
+ * using <code>
+  <analyzer class="org.jactr.tutorial.unit3.sperling.data.Analyzer" />
+ * </code>
  * 
  * @author harrison
  *
  */
 public class Analyzer implements ISliceAnalyzer {
 
-	/** 
+	/**
 	 * reference data
 	 */
 	static private final double[] SPERLING_DATA = { 3.03, 2.40, 2.0, 1.50 };
 
+	/**
+	 * called after all the models in a block for a given parameter set is complete.
+	 * Use this time to extract data from internal or external stores, analyse said data,
+	 * produce summaries and graphs, all linked back to the {@link ISliceAnalysis}
+	 */
 	@Override
 	public Object analyze(ISliceAnalysis sliceAnalysis) {
 
-		//make sure all the data is collected
+		// make sure all the data is collected
 		if (DataCollection.get().hasSubject())
 			DataCollection.get().subjectCompleted();
 
@@ -38,9 +48,9 @@ public class Analyzer implements ISliceAnalyzer {
 		 * generate a simple summary report file for this analysis
 		 */
 		saveGroupNumbers(sliceAnalysis);
-		
+
 		/**
-		 * repackage the data for correlations
+		 * repackage the data for fits
 		 */
 		double[][] fitData = new double[SPERLING_DATA.length][2];
 		int index = 0;
@@ -70,9 +80,9 @@ public class Analyzer implements ISliceAnalyzer {
 		return null;
 	}
 
-	
 	/**
 	 * save an analysis file local to the slice analysis
+	 * 
 	 * @param sliceAnalysis
 	 */
 	private void saveGroupNumbers(ISliceAnalysis sliceAnalysis) {
