@@ -27,6 +27,7 @@
         <mapEntry key="UseFixationTracker" value="false"/>
     </mapAttribute>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.swing.RealtimeSwingSensor">
+        <mapEntry key="ConfigurationConsumer" value=""/>
         <mapEntry key="DistanceToScreenCM" value="33"/>
         <mapEntry key="DotsPerCM" value="86.8"/>
         <mapEntry key="UseFixationTracker" value="true"/>

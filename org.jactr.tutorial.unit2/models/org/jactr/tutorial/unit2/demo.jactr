@@ -8,8 +8,6 @@ import jactr.retrieval.*
 import jactr.imaginal.*
 import jactr.visual.*
 import jactr.motor.*
-import jactr.aural.*
-import jactr.vocal.*
 import jactr.goal.*
 
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [

@@ -6,7 +6,8 @@ The coding patterns used here will be repeated across the various tutorials.
 The models of unit 1 are unique in that they are self-contained within the model
 itself. None of them interact with the environment or task. Every model from here
 on out will have three primary components: the model itself, the task, and the
-environment the task and model are situated within. Here we will focus on the later
+environment the task and model are situated within. jACT-R focuses maintains a clean distinction
+between these elements. Here we will focus on the later
 two components. 
 
 ## The Environment
@@ -61,4 +62,55 @@ The two remaining source files are CleanupHandler and DisplayHandler, these are 
 *experiment.xml* configuration file, but are basically just there so that the experiment parser knows
 how to deal with the custom tags *display* and *cleanup*. 
 
+### The Model & Locks
+The experiment framework provides a useful utility in the form of named locks that can be closed or opened. Used in conjunction
+with proxy conditions such as that seen in find-unattended-letter, it enables you to influence the run of the model
+based on the experiment's needs. 
 
+```
+production find-unattended-letter {
+  goal{
+    isa read-letters
+    state =  start
+  }
+  ?visual{
+    state =  free
+  }
+  proxy("org.jactr.tools.experiment.production.IsUnlockedCondition"){
+    lock = "demo"
+  }
+}{
+  +visual-location{
+    isa visual-location
+    :attended =  null
+    kind      =  label-object
+  }
+}
+```
+Normally, as in this case, the lock is used to make sure that the model is ready to go before starting an experimental 
+trial, and is similarly constrained between trials. Basically, the model will not be able to fire
+this production (which starts the processing off) until the DisplayTrial's start when it is unlocked using:
+```
+trigger.add(new UnlockAction("demo", experiment));
+```
+
+At the end of the trial, we close the named lock, preventing the model from running another trial until we are ready for it.
+```
+trigger.add(new LockAction("demo", experiment));
+```
+
+This is not normally used in conjunction with the visual module, as the visual module has a better method of starting off
+the processing called *buffer stuffing* which will be discussed in the next unit. This method is shown to highlight the proxy
+condition. This is the primary way to introduce custom conditions or actions to the architecture and are most closely related
+to the !eval! calls in the Lisp version.
+
+# Java Specifics
+Since this is java, there are going to be numerous classes in various packages. The jACT-R project encompasses all of that information
+and represents an independent installable unit. One of the requirements of that is we have to tell the project what packages and classes
+are visible to other software (i.e., the rest of the jACT-R tooling). To do that, *any* code written must be in an exported package. 
+
+To export a package, open **META-INF/MANIFEST.MF**. Go to the **Runtime** tab. There you will see a section for **Exported Packages**, use
+the Add... button to add any package that you contribute. 
+
+If you're familiar with java, you're familiar with classpath frustrations. Non-exported packages are the #1 classpath error when
+working with jACT-R. 

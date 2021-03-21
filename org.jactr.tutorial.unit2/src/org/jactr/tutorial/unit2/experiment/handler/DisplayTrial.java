@@ -123,6 +123,7 @@ public class DisplayTrial extends Trial {
 		 * these are all executed at the end of the trial
 		 */
 		trigger = new ImmediateTrigger(experiment);
+		//regain control of the model preventing it from running beyond find-unattended-letter
 		trigger.add(new LockAction("demo", experiment));
 		trigger.add(new LogAction("Stopping " + getId(), experiment));
 
