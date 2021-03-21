@@ -1,24 +1,17 @@
 namespace org.jactr.tutorial.unit1.semantic {
 import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.goal.*
 
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
   "ActivationNoise"                  : "0"
   "BaseLevelConstant"                : "0"
-  "ChunkConfiguratorClass"           : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkConfigurator"
-  "ChunkFactoryClass"                : "org.jactr.core.module.declarative.basic.chunk.DefaultChunkFactory"
-  "ChunkNamerClass"                  : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkNamer"
-  "ChunkTypeConfiguratorClass"       : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeConfigurator"
-  "ChunkTypeFactoryClass"            : "org.jactr.core.module.declarative.basic.type.DefaultChunkTypeFactory"
-  "ChunkTypeNamerClass"              : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeNamer"
   "EnablePartialMatching"            : "false"
   "MaximumDifference"                : "-1"
   "MaximumSimilarity"                : "0"
   "MismatchPenalty"                  : "1"
-  "PermanentActivationNoise"         : "0"
-  "SubsymbolicChunkFactoryClass"     : "org.jactr.core.module.declarative.basic.chunk.DefaultSubsymbolicChunkFactory5"
-  "SubsymbolicChunkTypeFactoryClass" : "org.jactr.core.module.declarative.basic.type.DefaultSubsymbolicChunkTypeFactory"
-  "SymbolicChunkFactoryClass"        : "org.jactr.core.module.declarative.basic.chunk.DefaultSymbolicChunkFactory"
-  "SymbolicChunkTypeFactoryClass"    : "org.jactr.core.module.declarative.basic.type.DefaultSymbolicChunkTypeFactory" ]
+  "PermanentActivationNoise"         : "0"]
 
 module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "DefaultProductionFiringTime" : "0.05"
@@ -35,14 +28,11 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "RetrievalThreshold"      : "0" ]
 
 buffers {
+  @Override
   goal {g2} [
     "Activation"              : "1"
-    "G"                       : "20"
     "StrictHarvestingEnabled" : "false" ]
-  retrieval {} [
-    "Activation"              : "0"
-    "G"                       : "0"
-    "StrictHarvestingEnabled" : "true" ]
+  
 }
 
 

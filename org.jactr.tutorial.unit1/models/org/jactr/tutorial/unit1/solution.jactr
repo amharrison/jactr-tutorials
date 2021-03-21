@@ -1,25 +1,18 @@
 namespace org.jactr.tutorial.unit1.solution {
 
 import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.goal.*
 
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 	"ActivationNoise"                  : "0"
 	"BaseLevelConstant"                : "0"
-	"ChunkConfiguratorClass"           : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkConfigurator"
-	"ChunkFactoryClass"                : "org.jactr.core.module.declarative.basic.chunk.DefaultChunkFactory"
-	"ChunkNamerClass"                  : "org.jactr.core.module.declarative.basic.chunk.NoOpChunkNamer"
-	"ChunkTypeConfiguratorClass"       : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeConfigurator"
-	"ChunkTypeFactoryClass"            : "org.jactr.core.module.declarative.basic.type.DefaultChunkTypeFactory"
-	"ChunkTypeNamerClass"              : "org.jactr.core.module.declarative.basic.type.NoOpChunkTypeNamer"
 	"EnablePartialMatching"            : "false"
 	"MaximumDifference"                : "-10"
 	"MaximumSimilarity"                : "10"
 	"MismatchPenalty"                  : "0"
 	"PermanentActivationNoise"         : "0"
-	"SubsymbolicChunkFactoryClass"     : "org.jactr.core.module.declarative.basic.chunk.DefaultSubsymbolicChunkFactory5"
-	"SubsymbolicChunkTypeFactoryClass" : "org.jactr.core.module.declarative.basic.type.DefaultSubsymbolicChunkTypeFactory"
-	"SymbolicChunkFactoryClass"        : "org.jactr.core.module.declarative.basic.chunk.DefaultSymbolicChunkFactory"
-	"SymbolicChunkTypeFactoryClass"    : "org.jactr.core.module.declarative.basic.type.DefaultSymbolicChunkTypeFactory"
 	"PermanentActivatioNoise"          : "0" ]
 
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
@@ -38,12 +31,10 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
 	"LatencyExponent"         : "1" ]
 
 buffers {
+  @Override
 	goal {goal} [
 		"Activation"              : "1"
 		"StrictHarvestingEnabled" : "false" ]
-	retrieval {} [
-		"Activation"              : "0"
-		"StrictHarvestingEnabled" : "true" ]
 }
 
 

@@ -1,7 +1,9 @@
 namespace org.jactr.tutorial.unit1.addition {
 
 import jactr.declarative.*
-
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.goal.*
 
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 	"ActivationNoise"                  : "0"
@@ -25,12 +27,10 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
 	"RetrievalThreshold"      : "0" ]
 
 buffers {
+  @Override
 	goal {second-goal} [
 		"Activation"              : "1"
 		"StrictHarvestingEnabled" : "false" ]
-	retrieval {} [
-		"Activation"              : "0"
-		"StrictHarvestingEnabled" : "true" ]
 }
 
 

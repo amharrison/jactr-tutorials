@@ -169,7 +169,7 @@ We will be going through a series of examples to illustrate how a production sys
 - [Addition](#addition-model) model
 
 ## Count Model
-The first model is a simple production system that counts up from one number to another - for example it will count up from 2 to 4 -- 2,3,4.  It is included with the tutorial project for unit 1.  It is contained in the file called *models/org.jactr.tutorial.unit1/count.jactr*. You should now start ACT-R and the ACT-R environment if you have not done so already and open the count model.
+The first model is a simple production system that counts up from one number to another - for example it will count up from 2 to 4 -- 2,3,4.  It is included with the tutorial project for unit 1.  It is contained in the file called *models/org.jactr.tutorial.unit1/count.jactr*. You should now start Eclipse if you have not done so already and open the count model.
 
 You should now open the count model in a text editor (if you have not already) to begin looking at how the model is specified.  We will be focusing on the specification of the chunks and productions.  The other commands that are used in this unit’s models are described in the unit 1 model description document.
 
@@ -296,7 +296,7 @@ The stop production matches when the values of the count and end slots of the ch
 
 In the Eclipse IDE, go to Menu -> **Window** -> **Perspective** -> **Open Perspecitve** -> **jACT-R Run**. This will change the layout of the IDE so it is better suited for viewing model runs. You can change the perspective at anytime by clicking the buttons in the upper-right corner of the IDE.  
 
-Now go to Menu -> **Run ** -> **Run Configurations...** and select *count* under **jACT-R Run**.
+Now go to Menu -> **Run ** -> **Run Configurations...** and select *Unit 1 - count* under **jACT-R Run**.
 
 <img src="images/runcfg.png" width="66%"/>
 
@@ -442,7 +442,7 @@ As before, we will be using a run configuration to run the addition model. Howev
 
 ![](images/perspective.png)
 
-Let's dive in. Menu -> **Run** -> **Debug Configurations...**. Select *addition* under **jACT-R Run** and hit **Debug**. After a second, the **Debug** view (on the left hand side of the screen) should look like this:
+Let's dive in. Menu -> **Run** -> **Debug Configurations...**. Select *Unit 1 - addition* under **jACT-R Run** and hit **Debug**. After a second, the **Debug** view (on the left hand side of the screen) should look like this:
 
 ![](images/debug.png)
 
@@ -741,7 +741,7 @@ Here are the English descriptions of the six productions needed for this task.
 START-PAIR
 IF the goal is to add a pair of numbers 
    and the ones digits of the pair are available
-   but the ones digit of the answer is nil
+   but the ones digit of the answer is null
 THEN note in the one-ans slot that you are busy computing 
       the answer for the ones digit
    and request a retrieval of the sum of the ones digits. 
@@ -773,14 +773,14 @@ IF the goal is to add a pair of numbers
    and you are busy working on the carry
    and the one-ans equals a sum
    and there has been a retrieval failure
-THEN note that the carry is nil
+THEN note that the carry is null
    and note you are busy computing the sum of the tens digits
    and request a retrieval of the sum of the tens digits.
 
 ADD-TENS-DONE
 IF the goal is to add a pair of numbers
    and you are busy computing the sum of the tens digits
-   and the carry is nil
+   and the carry is null
    and the sum of the tens digits has been retrieved
 THEN note the sum of the tens digits.
 
@@ -791,7 +791,7 @@ IF the goal is to add a pair of numbers
    and you are busy computing the sum of the tens digits
    and the carry is 1
    and the sum of the tens digits has been retrieved
-THEN set the carry to nil
+THEN set the carry to null
    and request a retrieval of one plus that sum.
 
 ```
@@ -803,6 +803,7 @@ Open **Menu** -> **Run** --> **Run Configurations...** and select any of the pri
 Now it's time to put the skills you've learned into practice. Use the **Debug** view in conjunction with the **Log**, **Buffer**, and **Conflict Resolution** views to figure out why your model didn't quite work.  If you find yourself stumped, the model *solution.jactr* contains a fully functioning solution.
 
 
+***
 
 
 ***

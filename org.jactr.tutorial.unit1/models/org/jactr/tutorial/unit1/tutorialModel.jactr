@@ -1,6 +1,9 @@
 namespace org.jactr.tutorial.unit1.tutorialModel {
 
 import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.goal.*
 
 module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 	"ActivationNoise"                  : "0"
@@ -31,12 +34,10 @@ buffers {
   /*
    * the goal should go inside the {} of goal
    */
+   @Override
 	goal {} [
 		"Activation"              : "1"
 		"StrictHarvestingEnabled" : "false" ]
-	retrieval {} [
-		"Activation"              : "0"
-		"StrictHarvestingEnabled" : "true" ]
 }
 
 /*
