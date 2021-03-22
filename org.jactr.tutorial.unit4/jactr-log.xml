@@ -42,7 +42,9 @@
  <logger name="org.jactr.tools.deadlock.DeadlockDetector"><level value="debug"/></logger>
 	<logger name="org.jactr.core.module.procedural.six.DefaultProceduralModule6"><level value="debug"/></logger>
 	<logger name="org.jactr.extensions.cached.procedural"><level value="debug"/></logger>
-	<logger name="org.jactr.modules.pm.motor.managers.MotorCommandManager"><level value="debug"/></logger>
+		
+		<logger name="org.jactr.tools.async.sync"><level value="debug"/></logger>
+	<logger name="org.jactr.tools.misc.ModelsLock"><level value="debug"/></logger>
 		-->
 	<root>
 		<level value="warn" />
