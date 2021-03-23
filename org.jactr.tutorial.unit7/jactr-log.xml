@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+	<appender name="CONSOLE"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.err" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%-5p %d{ABSOLUTE}(%t) [%c.%M] %m" />
+		</layout>
+	</appender>
+
+
+
+	<appender name="ErrorFileAppender"
+		class="org.apache.log4j.FileAppender">
+		<param name="File" value="jactr-error.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%n%-5p %d{ABSOLUTE}(%t) [%c.%M] %m" />
+		</layout>
+	</appender>
+
+	<!-- <logger name="org.jactr.debug.remote.RemoteDebugService"> <level value="warn"/> 
+		</logger> <logger name="org.jactr.debug.remote.comm.FrameExtractor"> <level 
+		value="debug"/> </logger> <logger name="org.jactr.debug.remote.antlr3"> <level 
+		value="debug"/> </logger> <logger name="org.jactr.eclipse.core.jdt"> <level 
+		value="debug"/> </logger> <logger name="org.jactr.tools.async.common"><level 
+		value="debug"/></logger> <logger name="org.jactr.tools.async.controller"><level 
+		value="debug"/></logger> <logger name="org.jactr.tools.async.shadow"><level 
+		value="debug"/></logger> <logger name="org.jactr.io.antlr3.builder"><level 
+		value="debug"/></logger> <logger name="org.jactr.eclipse.grapher.core"><level 
+		value="debug"/></logger> <logger name="org.commonreality.sensors.base.BaseSensor"><level 
+		value="debug"/></logger> <logger name="org.commonreality.sensors.keyboard.DefaultActuator"><level 
+		value="debug"/></logger> 
+		
+ <logger name="org.jactr.modules.pm.common.memory.map.DefaultFINSTFeatureMap"><level value="debug"/></logger>
+ <logger name="org.commonreality.sensors.base.PerceptManager"><level value="debug"/></logger>
+ <logger name="org.jactr.modules.pm.common.afferent.DefaultAfferentObjectListener"><level value="debug"/></logger>
+ <logger name="org.jactr.tools.deadlock.DeadlockDetector"><level value="debug"/></logger>
+	<logger name="org.jactr.core.module.procedural.six.DefaultProceduralModule6"><level value="debug"/></logger>
+	<logger name="org.jactr.extensions.cached.procedural"><level value="debug"/></logger>
+		
+		<logger name="org.jactr.tools.async.sync"><level value="debug"/></logger>
+	<logger name="org.jactr.tools.misc.ModelsLock"><level value="debug"/></logger>
+		-->
+		<logger name="org.jactr.core.module.procedural.six.learning.DefaultProductionCompiler6"><level value="debug"/></logger>
+		<logger name="org.jactr.core.module.procedural.six.learning.ProductionCompilerEvaluator"><level value="debug"/></logger>
+	<root>
+		<level value="warn" />
+		<appender-ref ref="ErrorFileAppender" />
+		<appender-ref ref="CONSOLE" />
+	</root>
+</log4j:configuration>

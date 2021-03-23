@@ -1,0 +1,436 @@
+/*
+ * 
+ */
+namespace org.jactr.tutorial.unit7.paired.paired{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.visual.*
+import jactr.motor.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.4"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"
+  "ChunkNamerClass"          : "org.jactr.tutorial.unit4.paired.chunk.ChunkNamer"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0.1"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
+  "BaseLevelLearningRate"      : "0.5"
+  "MaximumAssociativeStrength" : "NaN"
+  "OptimizedLearning"          : "10"]
+module "org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6"[
+    "ParameterLearningRate" : "0.1"
+    "EnableProductionCompilation" : "true"]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "3.0"
+  "LatencyFactor"      : "0.2"
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "-1.7" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.modules.pm.visual.six.DefaultVisualModule6"[
+  "EnableVisualBufferStuff"                                       : "true"
+  "VisualPersistenceDelay"                                        : "1"
+  "org.jactr.modules.pm.visual.memory.impl.encoder.CursorEncoder" : "false" // remove cursor encoder so we don't accidentally see it
+  "org.jactr.modules.pm.visual.memory.impl.encoder.LabelEncoder"  : "false" // remove so we only see text not labels too
+]
+module "org.jactr.modules.pm.motor.six.DefaultMotorModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+buffers {
+  @Override
+   goal {goal} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+chunktype operator {
+  pre    = null // initial state
+  action = null // action to take
+  arg1   = null // parameter of the action
+  arg2   = null
+  post   = null // state after action is taken
+}
+
+chunktype task {
+  state = null // state of the task
+  step  = null // step of execution of the task
+}
+
+chunktype args {
+  arg1 = null
+  arg2 = null
+}
+
+chunk ready, start, stimulus-read, create, read, recalled, fill, filled, associate, wait, respond, test-arg2, response,
+  type, new-trial, complete-task, retrieving-operator, attending, retrieving-response
+
+task goal(state=start, step=ready)
+operator op1(pre=start, action=read, arg1=create, post=stimulus-read),
+  op2(pre=stimulus-read, action=associate, arg1=filled, arg2=fill, post=recalled), //
+  op3(pre=recalled, action=test-arg2, arg1=respond, arg2=wait), // if arg2 is not null respond, else wait 
+  op4(pre=respond, action=type, arg2=response, post=wait), op5(pre=wait, action=read, arg2=fill, post=new-trial),
+  op6(pre=new-trial, action=complete-task, post=start)
+
+/*
+ * Well learned. We can't set BaseLevelActivation directly because we are using
+ * the declarative learning module with a base level learning rate
+ */
+parameters (ready, start, stimulus-read, create, read, recalled, fill, filled, associate, wait, respond, test-arg2,
+  response, type, new-trial, complete-task, retrieving-operator, attending, retrieving-response, op1, op2, op3, op4,
+  op5, op6)[
+    "CreationTime"   : "-100"
+    "ReferenceCount" : "100"]
+
+
+production retrieve-operator{
+  goal{
+    isa task
+    state =  =state
+    step  =  ready
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  +retrieval{
+    isa operator
+    pre =  =state
+  }
+  goal{
+    step = retrieving-operator
+  }
+}
+
+
+production read-arg1{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  retrieval{
+    isa operator
+    action =  read
+    arg1   =  create
+    post   =  =state
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+  ?imaginal{
+    state  =  free
+    buffer =  empty
+  }
+}{
+  +imaginal{
+    isa args
+    arg1 =  fill
+  }
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  goal{
+    state = =state
+    step  = attending
+  }
+}
+
+production encode-arg1{
+  goal{
+    isa task
+    step =  attending
+  }
+  visual{
+    isa text
+    value =  =value
+  }
+  imaginal{
+    isa args
+    arg1 =  fill
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    arg1 =  =value
+  }
+  goal{
+    step = ready
+  }
+}
+
+production retrieve-associate{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+    arg1 =  =stimulus
+  }
+  retrieval{
+    isa operator
+    action =  associate
+    arg1   =  filled
+    arg2   =  fill
+    post   =  =state
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +retrieval{
+    isa args
+    arg1 =  =stimulus
+  }
+  +imaginal{
+    arg2 =  fill
+  }
+  goal{
+    step  = retrieving-response
+    state = =state
+  }
+}
+
+production retrieval-arg2-unsuccessful{
+  goal{
+    isa task
+    step =  retrieving-response
+  }
+  imaginal{
+    isa args
+    arg2 =  fill
+  }
+  ?retrieval{
+    state =  error
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    arg2 =  null
+  }
+  goal{
+    step = ready
+  }
+}
+
+production retrieval-arg2-successful{
+  goal{
+    isa task
+    step =  retrieving-response
+  }
+  imaginal{
+    isa args
+    arg2 =  fill
+  }
+  retrieval{
+    isa args
+    arg2 =  =value
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    arg2 =  =value
+  }
+  goal{
+    step = ready
+  }
+}
+
+
+production respond-to-retrieval-failure{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+    arg2 =  null
+  }
+  retrieval{
+    isa operator
+    action =  test-arg2
+    arg2   =  =state
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  imaginal{}
+  goal{
+    state = =state
+    step  = ready
+  }
+}
+
+
+production respond-to-retrieval-success{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+    arg2 =  =value
+  }
+  retrieval{
+    isa operator
+    action =  test-arg2
+    arg1   =  =state
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  imaginal{}
+  goal{
+    state = =state
+    step  = ready
+  }
+}
+
+production type-arg2{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+    arg2 =  =value
+  }
+  retrieval{
+    isa operator
+    action =  type
+    arg2   =  response
+    post   =  =state
+  }
+  ?imaginal{
+    state =  free
+  }
+  ?motor{
+    state =  free
+  }
+}{
+  imaginal{}
+  +motor{
+    isa press-key
+    key =  =value
+  }
+  goal{
+    state = =state
+    step  = ready
+  }
+}
+
+production read-arg2{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+  }
+  retrieval{
+    isa operator
+    action =  read
+    arg2   =  fill
+    post   =  =state
+  }
+  visual-location{
+    isa visual-location
+  }
+  ?visual{
+    state =  free
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +visual{
+    isa attend-to
+    where =  =visual-location
+  }
+  +imaginal{
+    arg2 =  fill
+  }
+  goal{
+    step  = attending
+    state = =state
+  }
+}
+
+production encode-arg2{
+  goal{
+    isa task
+    step =  attending
+  }
+  imaginal{
+    isa args
+    arg2 =  fill
+  }
+  visual{
+    isa text
+    value =  =value
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +imaginal{
+    arg2 =  =value
+  }
+  goal{
+    step = ready
+  }
+}
+
+production complete-task{
+  goal{
+    isa task
+    step =  retrieving-operator
+  }
+  imaginal{
+    isa args
+  }
+  retrieval{
+    isa operator
+    action =  complete-task
+    post   =  =state
+  }
+  ?imaginal{
+    state =  free
+  }
+}{
+  +goal{
+    isa task
+    state =  =state
+    step  =  ready
+  }
+}["Reward" : "20"]
+
+
+
+
+
+ }[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "false"
+ ]
