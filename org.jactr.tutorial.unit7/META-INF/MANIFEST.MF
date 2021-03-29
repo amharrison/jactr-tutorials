@@ -13,7 +13,8 @@ Require-Bundle: org.jactr.core,
  org.commonreality.sensors,
  org.commonreality.sensors.swing,
  org.jactr.io2.tools;bundle-version="1.0.0",
- org.jactr.tutorial.unit4;bundle-version="1.0.0"
+ org.jactr.tutorial.unit4;bundle-version="1.0.0",
+ org.apache.commons.math3;bundle-version="3.6.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Eclipse-RegisterBuddy: org.commonreality.sensors,
  org.commonreality.sensors.swing,
@@ -26,4 +27,6 @@ Eclipse-RegisterBuddy: org.commonreality.sensors,
 Automatic-Module-Name: org.jactr.tutorial.unit7
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
-Export-Package: org.jactr.tutorial.unit7.paired
+Export-Package: org.jactr.tutorial.unit7.paired,
+ org.jactr.tutorial.unit7.past,
+ org.jactr.tutorial.unit7.past.data

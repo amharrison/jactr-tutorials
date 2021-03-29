@@ -1,0 +1,9 @@
+<instrument window="10000">   <!-- 100 seconds, 100 iterations -->
+ <group id="IrregularInflections">  <!-- everything in a group is rendered on the same graph -->
+  <model pattern=".*">  <!-- what model to probe -->
+   <extension pattern=".*">
+     <probe pattern=".*Inflected" poll="true"/>
+   </extension>
+  </model>
+ </group>
+</instrument>

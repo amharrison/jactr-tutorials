@@ -10,11 +10,11 @@
     <stringAttribute key="org.jactr.eclipse.runtime.launching.aliasesFor./org.jactr.tutorial.unit7/models/org/jactr/tutorial/unit7/paired/paired.jactr" value="paired"/>
     <intAttribute key="org.jactr.eclipse.runtime.launching.cr.ackTime" value="2000"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.cr.disconnect" value="false"/>
-    <booleanAttribute key="org.jactr.eclipse.runtime.launching.debugCoreEnabled" value="true"/>
+    <booleanAttribute key="org.jactr.eclipse.runtime.launching.debugCoreEnabled" value="false"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogConfiguration" value="/jactr-log.xml"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogger" value="org.jactr.slf4j.impl.log4j12"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.ideTrace" value="true"/>
-    <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value="org.jactr.tools.io.ModelRecorder"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value="org.jactr.tools.io.ModelRecorder,org.jactr.io2.tools.comp.ProductionCompilationListener"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.modelFiles" value="models/org/jactr/tutorial/unit7/paired/paired.jactr"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.onStart" value="org.jactr.tools.experiment.bootstrap.StartModelExperiments"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.onStop" value="org.jactr.tools.experiment.bootstrap.StopModelExperiments"/>
@@ -28,6 +28,10 @@
         <mapEntry key="DotsPerCM" value="86.8"/>
         <mapEntry key="UseFixationTracker" value="true"/>
     </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.commonreality.sensors.xml2.XMLSensor">
+        <mapEntry key="XMLSensor.DataURI" value=""/>
+    </mapAttribute>
+    <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.io2.tools.comp.ProductionCompilationListener"/>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.async.sync.SynchronizationManager">
         <mapEntry key="SynchronizationDelayInMS" value="10000"/>
     </mapAttribute>
@@ -47,7 +51,7 @@
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.ProceduralModuleTracer"/>
     <mapAttribute key="org.jactr.eclipse.runtime.launching.parametersFor.org.jactr.tools.tracer.listeners.VisualModuleTracer"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.recordTrace" value="false"/>
-    <stringAttribute key="org.jactr.eclipse.runtime.launching.sensors" value="org.commonreality.sensors.keyboard.DefaultKeyboardSensor,org.commonreality.sensors.swing.DefaultSwingSensor"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.sensors" value="org.commonreality.sensors.keyboard.DefaultKeyboardSensor,org.commonreality.sensors.xml2.XMLSensor"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.tracers" value="org.jactr.tools.tracer.listeners.BufferTracer,org.jactr.tools.tracer.listeners.LogTracer,org.jactr.tools.tracer.listeners.ProceduralModuleTracer"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.useEmbed" value="false"/>
 </launchConfiguration>

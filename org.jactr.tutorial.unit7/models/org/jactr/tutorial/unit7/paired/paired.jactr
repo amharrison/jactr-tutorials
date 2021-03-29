@@ -28,8 +28,8 @@ module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearnin
   "MaximumAssociativeStrength" : "NaN"
   "OptimizedLearning"          : "10"]
 module "org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6"[
-    "ParameterLearningRate" : "0.1"
-    "EnableProductionCompilation" : "true"]
+  "ParameterLearningRate"       : "0.1"
+  "EnableProductionCompilation" : "true"]
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"  : "3.0"
@@ -91,6 +91,12 @@ parameters (ready, start, stimulus-read, create, read, recalled, fill, filled, a
     "CreationTime"   : "-100"
     "ReferenceCount" : "100"]
 
+/*
+ * set the initial utilities of the hand-coded productions
+ */
+parameters (retrieve-operator, retrieve-associate, read-arg1, read-arg2, encode-arg1, encode-arg2,
+  retrieval-arg2-successful, retrieval-arg2-unsuccessful, type-arg2, complete-task, respond-to-retrieval-failure,
+  respond-to-retrieval-success)["Utility" : "5"]
 
 production retrieve-operator{
   goal{

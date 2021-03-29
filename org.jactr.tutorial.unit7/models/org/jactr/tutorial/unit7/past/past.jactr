@@ -1,0 +1,256 @@
+/*
+ * 
+ */
+namespace past{
+import jactr.declarative.*
+import jactr.procedural.*
+import jactr.retrieval.*
+import jactr.imaginal.*
+import jactr.goal.*
+
+module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
+  "ActivationNoise"          : "0.1"
+  "BaseLevelConstant"        : "0"
+  "EnablePartialMatching"    : "false"
+  "MaximumDifference"        : "-1"
+  "MaximumSimilarity"        : "0"
+  "MismatchPenalty"          : "1"
+  "PermanentActivationNoise" : "0"]
+module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
+  "DefaultProductionFiringTime" : "0.05"
+  "ExpectedUtilityNoise"        : "0.2"
+  "NumberOfProductionsFired"    : "0" ]
+module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
+  "BaseLevelLearningRate"      : "0.5"
+  "MaximumAssociativeStrength" : "3.5"
+  "OptimizedLearning"          : "10"]
+module "org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6"[
+  "EnableProductionCompilation" : "true"
+  "InitialLearnedUtility"       : "5"
+  "ParameterLearningRate"       : "0.2"]
+module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
+module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
+  "FINSTDurationTime"  : "3.0"
+  "LatencyFactor"      : "0.5"
+  "NumberOfFINSTs"     : "4"
+  "RetrievalThreshold" : "0.5" ]
+module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+
+extension "org.jactr.tutorial.unit7.past.PastTenseExtension"[
+  "MaximumTrials" : "50000"
+  "ReportInterval" : "100"]
+
+buffers {
+  @Override
+   goal {start-goal} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+  @Override
+   imaginal {} [
+    "Activation"              : "1"
+    "StrictHarvestingEnabled" : "false" ]
+}
+
+chunktype past-tense {
+  verb   = null
+  stem   = null
+  suffix = null
+}
+chunktype goal {state = start}
+
+chunk start, blank, done, retrieving
+goal start-goal
+
+production retrieve{
+  goal{
+    isa goal
+    state =  start
+  }
+  imaginal{
+    isa past-tense
+    verb   =  =word
+    stem   =  null
+    suffix =  null
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  +retrieval{
+    isa past-tense
+    verb   =  =word
+    suffix != null
+  }
+  goal{
+    state = retrieving
+  }
+}
+
+production retrieve-for-analogy{
+  goal{
+    isa goal
+    state =  start
+  }
+  imaginal{
+    isa past-tense
+    verb   =  =word
+    stem   =  null
+    suffix =  null
+  }
+  ?retrieval{
+    state != busy
+  }
+}{
+  +retrieval{
+    isa past-tense
+    suffix != null
+  }
+  goal{
+    state = retrieving
+  }
+}
+
+production retrieve-success{
+  goal{
+    isa goal
+    state =  retrieving
+  }
+  imaginal{
+    isa past-tense
+    verb =  =word
+  }
+  retrieval{
+    isa past-tense
+    verb   =  =word
+    stem   =  =stem
+    suffix =  =suffix
+  }
+}{
+  imaginal{
+    stem   = =stem
+    suffix = =suffix
+  }
+  goal{
+    state = done
+  }
+}
+
+production retrieve-fail{
+  goal{
+    isa goal
+    state =  retrieving
+  }
+  ?retrieval{
+    state =  error
+  }
+}{
+  goal{
+    state = done
+  }
+}
+
+production apply-analogy{
+  goal{
+    isa goal
+    state =  retrieving
+  }
+  imaginal{
+    isa past-tense
+    verb =  =stem
+  }
+  retrieval{
+    isa past-tense
+    verb   =  =word
+    stem   =  =word
+    suffix =  =suffix
+  }
+}{
+  imaginal{
+    stem   = =stem
+    suffix = =suffix
+  }
+  goal{
+    state = done
+  }
+}
+
+production apply-analogy-no-pattern{
+  goal{
+    isa goal
+    state =  retrieving
+  }
+  imaginal{
+    isa past-tense
+    verb =  =stem
+  }
+  retrieval{
+    isa past-tense
+  }
+}{
+  goal{
+    state = done
+  }
+}
+
+
+production past-tense-irregular{
+  goal{
+    isa goal
+    state =  done
+  }
+  imaginal{
+    isa past-tense
+    verb   =  =stem
+    stem   =  =past
+    suffix =  blank
+  }
+}{
+  goal{
+    state = null
+  }
+}["Reward" : "5"]
+
+
+production past-tense-regular{
+  goal{
+    isa goal
+    state =  done
+  }
+  imaginal{
+    isa past-tense
+    verb   =  =stem
+    stem   =  =stem
+    suffix =  =suffix
+    suffix != blank
+  }
+}{
+  goal{
+    state = null
+  }
+}["Reward" : "4.2"]
+
+production no-past-tense-formed{
+  goal{
+    isa goal
+    state =  done
+  }
+  imaginal{
+    isa past-tense
+    stem   =  null
+    suffix =  null
+  }
+}{
+  goal{
+    state = null
+  }
+}["Reward" : "3.9"]
+
+
+
+
+ 
+ }[
+  "EnablePersistentExecution" : "true"
+  "EnableUnusedCycleSkipping" : "true"
+ ]
