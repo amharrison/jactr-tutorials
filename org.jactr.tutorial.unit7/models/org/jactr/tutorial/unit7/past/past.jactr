@@ -49,7 +49,7 @@ buffers {
   @Override
    imaginal {} [
     "Activation"              : "1"
-    "StrictHarvestingEnabled" : "false" ]
+    "StrictHarvestingEnabled" : "false" ] //turned off for this model
 }
 
 chunktype past-tense {
@@ -61,6 +61,7 @@ chunktype goal {state = start}
 
 chunk start, blank, done, retrieving
 goal start-goal
+
 
 production retrieve{
   goal{
@@ -120,6 +121,9 @@ production retrieve-success{
     isa past-tense
     verb =  =word
   }
+  ?imaginal{
+    state = free
+  }
   retrieval{
     isa past-tense
     verb   =  =word
@@ -127,7 +131,7 @@ production retrieve-success{
     suffix =  =suffix
   }
 }{
-  imaginal{
+  +imaginal{
     stem   = =stem
     suffix = =suffix
   }
@@ -159,6 +163,9 @@ production apply-analogy{
     isa past-tense
     verb =  =stem
   }
+  ?imaginal{
+    state = free
+  }
   retrieval{
     isa past-tense
     verb   =  =word
@@ -166,7 +173,7 @@ production apply-analogy{
     suffix =  =suffix
   }
 }{
-  imaginal{
+  +imaginal{
     stem   = =stem
     suffix = =suffix
   }
@@ -252,5 +259,5 @@ production no-past-tense-formed{
  
  }[
   "EnablePersistentExecution" : "true"
-  "EnableUnusedCycleSkipping" : "true"
+  "EnableUnusedCycleSkipping" : "true" //safe since this is an entirely internal model
  ]
