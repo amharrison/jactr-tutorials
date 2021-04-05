@@ -582,7 +582,7 @@ production chain-category {
  }
 ```
 
-To see this execute, caret to the *chain-category* production and hit Ctrl-B (Command-B). This will set a breakpoint on the production (assuming we are still in **Debug** perspective). If you *debug* the model, after you resume (F8) the first time, the model will run until *chain-category* then suspend. You should play around with breakpoint productions at your leisure.
+To see this execute, caret to the *chain-category* production and hit Ctrl-Shift-B (Command-Shift-B). This will set a breakpoint on the production (assuming we are still in **Debug** perspective). If you *debug* the model, after you resume (F8) the first time, the model will run until *chain-category* then suspend. You should play around with breakpoint productions at your leisure. When you reach a breakpoint you can resume by using the play button in the LogView as well.
 
 ###  The Failure Case
 
