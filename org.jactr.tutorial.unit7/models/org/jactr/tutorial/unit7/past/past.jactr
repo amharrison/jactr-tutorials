@@ -19,32 +19,38 @@ module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "DefaultProductionFiringTime" : "0.05"
   "ExpectedUtilityNoise"        : "0.2"
-  "NumberOfProductionsFired"    : "0" ]
+  "NumberOfProductionsFired"    : "0" 
+  "ProductionStorageClass" : "org.jactr.tools.bloom.BFProductionStorage"]
 module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
   "BaseLevelLearningRate"      : "0.5"
   "MaximumAssociativeStrength" : "3.5"
-  "OptimizedLearning"          : "10"]
+  "OptimizedLearning"          : "6"]
 module "org.jactr.core.module.procedural.six.learning.DefaultProceduralLearningModule6"[
   "EnableProductionCompilation" : "true"
-  "InitialLearnedUtility"       : "5"
-  "ParameterLearningRate"       : "0.2"]
+  "InitialLearnedUtility"       : "0"
+  "ParameterLearningRate"       : "0.1"]
 module "org.jactr.core.module.goal.six.DefaultGoalModule6" []
 module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"  : "3.0"
   "LatencyFactor"      : "0.5"
   "NumberOfFINSTs"     : "4"
-  "RetrievalThreshold" : "0.5" ]
+  "RetrievalThreshold" : "-0.5" ]
 module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
-module "org.jactr.core.module.random.six.DefaultRandomModule"[]
+module "org.jactr.core.module.random.six.DefaultRandomModule"[
+  "RandomSeed"     : ""]
 
 extension "org.jactr.tutorial.unit7.past.PastTenseExtension"[
-  "MaximumTrials"  : "50000"
+  "MaximumTrials"  : "5000"
   "ReportInterval" : "100"]
+  
+extension "org.jactr.extensions.cached.procedural.CachedProductionSystem"[
+  "EnableCaching"          : "true"
+  "ValidateInstantiations" : "false"]
 
 buffers {
   @Override
    goal {start-goal} [
-    "Activation"              : "1"
+    "Activation"              : "0"
     "StrictHarvestingEnabled" : "false" ]
   @Override
    imaginal {} [
@@ -57,16 +63,18 @@ chunktype past-tense {
   stem   = null
   suffix = null
 }
-chunktype goal {state = start}
+chunktype goal {state = begin}
 
-chunk start, blank, done, retrieving
+chunk begin, blank, done, retrieving
 goal start-goal
 
+parameters(retrieve, retrieve-for-analogy, retrieve-success, retrieve-fail, apply-analogy, apply-analogy-no-pattern,
+  past-tense-irregular, past-tense-regular, no-past-tense-formed)["Utility" : "5"]
 
 production retrieve{
   goal{
     isa goal
-    state =  start
+    state =  begin
   }
   imaginal{
     isa past-tense
@@ -91,7 +99,7 @@ production retrieve{
 production retrieve-for-analogy{
   goal{
     isa goal
-    state =  start
+    state =  begin
   }
   imaginal{
     isa past-tense
@@ -241,6 +249,7 @@ production past-tense-regular{
   goal{
     state = null
   }
+  
 }["Reward" : "4.2"]
 
 production no-past-tense-formed{
@@ -260,7 +269,9 @@ production no-past-tense-formed{
   goal{
     state = null
   }
-}["Reward" : "3.9"]
+  
+}["Reward" : "3.9"] //3.9
+
 
 
 

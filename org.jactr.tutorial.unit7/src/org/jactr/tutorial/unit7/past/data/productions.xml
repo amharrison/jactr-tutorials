@@ -1,0 +1,17 @@
+<instrument window="15000">   <!-- 100 seconds, 100 iterations -->
+ 
+ <group id="all">  <!-- everything in a group is rendered on the same graph -->
+  <model pattern=".*">  <!-- what model to probe -->
+   <production pattern="retrieve">
+     <probe pattern="ExpectedUtility" poll="true"/>
+   </production>
+   <production pattern="retrieve-for-analogy">
+     <probe pattern="ExpectedUtility" poll="true"/>
+   </production>
+   
+   <production pattern=".*-past-tense-irregular.*">
+     <probe pattern="ExpectedUtility" poll="true"/>
+   </production>
+  </model>
+ </group>
+</instrument>

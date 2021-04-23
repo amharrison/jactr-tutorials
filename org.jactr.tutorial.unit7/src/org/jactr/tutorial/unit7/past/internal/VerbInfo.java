@@ -26,7 +26,7 @@ public class VerbInfo {
 		_database.put("follow", new VerbInfo("follow", false, 540, "follow"));
 		_database.put("work", new VerbInfo("work", false, 496, "work"));
 		_database.put("live", new VerbInfo("live", false, 472, "live"));
-		_database.put("try", new VerbInfo("try", false, 472, "try"));
+		_database.put("try", new VerbInfo("try", false, 472, "try")); 
 		_database.put("stand", new VerbInfo("stand", true, 468, "stood"));
 		_database.put("move", new VerbInfo("move", false, 447, "move"));
 		_database.put("need", new VerbInfo("need", false, 413, "need"));

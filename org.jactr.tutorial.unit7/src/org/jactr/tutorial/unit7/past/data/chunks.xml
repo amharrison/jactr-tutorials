@@ -1,0 +1,12 @@
+<instrument window="10000">   <!-- 100 seconds, 100 iterations -->
+
+	<group id="all">  <!-- everything in a group is rendered on the same graph -->
+		<model pattern=".*">  <!-- what model to probe -->
+			<chunk-type pattern="past-tense">
+				<chunk pattern=".*">
+					<probe pattern="BaseLevelActivation" poll="true" />
+				</chunk>
+			</chunk-type>
+		</model>
+	</group>
+</instrument>

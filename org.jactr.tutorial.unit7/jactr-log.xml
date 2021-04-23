@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <log4j:configuration
 	xmlns:log4j="http://jakarta.apache.org/log4j/">
 
@@ -45,11 +44,14 @@
 		
 		<logger name="org.jactr.tools.async.sync"><level value="debug"/></logger>
 	<logger name="org.jactr.tools.misc.ModelsLock"><level value="debug"/></logger>
-		-->
 		<logger name="org.jactr.core.module.procedural.six.learning.DefaultProductionCompiler6"><level value="debug"/></logger>
 		<logger name="org.jactr.core.module.procedural.six.learning.ProductionCompilerEvaluator"><level value="debug"/></logger>
+		<logger name="org.jactr.core.model.six.DefaultCycleProcessor6"><level value="debug"/></logger>
+		<logger name="org.jactr.core.runtime.DefaultModelRunner"><level value="debug"/></logger>
+		<logger name="org.jactr.extensions.cached.procedural.CachedProductionSystem"><level value="debug"/></logger>
+		-->
 	<root>
-		<level value="warn" />
+		<level value="error" />
 		<appender-ref ref="ErrorFileAppender" />
 		<appender-ref ref="CONSOLE" />
 	</root>

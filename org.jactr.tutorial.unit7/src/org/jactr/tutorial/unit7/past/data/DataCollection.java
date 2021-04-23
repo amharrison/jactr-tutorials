@@ -45,6 +45,7 @@ public class DataCollection {
 
 	public void logData(boolean wasIrregular, boolean irregularRegularInflection,
 			boolean irregularWasNotInflected, boolean irregularCorrectInflection) {
+		
 		if(!wasIrregular) return;
 		
 	
