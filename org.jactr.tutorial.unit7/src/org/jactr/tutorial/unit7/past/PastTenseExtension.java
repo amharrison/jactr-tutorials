@@ -216,12 +216,13 @@ public class PastTenseExtension implements IExtension {
 			value = 0;
 		setNotInflected(value);
 
-		DataCollection.get().clear();
-
-		_averageCorrectlyInflected.addValue(ci / (ci + ri));
+		double current = ci / (ci + ri);
+		_averageCorrectlyInflected.addValue(current);
 
 		double percentDone = _count * 100.0 / (double) _maxTrials;
-		System.out.format("[%.2f%%, %.2f%%]\n", percentDone, 100 * _averageCorrectlyInflected.getMean());
+		System.out.format("[%.2f%%, %.2f%%, %.2f%%]\n", percentDone,100 * current,  100 * _averageCorrectlyInflected.getMean());
+		
+		DataCollection.get().clear();
 	}
 
 	@Override
@@ -450,7 +451,7 @@ public class PastTenseExtension implements IExtension {
 				else
 					System.err.print("o");
 
-		DataCollection.get().logData(isIrregular, regularResponse, !respondedAtAll, correctResponse);
+		DataCollection.get().logData(isIrregular, isIrregular && regularResponse, !respondedAtAll, correctResponse);
 	}
 
 }

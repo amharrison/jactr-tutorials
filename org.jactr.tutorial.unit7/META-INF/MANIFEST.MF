@@ -30,4 +30,5 @@ Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jactr.tutorial.unit7.paired,
  org.jactr.tutorial.unit7.past,
+ org.jactr.tutorial.unit7.past.chunk,
  org.jactr.tutorial.unit7.past.data

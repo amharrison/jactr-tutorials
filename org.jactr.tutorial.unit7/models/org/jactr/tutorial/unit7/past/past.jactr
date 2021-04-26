@@ -19,8 +19,7 @@ module "org.jactr.core.module.declarative.six.DefaultDeclarativeModule6" [
 module "org.jactr.core.module.procedural.six.DefaultProceduralModule6" [
   "DefaultProductionFiringTime" : "0.05"
   "ExpectedUtilityNoise"        : "0.2"
-  "NumberOfProductionsFired"    : "0" 
-  "ProductionStorageClass" : "org.jactr.tools.bloom.BFProductionStorage"]
+  "NumberOfProductionsFired"    : "0" ]
 module "org.jactr.core.module.declarative.six.learning.DefaultDeclarativeLearningModule6"[
   "BaseLevelLearningRate"      : "0.5"
   "MaximumAssociativeStrength" : "3.5"
@@ -34,15 +33,23 @@ module "org.jactr.core.module.retrieval.six.DefaultRetrievalModule6" [
   "FINSTDurationTime"  : "3.0"
   "LatencyFactor"      : "0.5"
   "NumberOfFINSTs"     : "4"
-  "RetrievalThreshold" : "-0.5" ]
+  "RetrievalThreshold" : "0.5" ]
 module "org.jactr.core.module.imaginal.six.DefaultImaginalModule6"[]
 module "org.jactr.core.module.random.six.DefaultRandomModule"[
   "RandomSeed"     : ""]
 
+/**
+ * this extension controls the execution of the model-task
+ */
 extension "org.jactr.tutorial.unit7.past.PastTenseExtension"[
-  "MaximumTrials"  : "5000"
+  "MaximumTrials"  : "7500"
   "ReportInterval" : "100"]
-  
+
+
+/*
+ * because this is production-locked, in terms of performance, the cached
+ * production system extension can improve performance 10-50%
+ */  
 extension "org.jactr.extensions.cached.procedural.CachedProductionSystem"[
   "EnableCaching"          : "true"
   "ValidateInstantiations" : "false"]
@@ -227,7 +234,7 @@ production past-tense-irregular{
   goal{
     state = null
   }
-}["Reward" : "5"]
+}["Reward" : "5"] //5
 
 
 production past-tense-regular{
