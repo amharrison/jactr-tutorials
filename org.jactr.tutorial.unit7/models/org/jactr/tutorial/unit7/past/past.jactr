@@ -136,9 +136,6 @@ production retrieve-success{
     isa past-tense
     verb =  =word
   }
-  ?imaginal{
-    state =  free
-  }
   retrieval{
     isa past-tense
     verb   =  =word
@@ -146,7 +143,7 @@ production retrieve-success{
     suffix =  =suffix
   }
 }{
-  +imaginal{
+  imaginal{
     stem   =  =stem
     suffix =  =suffix
   }
@@ -178,9 +175,6 @@ production apply-analogy{
     isa past-tense
     verb =  =stem
   }
-  ?imaginal{
-    state =  free
-  }
   retrieval{
     isa past-tense
     verb   =  =word
@@ -188,7 +182,7 @@ production apply-analogy{
     suffix =  =suffix
   }
 }{
-  +imaginal{
+  imaginal{
     stem   =  =stem
     suffix =  =suffix
   }
@@ -227,9 +221,6 @@ production past-tense-irregular{
     stem   =  =past
     suffix =  blank
   }
-  ?imaginal{
-    state = free
-  }
 }{
   goal{
     state = null
@@ -249,9 +240,6 @@ production past-tense-regular{
     suffix =  =suffix
     suffix != blank
   }
-  ?imaginal{
-    state = free
-  }
 }{
   goal{
     state = null
@@ -269,18 +257,12 @@ production no-past-tense-formed{
     stem   =  null
     suffix =  null
   }
-  ?imaginal{
-    state = free
-  }
 }{
   goal{
     state = null
   }
   
 }["Reward" : "3.9"] //3.9
-
-
-
 
 
  
