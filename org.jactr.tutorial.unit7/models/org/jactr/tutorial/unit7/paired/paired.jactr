@@ -49,7 +49,7 @@ module "org.jactr.core.module.random.six.DefaultRandomModule"[]
 buffers {
   @Override
    goal {goal} [
-    "Activation"              : "1"
+    "Activation"              : "0"
     "StrictHarvestingEnabled" : "false" ]
 }
 
@@ -75,11 +75,12 @@ chunk ready, start, stimulus-read, create, read, recalled, fill, filled, associa
   type, new-trial, complete-task, retrieving-operator, attending, retrieving-response
 
 task goal(state=start, step=ready)
-operator op1(pre=start, action=read, arg1=create, post=stimulus-read),
-  op2(pre=stimulus-read, action=associate, arg1=filled, arg2=fill, post=recalled), //
-  op3(pre=recalled, action=test-arg2, arg1=respond, arg2=wait), // if arg2 is not null respond, else wait 
-  op4(pre=respond, action=type, arg2=response, post=wait), op5(pre=wait, action=read, arg2=fill, post=new-trial),
-  op6(pre=new-trial, action=complete-task, post=start)
+operator op1(pre=start, action=read, arg1=create, post=stimulus-read)
+operator op2(pre=stimulus-read, action=associate, arg1=filled, arg2=fill, post=recalled) //
+operator op3(pre=recalled, action=test-arg2, arg1=respond, arg2=wait) // if arg2 is not null respond, else wait 
+operator op4(pre=respond, action=type, arg2=response, post=wait)
+operator op5(pre=wait, action=read, arg2=fill, post=new-trial)
+operator op6(pre=new-trial, action=complete-task, post=start)
 
 /*
  * Well learned. We can't set BaseLevelActivation directly because we are using
