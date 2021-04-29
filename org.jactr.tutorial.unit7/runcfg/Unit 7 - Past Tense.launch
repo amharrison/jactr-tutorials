@@ -12,7 +12,7 @@
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogConfiguration" value="/jactr-log.xml"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.debugCoreLogger" value="org.jactr.slf4j.impl.log4j12"/>
     <booleanAttribute key="org.jactr.eclipse.runtime.launching.ideTrace" value="true"/>
-    <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value="org.jactr.tools.io.ModelRecorder"/>
+    <stringAttribute key="org.jactr.eclipse.runtime.launching.instruments" value=""/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.modelFiles" value="models/org/jactr/tutorial/unit7/past/past.jactr"/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.onStart" value=""/>
     <stringAttribute key="org.jactr.eclipse.runtime.launching.onStop" value=""/>
