@@ -1,7 +1,7 @@
 ## Past-tense Learning
 Your assignment is to make a model that learns the past tense of verbs in English. The learning process of the English past tense is characterized by the so-called U-shaped learning with irregular verbs. That is, at a certain age children inflect irregular verbs like “to break” correctly, so they say “broke” if they want to use the past tense. But at a later age, they overgeneralize, and start saying “breaked”, and then at an even later stage they again inflect irregular verbs correctly. Some people, such as Pinker and Marcus, interpret this as evidence that a rule is learned to create a regular past tense (add “ed” to the stem). According to Pinker and Marcus, after this rule has been learned, it is overgeneralized so that it will also produce regularized versions of irregular verbs.
 
-The start of a model to learn the past tense of verbs is included with the unit, [past.jactr]() under the **org.jactr.tutorial.unit7.past** package. The assignment is to make the model learn a production which represents the regular rule for making the past tense and also specific productions for producing the past tense of each verb. So eventually it should learn productions which act essentially like this:
+The start of a model to learn the past tense of verbs is included with the unit, [past.jactr](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit7/models/org/jactr/tutorial/unit7/past/past.jactr) under the **org.jactr.tutorial.unit7.past** package. The assignment is to make the model learn a production which represents the regular rule for making the past tense and also specific productions for producing the past tense of each verb. So eventually it should learn productions which act essentially like this:
 
 ```
 IF the goal is to make the past tense of a verb 
@@ -11,7 +11,7 @@ IF the goal is to make the past tense of the verb have
 THEN the past tense is had
 ```
 
-The task is controlled by the [PastTenseExtension](), which is installed using the ```extension``` definition:
+The task is controlled by the [PastTenseExtension](https://github.com/amharrison/jactr-tutorials/blob/master/org.jactr.tutorial.unit7/src/org/jactr/tutorial/unit7/past/PastTenseExtension.java), which is installed using the ```extension``` definition:
 ```
 extension "org.jactr.tutorial.unit7.past.PastTenseExtension"[
   "MaximumTrials"  : "7500"
@@ -65,7 +65,7 @@ As the model runs, the probes will track four values: proportion of verbs that w
 It usually requires more than 5000 trials to see the effect and often 15000~20000 trials are necessary before the entire U-shape in the learning forms.
 
 What you are looking for from the model is a graph that looks something like the above. Here you can see the average increasing from 87% to 95% as the model learns the words for the first time. During this time, no inflection is strong, upwards of 50% due to the unfamiliarity of the words. Then after a critical point, the regularization kicks in and regularized verbs become more frequent. At this time, average irregular inflection begins to fall off, dropping as low as 80%. As time progresses, the proportion of irregular inflections increases and the proportion of regular inflections decreases, resulting in the recovery of the average irregular inflection rate.
-Peak-performance to peak-perfomance, you can see the U-shape. 
+Peak-performance to peak-performance, you can see the U-shape. 
 
 This model differs from other models in the tutorial in that it does not model a particular experiment, but rather some long term development. This has a couple of consequences for the model. One of those is that using the perceptual and motor modules does not contribute much to the objective of the model. Thus things like actually hearing the past tenses and the generation of the word as speech are not modeled for the purpose of this exercise. They could be modeled, but it is not what the model and exercise are about and would really only serve to make things more complicated with little to no benefit. Another consequence of the nature of this task is a practical one with how long it takes to run the model to see those long term results. Because of that, we are not averaging multiple runs of the model together to report the results because the learning trajectory can vary significantly between trials and it would take a very large number of runs to reliably see the U-shape in the average results which would take a much longer time to run. Also contributing to that variability is that we are only using a very small vocabulary (though still maintaining the appropriate frequency of irregular and regular verb usage) again to keep the time needed to run it reasonable for an exercise, which leads to less data for averaging.
 
@@ -89,11 +89,11 @@ One final thing to note is that when the model doesn’t give up it should produ
 
 
 
-
+## References
+Marcus, G. F., Pinker, S., Ullman, M., Hollander, M., Rosen, T. J., & Xu, F. (1992). [Overregularization in Language Acquisition](https://www.jstor.org/stable/1166115). Monographs of the Society for Research in Child Development,57(4).
 
 
 ***
-Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 2.25.20.
+Based on the original CC licensed [ACT-R tutorials](http://act-r.psy.cmu.edu/software/), 12.25.20.
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
-
