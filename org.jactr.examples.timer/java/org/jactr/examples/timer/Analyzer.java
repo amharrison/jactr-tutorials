@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.jactr.tools.itr.ortho.ISliceAnalysis;
 import org.jactr.tools.itr.ortho.ISliceAnalyzer;
 import org.jactr.tools.itr.ortho.ISliceIntegrator;

@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import javolution.util.FastList;
-
 /**
  * simple static singleton to collect data from the ProductionIntervalTimer.
  * Since it [interval timer] is instantiated for each model run, we need this to
@@ -21,7 +19,7 @@ public class Aggregator
 {
 
   static private final Collection<Number> _durations = Collections
-                                                         .synchronizedList(new FastList<Number>());
+                                                         .synchronizedList(new ArrayList<Number>());
 
   static public void addDuration(double duration)
   {

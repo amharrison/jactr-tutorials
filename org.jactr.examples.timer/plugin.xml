@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.jactr.instruments">
+         point="org.jactr.osgi.instruments">
       <instrument
             class="org.jactr.examples.timer.ProductionIntervalTimer"
             hidden="false"

@@ -4,11 +4,10 @@ Bundle-Name: org.jactr.examples.timer
 Bundle-SymbolicName: org.jactr.examples.timer;singleton:=true
 Bundle-Version: 0.0.0.qualifier
 Bundle-Vendor: harrison
-Require-Bundle: org.jactr,
+Require-Bundle: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,
- org.jactr.support,
- org.apache.log4j
+ org.apache.commons.math3;bundle-version="3.6.1"
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.apache.commons.logging,
  org.apache.log4j,
