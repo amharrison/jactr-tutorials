@@ -4,17 +4,16 @@ Bundle-Name: org.jactr.examples.custom
 Bundle-SymbolicName: org.jactr.examples.custom; singleton:=true
 Bundle-Version: 0.0.0.qualifier
 Bundle-Vendor: harrison
-Require-Bundle: org.jactr,
+Require-Bundle: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,
- org.jactr.support,
- org.apache.log4j
+ org.jactr.io2;bundle-version="2.5.1",
+ org.jactr.io2.jactr;bundle-version="1.0.0"
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.apache.commons.logging,
  org.apache.log4j,
  org.commonreality,
  org.jactr,
  org.jactr.io,
- org.jactr.support,
  org.jactr.tools
 Export-Package: org.jactr.examples.custom
