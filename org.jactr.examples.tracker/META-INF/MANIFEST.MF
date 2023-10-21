@@ -4,18 +4,17 @@ Bundle-Name: org.jactr.examples.tracker
 Bundle-SymbolicName: org.jactr.examples.tracker;singleton:=true
 Bundle-Version: 0.0.0.qualifier
 Bundle-Vendor: harrison
-Require-Bundle: org.jactr,
+Require-Bundle: org.jactr.core,
  org.jactr.io,
  org.jactr.tools,
- org.jactr.support,
- org.apache.log4j
+ org.slf4j.api;bundle-version="1.7.30",
+ org.jactr.osgi;bundle-version="2.5.1"
 Eclipse-BuddyPolicy: registered
 Eclipse-RegisterBuddy: org.apache.commons.logging,
  org.apache.log4j,
  org.commonreality,
  org.jactr,
  org.jactr.io,
- org.jactr.support,
  org.jactr.tools
 Export-Package: org.jactr.examples.tracker,
  org.jactr.examples.tracker.io

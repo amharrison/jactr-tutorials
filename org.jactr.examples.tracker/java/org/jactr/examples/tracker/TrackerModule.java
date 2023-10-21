@@ -6,19 +6,14 @@ package org.jactr.examples.tracker;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jactr.core.buffer.IActivationBuffer;
-import org.jactr.core.buffer.event.ActivationBufferEvent;
-import org.jactr.core.buffer.event.ActivationBufferListenerAdaptor;
 import org.jactr.core.buffer.six.BasicBuffer6;
 import org.jactr.core.chunk.IChunk;
-import org.jactr.core.chunk.ISymbolicChunk;
 import org.jactr.core.chunktype.IChunkType;
-import org.jactr.core.concurrent.ExecutorServices;
 import org.jactr.core.module.AbstractModule;
 import org.jactr.core.module.declarative.IDeclarativeModule;
-import org.jactr.core.slot.IMutableSlot;
+
+import org.slf4j.*;
 
 /**
  * the tracker module is only needed as that is the only way to contribute a
@@ -31,8 +26,8 @@ public class TrackerModule extends AbstractModule
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER = LogFactory
-                                                .getLog(TrackerModule.class);
+  static private final transient Logger LOGGER = LoggerFactory
+                                                .getLogger(TrackerModule.class);
 
   public TrackerModule()
   {

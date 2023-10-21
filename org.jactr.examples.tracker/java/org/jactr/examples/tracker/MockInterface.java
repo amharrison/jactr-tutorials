@@ -5,19 +5,18 @@ package org.jactr.examples.tracker;
  */
 import java.io.IOException;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MockInterface
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER         = LogFactory
-                                                        .getLog(MockInterface.class);
+  static private final transient Logger LOGGER         = LoggerFactory
+                                                        .getLogger(MockInterface.class);
 
   static private final long          CONNECTION_LAG = 250;
 

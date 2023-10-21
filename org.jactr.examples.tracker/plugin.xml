@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.jactr.io.astparticipants">
+         point="org.jactr.osgi.astparticipants">
       <astparticipant
             class="org.jactr.examples.tracker.io.TrackerModuleParticipant"
             content="org/jactr/examples/tracker/io/tracker.jactr"
@@ -10,7 +10,7 @@
       </astparticipant>
    </extension>
    <extension
-         point="org.jactr.modules">
+         point="org.jactr.osgi.modules">
       <module
             class="org.jactr.examples.tracker.TrackerModule"
             defaultEnabled="false"
@@ -23,7 +23,7 @@
       </module>
    </extension>
    <extension
-         point="org.jactr.extensions">
+         point="org.jactr.osgi.extensions">
       <model-extension
             class="org.jactr.examples.tracker.TrackerExtension"
             name="Tracker Extension">

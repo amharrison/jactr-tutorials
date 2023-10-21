@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jactr.core.buffer.IActivationBuffer;
 import org.jactr.core.chunk.IChunk;
 import org.jactr.core.chunk.ISymbolicChunk;
@@ -24,14 +22,16 @@ import org.jactr.core.model.event.ModelEvent;
 import org.jactr.core.model.event.ModelListenerAdaptor;
 import org.jactr.core.slot.IMutableSlot;
 import org.jactr.tools.misc.ChunkUtilities;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TrackerExtension implements IExtension
 {
   /**
    * Logger definition
    */
-  static private final transient Log LOGGER     = LogFactory
-                                                    .getLog(TrackerExtension.class);
+  static private final transient Logger LOGGER     = LoggerFactory
+                                                    .getLogger(TrackerExtension.class);
 
   static public final String         ADDR_PARAM = "ConnectTo";
 
